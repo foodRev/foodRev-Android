@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package foodrev.org.foodrev.auth;
+package foodrev.org.foodrev.presentation.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -41,16 +43,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.Threading.MainThreadImpl;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
+import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 
-/**
- * Demonstrate Firebase Authentication using a Google ID Token.
- */
-public class GoogleSignInSignInActivity extends BaseSignInActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
+
+public class GoogleSignInSignInActivity extends AppCompatActivity implements SignInPresenter.View {
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+    private SignInPresenter mPresenter;
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -64,12 +67,18 @@ public class GoogleSignInSignInActivity extends BaseSignInActivity implements
     private TextView mStatusTextView;
     private TextView mDetailTextView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google);
 
-        // Views
+        mPresenter = new SignInPresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this
+        );
+
         mStatusTextView = (TextView) findViewById(R.id.status);
         mDetailTextView = (TextView) findViewById(R.id.detail);
 
@@ -127,6 +136,7 @@ public class GoogleSignInSignInActivity extends BaseSignInActivity implements
     @Override
     public void onStop() {
         super.onStop();
+        hideProgressDialog();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -178,7 +188,7 @@ public class GoogleSignInSignInActivity extends BaseSignInActivity implements
                                     Toast.LENGTH_SHORT).show();
                         }
                         // [START_EXCLUDE]
-                        hideProgressDialog();
+//                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
@@ -255,5 +265,34 @@ public class GoogleSignInSignInActivity extends BaseSignInActivity implements
         } else if (i == R.id.disconnect_button) {
             revokeAccess();
         }
+    }
+
+
+    public void showProgressDialog() {
+//        if (mProgressDialog == null) {
+//            mProgressDialog = new ProgressDialog(this);
+//            mProgressDialog.setMessage(getString(R.string.loading));
+//            mProgressDialog.setIndeterminate(true);
+//        }
+//
+//        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+//        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//            mProgressDialog.dismiss();
+//        }
+    }
+
+    public void showError(String message) {
+
+    }
+
+    public void displayLogin() {
+
+    }
+
+    public void displayLoading() {
+
     }
 }

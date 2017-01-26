@@ -3,7 +3,7 @@ package foodrev.org.foodrev;
 import android.app.ProgressDialog;
 import android.support.test.espresso.IdlingResource;
 
-import foodrev.org.foodrev.auth.BaseSignInActivity;
+import foodrev.org.foodrev.presentation.ui.activities.BaseSignInActivity;
 
 /**
  * Monitor Activity idle status by watching ProgressDialog.
