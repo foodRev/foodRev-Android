@@ -41,12 +41,8 @@ public class LoginActivity extends BaseActivity {
     @Inject
     AlertDialog.Builder addAlertDialog;
 
-    // just for facebook login
-    private CallbackManager callbackManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -123,9 +119,6 @@ public class LoginActivity extends BaseActivity {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             presenter.getAuthWithGoogle(result);
         }
-        // facebook
-        else if(requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
+
     }
 }
