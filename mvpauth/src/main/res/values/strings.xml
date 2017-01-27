@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Auth Example</string>
+    <string name="do_you_want_to_auth">Do you want to auth?</string>
 </resources>
