@@ -3,6 +3,14 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        foodrev {
+            keyAlias 'foodrev'
+            keyPassword 'foodrev'
+            storeFile file('../foodrevkeys.jks')
+            storePassword 'foodrev'
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -17,6 +25,16 @@ android {
     compileOptions {
         sourceCompatibility rootProject.ext.sourceCompatibility
         targetCompatibility rootProject.ext.sourceCompatibility
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.foodrev
+        }
+        debug {
+            signingConfig signingConfigs.foodrev
+        }
     }
 }
 

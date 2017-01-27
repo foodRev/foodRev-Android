@@ -51,10 +51,10 @@ public class BaseApplication extends Application {
         userComponent = null;
     }
 
-    public FriendComponent createFriendComponent(Friend friend) {
-        friendComponent = userComponent.plus(new FriendModule(friend));
-        return friendComponent;
-    }
+//    public FriendComponent createFriendComponent(Friend friend) {
+//        friendComponent = userComponent.plus(new FriendModule(friend));
+//        return friendComponent;
+//    }
 
     public FriendComponent getFriendComponent() {
         return friendComponent;
