@@ -4,7 +4,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.fisache.firebase_auth_chat.ui.login.LoginActivity">
+    tools:context="io.fisache.firebase_auth.ui.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,69 +24,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center">
-                <ImageView
-                    android:id="@+id/icEmail"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_login_email"/>
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_toRightOf="@id/icEmail"
-                    android:layout_marginLeft="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#000000"
-                    android:hint="E-mail"/>
-            </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="12dp" >
-            <ImageView
-                android:id="@+id/icPassword"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_login_password"/>
-            <EditText
-                android:id="@+id/etPw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/icPassword"
-                android:layout_marginLeft="4dp"
-                android:inputType="textPassword"
-                android:backgroundTint="@color/colorGuest"
-                android:hint="password"/>
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_login"
-            android:textColor="#2b84a0"
-            android:text="Login"/>
-        <Button
-            android:id="@+id/btnFb"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/btn_login"
-            android:text="Login with facebook"/>
 
         <Button
             android:id="@+id/btnGl"
