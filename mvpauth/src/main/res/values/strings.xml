@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">Auth Chat Example</string>
-    <string name="facebook_app_id">fb app id</string>
+    <string name="app_name">Auth Example</string>
 </resources>
