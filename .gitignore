@@ -36,9 +36,10 @@ captures/
 *.iml
 .idea/workspace.xml
 .idea/libraries/
+.idea/dictionaries
 
 # Keystore files
 *.jks
 
 # Firebase
-app/google-services.json
+*/google-services.json
