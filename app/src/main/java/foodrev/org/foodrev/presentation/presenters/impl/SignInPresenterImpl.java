@@ -2,6 +2,8 @@ package foodrev.org.foodrev.presentation.presenters.impl;
 
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.interactors.SignInInteractor;
+import foodrev.org.foodrev.domain.interactors.impl.SignInInteractorImpl;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
 
@@ -9,7 +11,7 @@ import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
  * Created by darver on 1/25/17.
  */
 
-public class SignInPresenterImpl extends AbstractPresenter implements SignInPresenter{
+public class SignInPresenterImpl extends AbstractPresenter implements SignInPresenter, SignInInteractor.Callback{
 
     private SignInPresenter.View mView;
 
@@ -22,7 +24,8 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
 
     @Override
     public void resume() {
-
+        SignInInteractorImpl interactor = new SignInInteractorImpl(mExecutor, mMainThread, this);
+        interactor.execute();
     }
 
     @Override
