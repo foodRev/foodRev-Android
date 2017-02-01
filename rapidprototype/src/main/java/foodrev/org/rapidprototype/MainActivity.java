@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String ARG_SECTION_TITLE = "section_title";
 
         public PlaceholderFragment() {
         }
@@ -151,10 +152,11 @@ public class MainActivity extends AppCompatActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
+        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber, CharSequence sectionTitle) {
             MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putCharSequence(ARG_SECTION_TITLE, sectionTitle);
             fragment.setArguments(args);
             return fragment;
         }
@@ -164,7 +166,8 @@ public class MainActivity extends AppCompatActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText(getString(R.string.section_format, getArguments().getCharSequence(ARG_SECTION_TITLE)));
             return rootView;
         }
     }
@@ -183,7 +186,19 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return MainActivity.PlaceholderFragment.newInstance(position + 1);
+
+            switch (position) {
+                case 0:
+                    return MainActivity.PlaceholderFragment.newInstance(position + 1, getPageTitle(position));
+                case 1:
+                    return MainActivity.PlaceholderFragment.newInstance(position + 1, getPageTitle(position));
+                case 2:
+                    return MainActivity.PlaceholderFragment.newInstance(position + 1, getPageTitle(position));
+                case 3:
+                    return MainActivity.PlaceholderFragment.newInstance(position + 1, getPageTitle(position));
+            }
+
+            return null;
         }
 
         @Override
@@ -196,13 +211,13 @@ public class MainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Drivers";
                 case 1:
-                    return "SECTION 2";
+                    return "Donors";
                 case 2:
-                    return "SECTION 3";
-//                case 3:
-//                    return "SECTION 4";
+                    return "Community Centers";
+                case 3:
+                    return "Cares";
             }
             return null;
         }
