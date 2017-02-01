@@ -26,8 +26,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import foodrev.org.rapidprototype.dummy.DummyContent;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DriverFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
 
-        mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Drivers");
+        mSectionsPagerAdapter.addFragment(new DriverFragment(), "Drivers");
         mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Donors");
         mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Community Centers");
         mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Cares");
@@ -191,5 +194,10 @@ public class MainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+    }
+
+
+    public void onListFragmentInteraction(DummyContent.DummyItem dummyItem) {
+        
     }
 }
