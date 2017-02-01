@@ -9,8 +9,6 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
 
 public interface SignInPresenter extends BasePresenter {
     interface View extends BaseView {
-        void displayLogin();
-
         void displayLoading();
 
     }

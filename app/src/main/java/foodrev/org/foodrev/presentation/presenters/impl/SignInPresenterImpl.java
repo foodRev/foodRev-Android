@@ -22,6 +22,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
         mView = view;
     }
 
+
     @Override
     public void resume() {
         SignInInteractorImpl interactor = new SignInInteractorImpl(mExecutor, mMainThread, this);

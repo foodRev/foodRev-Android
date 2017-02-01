@@ -7,8 +7,7 @@ import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
 
 
-public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
-        SampleInteractor.Callback {
+public class MainPresenterImpl extends AbstractPresenter implements MainPresenter, SampleInteractor.Callback {
 
     private MainPresenter.View mView;
 
@@ -21,7 +20,7 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
 
     @Override
     public void resume() {
-
+        // populate firebase stuff
     }
 
     @Override
