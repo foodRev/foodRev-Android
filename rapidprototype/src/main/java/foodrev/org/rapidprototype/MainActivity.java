@@ -58,10 +58,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +194,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public void onListFragmentInteraction(DummyContent.DummyItem dummyItem) {
-        
+
     }
 }
