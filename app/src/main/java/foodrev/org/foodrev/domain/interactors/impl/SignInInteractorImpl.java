@@ -49,15 +49,15 @@ public class SignInInteractorImpl extends AbstractInteractor implements
     }
 
     public void setupSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail()
+//                .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -120,31 +120,31 @@ public class SignInInteractorImpl extends AbstractInteractor implements
 //        showProgressDialog();
 
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        // [START_EXCLUDE]
-//                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
+//        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithCredential", task.getException());
+//                            Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                        // [START_EXCLUDE]
+////                        hideProgressDialog();
+//                        // [END_EXCLUDE]
+//                    }
+//                });
     }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 
@@ -201,17 +201,17 @@ public class SignInInteractorImpl extends AbstractInteractor implements
 //        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onClick(View v) {
-//        int i = v.getId();
-//        if (i == R.id.sign_in_button) {
-//            signIn();
-//        } else if (i == R.id.sign_out_button) {
-//            signOut();
-//        } else if (i == R.id.disconnect_button) {
-//            revokeAccess();
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+////        int i = v.getId();
+////        if (i == R.id.sign_in_button) {
+////            signIn();
+////        } else if (i == R.id.sign_out_button) {
+////            signOut();
+////        } else if (i == R.id.disconnect_button) {
+////            revokeAccess();
+////        }
+//    }
 
 
     public void run() {
