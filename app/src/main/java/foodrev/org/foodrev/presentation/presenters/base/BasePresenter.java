@@ -1,6 +1,13 @@
 package foodrev.org.foodrev.presentation.presenters.base;
 
+import foodrev.org.foodrev.presentation.ui.BaseView;
+
 public interface BasePresenter {
+
+    // SurvivingPresenters
+    void attachView(BaseView view);
+    void detachView();
+
     /**
      * Method that control the lifecycle of the view. It should be called in the view's
      * (Activity or Fragment) onResume() method.

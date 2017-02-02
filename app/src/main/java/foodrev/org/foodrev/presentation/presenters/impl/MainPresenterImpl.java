@@ -5,6 +5,7 @@ import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.interactors.SampleInteractor;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
+import foodrev.org.foodrev.presentation.ui.BaseView;
 
 
 public class MainPresenterImpl extends AbstractPresenter implements MainPresenter, SampleInteractor.Callback {
@@ -16,6 +17,16 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
                              View view) {
         super(executor, mainThread);
         mView = view;
+    }
+
+    @Override
+    public void attachView(BaseView view) {
+
+    }
+
+    @Override
+    public void detachView() {
+
     }
 
     @Override
