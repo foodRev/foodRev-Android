@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import foodrev.org.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
@@ -41,7 +42,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         final ViewHolder holder = (ViewHolder) viewHolder;
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
+//        holder.mItemImage.setImageResource(R.mipmap.ic_launcher);
+//        holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -76,14 +78,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+//        public final TextView mIdView;
+        public final ImageView mItemImage;
         public final TextView mContentView;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+//            mIdView = (TextView) view.findViewById(R.id.id);
+            mItemImage = (ImageView) view.findViewById(R.id.item_image);
             mContentView = (TextView) view.findViewById(R.id.dummy_content);
         }
 
