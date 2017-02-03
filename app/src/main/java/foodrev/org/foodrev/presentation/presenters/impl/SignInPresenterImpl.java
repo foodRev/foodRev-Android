@@ -30,6 +30,8 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
  * Created by darver on 1/25/17.
  */
 
+
+// TODO: add GoogleApiClient.ConnectionCallbacks and GoogleApiClient.OnConnectionFailedListener interfaces
 public class SignInPresenterImpl extends AbstractPresenter implements SignInPresenter, SignInInteractor.Callback {
 
     private static final String TAG = "SignInPresenterImpl";
@@ -71,13 +73,16 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
             return this;
         }
 
+
+
         public SignInPresenterImpl build() {
-            //TODO add null checks for remainder of dependencies
+
             if(client == null
                || executor == null
                || mainThread == null
-               || firebaseAuth == null) {
-                throw new IllegalArgumentException("No GoogleApiClient provided!");
+               || firebaseAuth == null
+               || googleAuthProviderWrapper == null) {
+                throw new IllegalArgumentException("Missing Dependency!");
             }
             SignInPresenterImpl impl = new SignInPresenterImpl(executor, mainThread);
             impl.mGoogleApiClient = client;
