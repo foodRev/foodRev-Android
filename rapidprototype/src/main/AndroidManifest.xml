@@ -20,7 +20,7 @@
         <activity
             android:name=".AddItemActivity"
             android:label="@string/title_activity_add_item"
-            android:theme="@style/AppTheme">
+            android:theme="@style/CustomDialog">
         </activity>
     </application>
 
