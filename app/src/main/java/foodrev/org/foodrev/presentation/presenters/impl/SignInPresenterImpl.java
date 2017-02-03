@@ -17,8 +17,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.interactors.SignInInteractor;
@@ -39,7 +37,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
-    private GoogleAuthProviderWrapper googleAuthProviderWrapper;
+    private GoogleAuthProviderWrapper mGoogleAuthProviderWrapper;
 
     public static class Builder {
         private GoogleApiClient client;
@@ -75,13 +73,16 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
 
         public SignInPresenterImpl build() {
             //TODO add null checks for remainder of dependencies
-            if(executor == null || client == null) {
+            if(client == null
+               || executor == null
+               || mainThread == null
+               || firebaseAuth == null) {
                 throw new IllegalArgumentException("No GoogleApiClient provided!");
             }
             SignInPresenterImpl impl = new SignInPresenterImpl(executor, mainThread);
             impl.mGoogleApiClient = client;
             impl.mAuth = firebaseAuth;
-            impl.googleAuthProviderWrapper = googleAuthProviderWrapper;
+            impl.mGoogleAuthProviderWrapper = googleAuthProviderWrapper;
             return impl;
         }
     }
@@ -94,9 +95,10 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
 
     @Override
     public void attachView(BaseView view) {
-        mView = (SignInPresenter.View)view;
+        mView = (SignInPresenter.View) view;
     }
 
+    // TODO: add detach logic
     @Override
     public void detachView() {
         mView = null;
@@ -155,7 +157,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
         //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         mView.showProgressDialog();
 
-        AuthCredential credential = googleAuthProviderWrapper.getCredential(acct.getIdToken(), null);
+        AuthCredential credential = mGoogleAuthProviderWrapper.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override

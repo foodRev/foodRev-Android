@@ -169,12 +169,12 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
 
 
     public void showError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displaySignInError() {
-        showError("ERROR signing in"); //TODO use string resource
+        showError(getString(R.string.sign_in_error));
     }
 
     public String getDefaultWebClientId() {
