@@ -54,7 +54,12 @@ import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 
 
-public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener{
+public class GoogleSignInActivity extends AppCompatActivity implements
+        SignInPresenter.View,
+        View.OnClickListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
+
 
     private static final String TAG = "GoogleSignInActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -88,6 +93,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
                     .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setMainThread(MainThreadImpl.getInstance())
                     .setGoogleAuthProviderWrapper(authProvider)
+                    .setConnectionCallbacks(this)
+                    .setOnConnectionFailedListener(this)
                     .build();
         }
         mPresenter.attachView(this);
@@ -144,6 +151,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             mPresenter.onSignInResult(result);
+
+            startActivity(new Intent(this, MainActivity.class));
+
         }
     }
 
@@ -151,8 +161,23 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     public void startGoogleSignIn(GoogleApiClient googleApiClient) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
         startActivity(new Intent(this, MainActivity.class));
     }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this, "suspend", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void signIn() {
         mPresenter.signIn();

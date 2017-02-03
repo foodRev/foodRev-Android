@@ -32,7 +32,10 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
 
 
 // TODO: add GoogleApiClient.ConnectionCallbacks and GoogleApiClient.OnConnectionFailedListener interfaces
-public class SignInPresenterImpl extends AbstractPresenter implements SignInPresenter, SignInInteractor.Callback {
+public class SignInPresenterImpl extends AbstractPresenter implements
+    SignInPresenter,
+    SignInInteractor.Callback{
+
 
     private static final String TAG = "SignInPresenterImpl";
     private SignInPresenter.View mView;
@@ -47,6 +50,8 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
         private MainThread mainThread;
         private FirebaseAuth firebaseAuth;
         private GoogleAuthProviderWrapper googleAuthProviderWrapper;
+        private GoogleApiClient.ConnectionCallbacks connectionCallbacks;
+        private GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener;
 
         public Builder setClient(GoogleApiClient client) {
             this.client = client;
@@ -73,16 +78,25 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
             return this;
         }
 
+        public Builder setConnectionCallbacks(GoogleApiClient.ConnectionCallbacks connectionCallbacks) {
+            this.connectionCallbacks = connectionCallbacks;
+            return this;
+        }
 
+        public Builder setOnConnectionFailedListener(GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+            this.onConnectionFailedListener = onConnectionFailedListener;
+            return this;
+        }
 
         public SignInPresenterImpl build() {
-
             if(client == null
-               || executor == null
-               || mainThread == null
-               || firebaseAuth == null
-               || googleAuthProviderWrapper == null) {
-                throw new IllegalArgumentException("Missing Dependency!");
+                    || executor == null
+                    || mainThread == null
+                    || firebaseAuth == null
+                    || googleAuthProviderWrapper == null
+                    || connectionCallbacks == null
+                    || onConnectionFailedListener == null) {
+                throw new IllegalArgumentException("Missing Builder Dependency!");
             }
             SignInPresenterImpl impl = new SignInPresenterImpl(executor, mainThread);
             impl.mGoogleApiClient = client;
