@@ -5,10 +5,10 @@ import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.interactors.SampleInteractor;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
+import foodrev.org.foodrev.presentation.ui.BaseView;
 
 
-public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
-        SampleInteractor.Callback {
+public class MainPresenterImpl extends AbstractPresenter implements MainPresenter, SampleInteractor.Callback {
 
     private MainPresenter.View mView;
 
@@ -20,8 +20,18 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     }
 
     @Override
-    public void resume() {
+    public void attachView(BaseView view) {
 
+    }
+
+    @Override
+    public void detachView() {
+
+    }
+
+    @Override
+    public void resume() {
+        // populate firebase stuff
     }
 
     @Override

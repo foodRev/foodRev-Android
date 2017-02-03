@@ -11,4 +11,5 @@ public abstract class AbstractPresenter {
         mExecutor = executor;
         mMainThread = mainThread;
     }
+
 }
