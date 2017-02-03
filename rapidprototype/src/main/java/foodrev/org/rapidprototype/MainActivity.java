@@ -2,6 +2,7 @@ package foodrev.org.rapidprototype;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -62,8 +63,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, BasicActivity.class));
-//                finish();
+                Snackbar.make(view, "Not yet functional", Snackbar.LENGTH_SHORT).show();
             }
         });
 
