@@ -49,6 +49,7 @@ import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.MainActivity;
 
 
 public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener {
@@ -137,6 +138,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             mPresenter.onSignInResult(result);
+            startActivity(new Intent(this, MainActivity.class));
+
         }
     }
 
@@ -144,6 +147,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     public void startGoogleSignIn(GoogleApiClient googleApiClient) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+//        startActivity(new Intent(this, MainActivity.class));
     }
 
     private void signIn() {
