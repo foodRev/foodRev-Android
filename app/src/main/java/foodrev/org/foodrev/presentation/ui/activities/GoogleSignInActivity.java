@@ -54,11 +54,7 @@ import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 
 
-public class GoogleSignInActivity extends AppCompatActivity implements
-        SignInPresenter.View,
-        View.OnClickListener,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener{
 
 
     private static final String TAG = "GoogleSignInActivity";
@@ -81,10 +77,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements
         setupUi();
 
     }
-
     public void attachPresenter() {
-
-        GoogleAuthProviderWrapper authProvider = new GoogleAuthProviderWrapper();
         mPresenter = (SignInPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
             mPresenter = new SignInPresenterImpl.Builder()
@@ -92,13 +85,34 @@ public class GoogleSignInActivity extends AppCompatActivity implements
                     .setExecutor(ThreadExecutor.getInstance())
                     .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setMainThread(MainThreadImpl.getInstance())
-                    .setGoogleAuthProviderWrapper(authProvider)
-                    .setConnectionCallbacks(this)
-                    .setOnConnectionFailedListener(this)
+                    .setGoogleAuthProviderWrapper(new GoogleAuthProviderWrapper())
                     .build();
         }
         mPresenter.attachView(this);
     }
+
+    private void setupUi() {
+        mStatusTextView = (TextView) findViewById(R.id.status);
+        mDetailTextView = (TextView) findViewById(R.id.detail);
+
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.disconnect_button).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
+    }
+
+
 
     private GoogleApiClient setupGoogleSignIn(Context context) {
         String defaultWebClientId = ((GoogleSignInActivity)context).getDefaultWebClientId();
@@ -115,15 +129,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements
         return googleApiClient;
     }
 
-    private void setupUi() {
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
-
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
-    }
-
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -136,12 +141,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        hideProgressDialog();
-        mPresenter.stop();
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,22 +162,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "suspend", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
-    }
-
 
     private void signIn() {
         mPresenter.signIn();
@@ -214,15 +198,11 @@ public class GoogleSignInActivity extends AppCompatActivity implements
         return mDefaultWebClientId;
     }
 
+    
+    // Save presenter
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return mPresenter;
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.detachView();
-        super.onDestroy();
     }
 
     @Override
@@ -234,4 +214,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements
     public void hideProgressDialog() {
 
     }
+
+
 }

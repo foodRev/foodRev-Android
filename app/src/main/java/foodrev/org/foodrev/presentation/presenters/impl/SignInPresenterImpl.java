@@ -50,8 +50,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements
         private MainThread mainThread;
         private FirebaseAuth firebaseAuth;
         private GoogleAuthProviderWrapper googleAuthProviderWrapper;
-        private GoogleApiClient.ConnectionCallbacks connectionCallbacks;
-        private GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener;
+
 
         public Builder setClient(GoogleApiClient client) {
             this.client = client;
@@ -78,24 +77,13 @@ public class SignInPresenterImpl extends AbstractPresenter implements
             return this;
         }
 
-        public Builder setConnectionCallbacks(GoogleApiClient.ConnectionCallbacks connectionCallbacks) {
-            this.connectionCallbacks = connectionCallbacks;
-            return this;
-        }
-
-        public Builder setOnConnectionFailedListener(GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-            this.onConnectionFailedListener = onConnectionFailedListener;
-            return this;
-        }
 
         public SignInPresenterImpl build() {
             if(client == null
                     || executor == null
                     || mainThread == null
                     || firebaseAuth == null
-                    || googleAuthProviderWrapper == null
-                    || connectionCallbacks == null
-                    || onConnectionFailedListener == null) {
+                    || googleAuthProviderWrapper == null) {
                 throw new IllegalArgumentException("Missing Builder Dependency!");
             }
             SignInPresenterImpl impl = new SignInPresenterImpl(executor, mainThread);
@@ -106,8 +94,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements
         }
     }
 
-    private SignInPresenterImpl(Executor executor,
-                             MainThread mainThread) {
+    private SignInPresenterImpl(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
         mAuthListener = setupAuthStateListener();
     }
@@ -117,7 +104,6 @@ public class SignInPresenterImpl extends AbstractPresenter implements
         mView = (SignInPresenter.View) view;
     }
 
-    // TODO: add detach logic
     @Override
     public void detachView() {
         mView = null;
