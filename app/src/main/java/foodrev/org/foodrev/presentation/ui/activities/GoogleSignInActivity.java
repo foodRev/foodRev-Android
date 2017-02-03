@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +49,18 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.Threading.MainThreadImpl;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.MainActivity;
 
 
-public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener {
+public class GoogleSignInActivity extends AppCompatActivity implements
+        SignInPresenter.View,
+        View.OnClickListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
+
 
     private static final String TAG = "GoogleSignInActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -69,12 +77,15 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         setContentView(R.layout.activity_google);
         mDefaultWebClientId = getString(R.string.default_web_client_id);
 
+
         attachPresenter();
         setupUi();
 
     }
 
     public void attachPresenter() {
+
+        GoogleAuthProviderWrapper authProvider = new GoogleAuthProviderWrapper();
         mPresenter = (SignInPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
             mPresenter = new SignInPresenterImpl.Builder()
@@ -82,6 +93,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
                     .setExecutor(ThreadExecutor.getInstance())
                     .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setMainThread(MainThreadImpl.getInstance())
+                    .setGoogleAuthProviderWrapper(authProvider)
+                    .setConnectionCallbacks(this)
+                    .setOnConnectionFailedListener(this)
                     .build();
         }
         mPresenter.attachView(this);
@@ -106,9 +120,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         mStatusTextView = (TextView) findViewById(R.id.status);
         mDetailTextView = (TextView) findViewById(R.id.detail);
 
-        findViewById(R.id.sign_in_button).setOnClickListener((View.OnClickListener) this);
-        findViewById(R.id.sign_out_button).setOnClickListener((View.OnClickListener) this);
-        findViewById(R.id.disconnect_button).setOnClickListener((View.OnClickListener) this);
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.disconnect_button).setOnClickListener(this);
     }
 
     @Override
@@ -138,6 +152,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             mPresenter.onSignInResult(result);
+
             startActivity(new Intent(this, MainActivity.class));
 
         }
@@ -147,8 +162,23 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     public void startGoogleSignIn(GoogleApiClient googleApiClient) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-//        startActivity(new Intent(this, MainActivity.class));
     }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this, "suspend", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void signIn() {
         mPresenter.signIn();
@@ -203,6 +233,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
 
     @Override
     public void hideProgressDialog() {
-        //no-op
+
     }
 }
