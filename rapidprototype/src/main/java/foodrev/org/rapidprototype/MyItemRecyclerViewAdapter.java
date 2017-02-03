@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import foodrev.org.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
-import foodrev.org.rapidprototype.dummy.DummyContentDonor.DummyItemDonor;
 import foodrev.org.rapidprototype.dummy.DummyContentDriver.DummyItemDriver;
 import foodrev.org.rapidprototype.dummy.DummyContent.DummyItem;
 
@@ -54,7 +53,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
 
-                    Intent intent = new Intent(v.getContext(), AddItemActivity.class);
+                    Intent intent = new Intent(v.getContext(), DetailItemActivity.class);
 
                     intent.putExtra("item", holder.mItem);
 

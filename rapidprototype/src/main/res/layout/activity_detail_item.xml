@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="foodrev.org.rapidprototype.AddItemActivity">
+    tools:context="foodrev.org.rapidprototype.DetailItemActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -42,7 +42,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_item"
+    <include layout="@layout/content_detail_item"
         android:id="@+id/content_include"/>
 
     <android.support.design.widget.FloatingActionButton

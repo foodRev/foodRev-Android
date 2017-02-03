@@ -2,24 +2,22 @@ package foodrev.org.rapidprototype;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import foodrev.org.rapidprototype.dummy.DummyContent;
 
-public class AddItemActivity extends AppCompatActivity {
+public class DetailItemActivity extends AppCompatActivity {
 
     DummyContent.DummyItem mDummyItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
+        setContentView(R.layout.activity_detail_item);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,7 +28,7 @@ public class AddItemActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddItemActivity.this, "Update database with new item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailItemActivity.this, "Update database with new item", Toast.LENGTH_SHORT).show();
 
                 finish();
             }
