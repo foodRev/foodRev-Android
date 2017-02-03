@@ -1,16 +1,12 @@
 package foodrev.org.rapidprototype;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,17 +16,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import foodrev.org.rapidprototype.dummy.DummyContent;
+import foodrev.org.rapidprototype.dummy.DummyContentDriver;
+
+import static foodrev.org.rapidprototype.dummy.DummyContent.CARE_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.DONOR_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.DRIVER_TITLE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        DriverFragment.OnListFragmentInteractionListener {
+        ItemFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -84,10 +84,10 @@ public class MainActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
 
-        mSectionsPagerAdapter.addFragment(new DriverFragment(), "Drivers");
-        mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Donors");
-        mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Community Centers");
-        mSectionsPagerAdapter.addFragment(new PlaceholderFragment(), "Cares");
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);

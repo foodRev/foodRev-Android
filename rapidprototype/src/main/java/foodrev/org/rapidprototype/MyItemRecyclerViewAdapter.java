@@ -7,62 +7,105 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import foodrev.org.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
+import foodrev.org.rapidprototype.dummy.DummyContentDonor.DummyItemDonor;
+import foodrev.org.rapidprototype.dummy.DummyContentDriver.DummyItemDriver;
 import foodrev.org.rapidprototype.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link DummyItemDriver} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<? extends DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<? extends DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+        switch (viewType) {
+            case 0:
+                return new DriverViewHolder(view);
+            case 1:
+                return new DonorViewHolder(view);
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        switch (viewHolder.getItemViewType()) {
+            case 0:
+                final DriverViewHolder holder = (DriverViewHolder) viewHolder;
+                holder.mItem = mValues.get(position);
+                holder.mIdView.setText(mValues.get(position).id);
+                holder.mContentView.setText(mValues.get(position).content);
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (null != mListener) {
+                            // Notify the active callbacks interface (the activity, if the
+                            // fragment is attached to one) that an item has been selected.
+                            mListener.onListFragmentInteraction(holder.mItem);
+                        }
+                    }
+                });
+                break;
+            case 1:
+                break;
+        }
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        // Just as an example, return 0 or 2 depending on position
+//        // Note that unlike in ListView adapters, types don't have to be contiguous
+//        return position % 2 * 2;
+//    }
 
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class DriverViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
         public DummyItem mItem;
 
-        public ViewHolder(View view) {
+        public DriverViewHolder(View view) {
+            super(view);
+            mView = view;
+            mIdView = (TextView) view.findViewById(R.id.id);
+            mContentView = (TextView) view.findViewById(R.id.dummy_content);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mContentView.getText() + "'";
+        }
+    }
+
+    public class DonorViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public final TextView mIdView;
+        public final TextView mContentView;
+        public DummyItemDonor mItem;
+
+        public DonorViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);

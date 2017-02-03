@@ -1,6 +1,5 @@
 package foodrev.org.rapidprototype.dummy;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,22 +11,17 @@ import java.util.Map;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent implements Serializable {
+public class DummyContentDonor extends DummyContent {
 
-
-    public static final String DRIVER_TITLE = "Drivers";
-    public static final String DONOR_TITLE = "Donors";
-    public static final String COMMUNITY_CENTER_TITLE = "Community Centers";
-    public static final String CARE_TITLE = "Cares";
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static final List<DummyItemDonor> ITEMS = new ArrayList<DummyItemDonor>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    public static final Map<String, DummyItemDonor> ITEM_MAP = new HashMap<String, DummyItemDonor>();
 
     private static final int COUNT = 25;
 
@@ -38,13 +32,13 @@ public class DummyContent implements Serializable {
         }
     }
 
-    private static void addItem(DummyItem item) {
+    private static void addItem(DummyItemDonor item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+    private static DummyItemDonor createDummyItem(int position) {
+        return new DummyItemDonor(String.valueOf(position), "Donor Item " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
@@ -59,12 +53,13 @@ public class DummyContent implements Serializable {
     /**
      * A dummy item representing a piece of content.
      */
-    public static class DummyItem {
+    public static class DummyItemDonor extends DummyContent.DummyItem {
         public final String id;
         public final String content;
         public final String details;
 
-        public DummyItem(String id, String content, String details) {
+        public DummyItemDonor(String id, String content, String details) {
+            super(id, content, details);
             this.id = id;
             this.content = content;
             this.details = details;

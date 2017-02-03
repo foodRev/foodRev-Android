@@ -11,9 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import foodrev.org.rapidprototype.dummy.DummyContent;
+import foodrev.org.rapidprototype.dummy.DummyContentCare;
+import foodrev.org.rapidprototype.dummy.DummyContentCommunityCenter;
+import foodrev.org.rapidprototype.dummy.DummyContentDonor;
+import foodrev.org.rapidprototype.dummy.DummyContentDriver;
 import foodrev.org.rapidprototype.dummy.DummyContent.DummyItem;
 
-import java.util.List;
+import static foodrev.org.rapidprototype.dummy.DummyContent.CARE_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.DONOR_TITLE;
+import static foodrev.org.rapidprototype.dummy.DummyContent.DRIVER_TITLE;
 
 /**
  * A fragment representing a list of Items.
@@ -27,6 +34,7 @@ public class ItemFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private String mContent;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -46,12 +54,24 @@ public class ItemFragment extends Fragment {
         return fragment;
     }
 
+    // TODO: Customize parameter initialization
+    @SuppressWarnings("unused")
+    public static ItemFragment newInstance(String content) {
+        ItemFragment fragment = new ItemFragment();
+        Bundle args = new Bundle();
+        args.putString("content", content);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+
+            mContent = (String) getArguments().getSerializable("content");
         }
     }
 
@@ -69,7 +89,21 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            switch (mContent) {
+                case DRIVER_TITLE:
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentDriver.ITEMS, mListener));
+                    break;
+                case DONOR_TITLE:
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentDonor.ITEMS, mListener));
+                    break;
+                case COMMUNITY_CENTER_TITLE:
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentCommunityCenter.ITEMS, mListener));
+                    break;
+                case CARE_TITLE:
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentCare.ITEMS, mListener));
+                    break;
+            }
         }
         return view;
     }
