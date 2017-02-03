@@ -2,9 +2,9 @@ package foodrev.org.foodrev.presentation.ui;
 
 public interface BaseView {
 
-    void showProgress();
+    void showProgressDialog();
 
-    void hideProgress();
+    void hideProgressDialog();
 
     void showError(String message);
 }
