@@ -59,7 +59,7 @@ public class DummyContent implements Serializable {
     /**
      * A dummy item representing a piece of content.
      */
-    public static class DummyItem {
+    public static class DummyItem implements Serializable {
         public final String id;
         public final String content;
         public final String details;

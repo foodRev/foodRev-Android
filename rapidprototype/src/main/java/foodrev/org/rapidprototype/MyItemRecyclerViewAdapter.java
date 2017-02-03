@@ -1,5 +1,6 @@
 package foodrev.org.rapidprototype;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,40 +33,33 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-        switch (viewType) {
-            case 0:
-                return new DriverViewHolder(view);
-            case 1:
-                return new DonorViewHolder(view);
-            default:
-                return null;
-        }
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        switch (viewHolder.getItemViewType()) {
-            case 0:
-                final DriverViewHolder holder = (DriverViewHolder) viewHolder;
-                holder.mItem = mValues.get(position);
-                holder.mIdView.setText(mValues.get(position).id);
-                holder.mContentView.setText(mValues.get(position).content);
+        final ViewHolder holder = (ViewHolder) viewHolder;
+        holder.mItem = mValues.get(position);
+        holder.mIdView.setText(mValues.get(position).id);
+        holder.mContentView.setText(mValues.get(position).content);
 
-                holder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (null != mListener) {
-                            // Notify the active callbacks interface (the activity, if the
-                            // fragment is attached to one) that an item has been selected.
-                            mListener.onListFragmentInteraction(holder.mItem);
-                        }
-                    }
-                });
-                break;
-            case 1:
-                break;
-        }
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(holder.mItem);
+
+                    Intent intent = new Intent(v.getContext(), AddItemActivity.class);
+
+                    intent.putExtra("item", holder.mItem);
+
+                    v.getContext().startActivity(intent);
+                }
+            }
+        });
     }
 
 //    @Override
@@ -80,32 +74,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return mValues.size();
     }
 
-    public class DriverViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
         public DummyItem mItem;
 
-        public DriverViewHolder(View view) {
-            super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.dummy_content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
-    }
-
-    public class DonorViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItemDonor mItem;
-
-        public DonorViewHolder(View view) {
+        public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
