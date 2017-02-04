@@ -13,6 +13,7 @@ public interface SignInPresenter extends BasePresenter, GoogleApiClient.OnConnec
     interface View extends BaseView {
         void startGoogleSignIn(GoogleApiClient googleApiClient);
         void displaySignInError();
+        void goToMainActivity();
     }
 
     void signIn();

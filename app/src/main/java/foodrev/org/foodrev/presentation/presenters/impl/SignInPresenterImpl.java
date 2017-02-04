@@ -175,8 +175,11 @@ public class SignInPresenterImpl extends AbstractPresenter implements
                         if (!task.isSuccessful()) {
                             //Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
+                        } else {
+                            mView.goToMainActivity();
                         }
-                        mView.hideProgressDialog();
+
+
                     }
                 });
     }

@@ -152,9 +152,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             mPresenter.onSignInResult(result);
-
-            startActivity(new Intent(this, MainActivity.class));
-
         }
     }
 
@@ -169,7 +166,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     }
 
     private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
+
+        //TODO: investigate implementation
         if (user != null) {
             mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
             mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
@@ -208,13 +206,17 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
 
     @Override
     public void showProgressDialog() {
-        //no-op
+        //no-op //TODO: op
     }
 
     @Override
     public void hideProgressDialog() {
-
+//        updateUI();
     }
 
 
+    @Override
+    public void goToMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }
