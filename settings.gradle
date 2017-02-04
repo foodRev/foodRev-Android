@@ -1,1 +1,1 @@
-include ':app', ':cleanfire', ':mvpauth', ':rapidprototype'
+include ':app', ':cleanfire', ':mvpauth'

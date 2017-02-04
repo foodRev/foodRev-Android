@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cleanfire" />
             <option value="$PROJECT_DIR$/mvpauth" />
-            <option value="$PROJECT_DIR$/rapidprototype" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
