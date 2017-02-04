@@ -164,6 +164,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         mPresenter.signIn();
     }
 
+
+
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
