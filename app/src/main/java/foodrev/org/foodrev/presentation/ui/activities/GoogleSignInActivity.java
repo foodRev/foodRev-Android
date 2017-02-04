@@ -55,7 +55,7 @@ import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.MainActivity;
 
 
-public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener{
+public class GoogleSignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener {
 
 
     private static final String TAG = "GoogleSignInActivity";
@@ -135,14 +135,13 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         int i = v.getId();
         if (i == R.id.sign_in_button) {
             signIn();
+            showProgressDialog();
         } else if (i == R.id.sign_out_button) {
             //signOut();
         } else if (i == R.id.disconnect_button) {
             //revokeAccess();
         }
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,25 +164,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         mPresenter.signIn();
     }
 
-    private void updateUI(FirebaseUser user) {
-
-        //TODO: investigate implementation
-        if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
-
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -191,6 +171,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     @Override
     public void displaySignInError() {
         showError(getString(R.string.sign_in_error));
+        hideProgressDialog();
     }
 
     public String getDefaultWebClientId() {
@@ -206,17 +187,20 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
 
     @Override
     public void showProgressDialog() {
-        //no-op //TODO: op
+        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
-//        updateUI();
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
 
     @Override
     public void goToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

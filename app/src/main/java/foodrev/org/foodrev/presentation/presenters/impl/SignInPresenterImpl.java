@@ -142,7 +142,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements
             firebaseAuthWithGoogle(account);
         } else {
             // Google Sign In failed, update UI appropriately
-            // updateUI(null);
+             mView.hideProgressDialog();
         }
     }
 
@@ -152,6 +152,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         mView.displaySignInError();
+        mView.hideProgressDialog();
     }
 
     public void start() {
@@ -178,8 +179,6 @@ public class SignInPresenterImpl extends AbstractPresenter implements
                         } else {
                             mView.goToMainActivity();
                         }
-
-
                     }
                 });
     }
