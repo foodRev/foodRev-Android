@@ -61,19 +61,13 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     private static final String TAG = "GoogleSignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private SignInPresenter mPresenter;
-
     private String mDefaultWebClientId;
-
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google);
         mDefaultWebClientId = getString(R.string.default_web_client_id);
-
-
         attachPresenter();
         setupUi();
 
@@ -93,9 +87,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
     }
 
     private void setupUi() {
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
-
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
@@ -112,8 +103,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements SignInPre
         mPresenter.detachView();
         super.onDestroy();
     }
-
-
 
     private GoogleApiClient setupGoogleSignIn(Context context) {
         String defaultWebClientId = ((GoogleSignInActivity)context).getDefaultWebClientId();
