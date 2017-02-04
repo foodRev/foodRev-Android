@@ -10,6 +10,7 @@ android {
             storePassword 'foodrev'
         }
     }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
