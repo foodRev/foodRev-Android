@@ -2,10 +2,10 @@ package foodrev.org.foodrev.presentation.presenters.base;
 
 import foodrev.org.foodrev.presentation.ui.BaseView;
 
-public interface BasePresenter {
+public interface BasePresenter<T extends BaseView> {
 
     // SurvivingPresenters
-    void attachView(BaseView view);
+    void attachView(T view);
     void detachView();
 
     /**
