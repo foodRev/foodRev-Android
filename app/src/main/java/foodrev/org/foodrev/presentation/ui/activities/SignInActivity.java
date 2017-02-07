@@ -31,7 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.Threading.MainThreadImpl;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
@@ -107,12 +107,8 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.sign_in_button) {
-            signIn();
+            mPresenter.signIn();
             showProgressDialog();
-        } else if (i == R.id.sign_out_button) {
-            //signOut();
-        } else if (i == R.id.disconnect_button) {
-            //revokeAccess();
         }
     }
 
@@ -133,11 +129,6 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void signIn() {
-        mPresenter.signIn();
-    }
-
-
 
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -154,11 +145,7 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
     }
 
     
-    // Save presenter
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return mPresenter;
-    }
+
 
     @Override
     public void showProgressDialog() {
@@ -172,10 +159,15 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
-
     @Override
     public void goToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    // Save presenter
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return mPresenter;
     }
 }
