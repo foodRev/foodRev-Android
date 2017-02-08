@@ -24,7 +24,7 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.presentation.ui.activities.GoogleSignInActivity;
+import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_sign_out) {
             // TODO: sign out user from firebase
 
-            startActivity(new Intent(this, GoogleSignInActivity.class));
+            startActivity(new Intent(this, SignInActivity.class));
             finish();
         }
 
