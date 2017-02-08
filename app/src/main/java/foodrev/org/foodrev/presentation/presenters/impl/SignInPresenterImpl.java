@@ -17,14 +17,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.interactors.SignInInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.SignInInteractorImpl;
 import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
-import foodrev.org.foodrev.presentation.presenters.base.AbstractPresenter;
-import foodrev.org.foodrev.presentation.ui.BaseView;
 
 /**
  * Created by darver on 1/25/17.
@@ -32,7 +31,7 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
 
 
 // TODO: add GoogleApiClient.ConnectionCallbacks and GoogleApiClient.OnConnectionFailedListener interfaces
-public class SignInPresenterImpl extends AbstractPresenter implements SignInPresenter, SignInInteractor.Callback {
+public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Callback {
 
     private static final String TAG = "SignInPresenterImpl";
     private SignInPresenter.View mView;
@@ -40,6 +39,8 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private GoogleAuthProviderWrapper mGoogleAuthProviderWrapper;
+    private Executor mExecutor;
+    private MainThread mMainThread;
 
     public static class Builder {
         private GoogleApiClient client;
@@ -84,7 +85,9 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
                || googleAuthProviderWrapper == null) {
                 throw new IllegalArgumentException("Missing Dependency!");
             }
-            SignInPresenterImpl impl = new SignInPresenterImpl(executor, mainThread);
+            SignInPresenterImpl impl = new SignInPresenterImpl();
+            impl.mExecutor = executor;
+            impl.mMainThread = mainThread;
             impl.mGoogleApiClient = client;
             impl.mAuth = firebaseAuth;
             impl.mGoogleAuthProviderWrapper = googleAuthProviderWrapper;
@@ -92,15 +95,13 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
         }
     }
 
-    private SignInPresenterImpl(Executor executor,
-                             MainThread mainThread) {
-        super(executor, mainThread);
+    private SignInPresenterImpl() {
         mAuthListener = setupAuthStateListener();
     }
 
     @Override
-    public void attachView(BaseView view) {
-        mView = (SignInPresenter.View) view;
+    public void attachView(View view) {
+        mView = view;
     }
 
     // TODO: add detach logic
@@ -237,7 +238,7 @@ public class SignInPresenterImpl extends AbstractPresenter implements SignInPres
                 });
     }
 
-    public View getView() {
+    private View getView() {
         return mView;
     }
 }
