@@ -11,15 +11,17 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FirebaseDB {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-    private FirebaseDB() {
+    public FirebaseDB() {
     }
 
-    private DatabaseReference getDataBaseInstance() {
+    public DatabaseReference getInstance() {
         if(mDatabase == null) {
             mDatabase = FirebaseDatabase.getInstance().getReference();
         }
         return mDatabase;
     }
+
+
 
 
 }
