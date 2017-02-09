@@ -3,8 +3,9 @@ package foodrev.org.foodrev.domain.models;
 
 import android.graphics.Bitmap;
 
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.PostDownloadBitmap;
-import org.foodrev.www.foodrev_android_coordinator_app.Tasks.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
+
 
 public class DonationCenter implements PostDownloadBitmap {
     private String mName = null;
@@ -19,7 +20,6 @@ public class DonationCenter implements PostDownloadBitmap {
     public String getName() {
         return mName;
     }
-// Auto-generated file, DO NOT EDIT.
 
     public void setName(String name) {
         mName = name;
@@ -40,7 +40,6 @@ public class DonationCenter implements PostDownloadBitmap {
 
     public String getPhoneNumber() {
         return mPhoneNumber;
-// Auto-generated file, DO NOT EDIT.
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -61,7 +60,6 @@ public class DonationCenter implements PostDownloadBitmap {
         donationCenter.setPhoneNumber("000-000-0000");
         donationCenter.setAddress("Address");
         return donationCenter;
-// Auto-generated file, DO NOT EDIT.
     }
 
     public Bitmap getPicture() {
@@ -81,6 +79,4 @@ public class DonationCenter implements PostDownloadBitmap {
     public void DownloadBitmapDone(Bitmap bm) {
         mImage = bm;
     }
-
-// Auto-generated file, DO NOT EDIT.
 }

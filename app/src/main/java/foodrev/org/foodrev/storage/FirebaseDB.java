@@ -4,22 +4,28 @@ package foodrev.org.foodrev.storage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import foodrev.org.foodrev.domain.wrappers.FirebaseDatabaseWrapper;
+
 /**
  * Created by darver on 2/7/17.
  */
 
 public class FirebaseDB {
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
-    public FirebaseDB() {
+    private FirebaseDB() {
     }
 
-    public DatabaseReference getInstance() {
+    public FirebaseDatabase getInstance() {
         if(mDatabase == null) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase = FirebaseDatabase.getInstance();
         }
         return mDatabase;
     }
+
+
+
+
 
 
 

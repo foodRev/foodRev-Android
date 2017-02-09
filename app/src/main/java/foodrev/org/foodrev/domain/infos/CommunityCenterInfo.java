@@ -13,6 +13,8 @@ import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.UIObject;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import foodrev.org.foodrev.domain.models.CommunityCenter;
+
 public class CommunityCenterInfo {
     private HashMap<Integer, CommunityCenter> mCommunityCenters = null;
     private CommunityCenterListener mListener = null;

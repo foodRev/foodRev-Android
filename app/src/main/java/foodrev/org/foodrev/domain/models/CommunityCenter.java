@@ -2,8 +2,9 @@ package foodrev.org.foodrev.domain.models;
 
 import android.graphics.Bitmap;
 
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.PostDownloadBitmap;
-import org.foodrev.www.foodrev_android_coordinator_app.Tasks.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
+
 
 public class CommunityCenter implements PostDownloadBitmap {
     private String mName = null;

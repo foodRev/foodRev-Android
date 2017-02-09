@@ -5,16 +5,16 @@ import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.PostDownloadBitmap;
-import org.foodrev.www.foodrev_android_coordinator_app.Tasks.DownloadBitmapTask;
-
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 /**
  * Created by abhishekchugh on 3/5/16.
  */
-public class Driver implements PostDownloadBitmap{
+public class Driver implements PostDownloadBitmap {
     public final static String NAME_KEY = "name";
     public final static String PHONE_NUMBER_KEY = "phone_number";
     public final static String CAR_TYPE_KEY = "car_type";

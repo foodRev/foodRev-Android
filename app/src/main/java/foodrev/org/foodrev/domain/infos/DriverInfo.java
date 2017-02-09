@@ -7,8 +7,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.UIObject;
-
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
