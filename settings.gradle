@@ -1,1 +1,1 @@
-include ':app', ':cleanfire', ':mvpauth'
+include ':app'

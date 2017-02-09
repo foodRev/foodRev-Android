@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_sign_out) {
             // TODO: sign out user from firebase
 
             startActivity(new Intent(this, SignInActivity.class));

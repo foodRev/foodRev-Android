@@ -9,7 +9,8 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
  * Created by darver on 1/25/17.
  */
 
-public interface SignInPresenter extends BasePresenter, GoogleApiClient.OnConnectionFailedListener {
+public interface SignInPresenter extends BasePresenter<SignInPresenter.View>,
+        GoogleApiClient.OnConnectionFailedListener {
     interface View extends BaseView {
         void startGoogleSignIn(GoogleApiClient googleApiClient);
         void displaySignInError();
