@@ -142,7 +142,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
             firebaseAuthWithGoogle(account);
         } else {
             // Google Sign In failed, update UI appropriately
-            // updateUI(null);
+            mView.hideProgressDialog();
         }
     }
 
@@ -152,6 +152,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         mView.displaySignInError();
+        mView.hideProgressDialog();
     }
 
     public void start() {
@@ -175,8 +176,9 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                         if (!task.isSuccessful()) {
                             //Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
+                        } else {
+                            mView.goToMainActivity();
                         }
-                        mView.hideProgressDialog();
                     }
                 });
     }
