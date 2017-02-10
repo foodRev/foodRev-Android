@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
+package foodrev.org.foodrev.presentation.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,23 +24,24 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
+//import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
+import foodrev.org.foodrev.presentation.presenters.MainPresenter;
+import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
 
-//import foodrev.org.rapidprototype.dummy.DummyContent;
-//
-//import static foodrev.org.rapidprototype.dummy.DummyContent.CARE_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.DONOR_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.DRIVER_TITLE;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        ItemFragment.OnListFragmentInteractionListener {
+        ItemFragment.OnListFragmentInteractionListener,
+        MainPresenter.View {
+
+    private static final String TAG = "MainActivity";
+    private MainPresenter mPresenter;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
-    private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
 
     @Override
@@ -104,6 +104,16 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.setupWithViewPager(mViewPager);
 
         Log.d("main", "we are at main again? maybe");
+
+        attachPresenter();
+    }
+
+    public void attachPresenter() {
+        mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
+        if (mPresenter == null) {
+            mPresenter = new MainPresenterImpl();
+        }
+//        mPresenter.attachView(this);
     }
 
     @Override
@@ -156,18 +166,14 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_sign_out) {
             // TODO: sign out user from firebase
-
-            startActivity(new Intent(this, SignInActivity.class));
-            finish();
+            mPresenter.signOut();
+            goToSignInActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -207,6 +213,27 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    @Override
+    public void showProgressDialog() {
+
+    }
+
+    @Override
+    public void hideProgressDialog() {
+
+    }
+
+    @Override
+    public void goToSignInActivity() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    @Override
+    public void showError(String message) {
 
     }
 }

@@ -36,7 +36,6 @@ import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.MainActivity;
 
 
 public class SignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener {

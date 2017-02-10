@@ -1,5 +1,7 @@
 package foodrev.org.foodrev.presentation.presenters.impl;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import foodrev.org.foodrev.domain.interactors.SampleInteractor;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 
@@ -41,5 +43,11 @@ public class MainPresenterImpl implements MainPresenter, SampleInteractor.Callba
     @Override
     public void onError(String message) {
 
+    }
+
+    @Override
+    public void signOut() {
+        // Firebase sign out
+        FirebaseAuth.getInstance().signOut();
     }
 }
