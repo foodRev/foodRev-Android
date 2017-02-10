@@ -241,4 +241,10 @@ public class MainActivity extends AppCompatActivity
     public void signOut() {
         mPresenter.signOut();
     }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
+    }
 }
