@@ -12,5 +12,4 @@ public interface GetFirebaseInfoInteractor extends Interactor {
         void onDataReceiveFailed();
     }
     void populateInfos();
-    // TODO: Add interactor methods here
 }

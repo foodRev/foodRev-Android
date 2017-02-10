@@ -5,14 +5,17 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.UIObject;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import foodrev.org.foodrev.domain.models.Coordinator;
+
 public class CoordinatorInfo {
+    private FirebaseDatabase mFirebaseDatabaseInstance;
     private HashMap<Integer, Coordinator> mCoordinators = null;
     private HashMap<Integer, CoordinatorInfoListener> mListeners = null;
     private HashMap<Integer, DatabaseReference> mRefs = null;
@@ -20,7 +23,8 @@ public class CoordinatorInfo {
 
     private UIObject mUIObject = null;
 
-    public CoordinatorInfo() {
+    public CoordinatorInfo(FirebaseDatabase firebaseDatabase) {
+        mFirebaseDatabaseInstance = firebaseDatabase;
         mLock = new ReentrantReadWriteLock(true);
         mCoordinators = new HashMap<>();
         mListeners = new HashMap<>();
@@ -36,7 +40,7 @@ public class CoordinatorInfo {
             return;
         }
 
-        DatabaseReference ref = Root.getDatabase().getReference("coordinators/" + id);
+        DatabaseReference ref = mFirebaseDatabaseInstance.getReference("coordinators/" + id);
         CoordinatorInfoListener listener = new CoordinatorInfoListener(this);
         ref.addValueEventListener(listener);
         mListeners.put(id, listener);

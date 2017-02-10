@@ -1,7 +1,10 @@
 package foodrev.org.foodrev.domain.interactors.impl;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.infos.InfoPopulator;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.base.AbstractInteractor;
 
@@ -13,14 +16,37 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
 
     private static final String TAG = "GetFirebaseInteractorInteractorImpl";
     private GetFirebaseInfoInteractor.Callback mCallback;
+    private FirebaseDatabase mFirebaseDatabase;
 
 
-    public GetFirebaseInfoInteractorImpl(Executor executor, MainThread mainThread, GetFirebaseInfoInteractor.Callback callback) {
+    public GetFirebaseInfoInteractorImpl(Executor executor,
+                                         MainThread mainThread,
+                                         GetFirebaseInfoInteractor.Callback callback,
+                                         FirebaseDatabase firebaseDatabase) {
         super(executor, mainThread);
         mCallback = callback;
+        mFirebaseDatabase = firebaseDatabase;
     }
 
+
+
+
+
+    @Override
     public void run() {
+        InfoPopulator infoPopulator = new InfoPopulator(mFirebaseDatabase);
+
+        mMainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallback.onDataReceived();
+            }
+        });
+    }
+
+    @Override
+    public void populateInfos() {
 
     }
+
 }

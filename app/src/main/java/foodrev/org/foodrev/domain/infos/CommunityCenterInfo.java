@@ -6,9 +6,8 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.UIObject;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -16,17 +15,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import foodrev.org.foodrev.domain.models.CommunityCenter;
 
 public class CommunityCenterInfo {
+    private FirebaseDatabase mFirebaseDatabaseInstance;
     private HashMap<Integer, CommunityCenter> mCommunityCenters = null;
     private CommunityCenterListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
 
     private UIObject mUIObject = null;
 
-    public CommunityCenterInfo() {
+    public CommunityCenterInfo(FirebaseDatabase firebaseDatabase) {
         mLock = new ReentrantReadWriteLock(true);
-
         mCommunityCenters = new HashMap<>();
-        DatabaseReference ref = Root.getDatabase().getReference("community_centers/");
+        mFirebaseDatabaseInstance = firebaseDatabase;
+        DatabaseReference ref = firebaseDatabase.getReference("community_centers/");
         mListener = new CommunityCenterListener(this);
         ref.addValueEventListener(mListener);
     }

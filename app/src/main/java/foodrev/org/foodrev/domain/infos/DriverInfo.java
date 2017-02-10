@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -13,17 +14,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import foodrev.org.foodrev.domain.models.Driver;
 
 public class DriverInfo {
+    private FirebaseDatabase mFirebaseDatabaseInstance;
     private ArrayList<Driver> mDrivers = null;
     private DriverListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
-
     private UIObject mUIObject = null;
 
-    public DriverInfo() {
+    public DriverInfo(FirebaseDatabase firebaseDatabase) {
         mLock = new ReentrantReadWriteLock(true);
 
         mDrivers = new ArrayList<>();
-        DatabaseReference ref = Root.getDatabase().getReference("driver_app/drivers");
+        mFirebaseDatabaseInstance = firebaseDatabase;
+        DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
         mListener = new DriverListener(this);
         ref.addValueEventListener(mListener);
     }
@@ -147,7 +149,7 @@ public class DriverInfo {
             if (mDrivers.get(i).getDriverID().equals(driverId)) {
                 Driver currentDriver = mDrivers.get(i);
                 mLock.writeLock().lock();
-                DatabaseReference driverUserInfoRef = Root.getDatabase().getReference("driver_app/drivers/" + driverId +"/user_info");
+                DatabaseReference driverUserInfoRef = mFirebaseDatabaseInstance.getReference("driver_app/drivers/" + driverId +"/user_info");
                 currentDriver.updateUserInfo(driver);
                 currentDriver.WriteUserInfoToSnapshot(driverUserInfoRef);
                 mDrivers.set(i, currentDriver);
@@ -158,7 +160,7 @@ public class DriverInfo {
 
         // Add new driver.
         mLock.writeLock().lock();
-        DatabaseReference driverUserInfoRef = Root.getDatabase().getReference("driver_app/drivers/" + driverId +"/user_info");
+        DatabaseReference driverUserInfoRef = mFirebaseDatabaseInstance.getReference("driver_app/drivers/" + driverId +"/user_info");
         driver.WriteUserInfoToSnapshot(driverUserInfoRef);
         mDrivers.add(driver);
         mLock.writeLock().unlock();
@@ -184,7 +186,7 @@ public class DriverInfo {
             if (mDrivers.get(i).getDriverID().equals(driverId)) {
                 Driver currentDriver = mDrivers.get(i);
                 mLock.writeLock().lock();
-                DatabaseReference driverCaresRef = Root.getDatabase().getReference("driver_app/drivers/" + driverId +"/cares");
+                DatabaseReference driverCaresRef = mFirebaseDatabaseInstance.getReference("driver_app/drivers/" + driverId +"/cares");
                 currentDriver.deleteCare(careId);
                 currentDriver.WriteCareListToSnapshot(driverCaresRef);
                 mDrivers.set(i, currentDriver);
@@ -201,7 +203,7 @@ public class DriverInfo {
             if (mDrivers.get(i).getDriverID().equals(driverId)) {
                 Driver currentDriver = mDrivers.get(i);
                 mLock.writeLock().lock();
-                DatabaseReference driverCaresRef = Root.getDatabase().getReference("driver_app/drivers/" + driverId +"/cares");
+                DatabaseReference driverCaresRef = mFirebaseDatabaseInstance.getReference("driver_app/drivers/" + driverId +"/cares");
                 currentDriver.addCare(careId);
                 currentDriver.WriteCareListToSnapshot(driverCaresRef);
                 mDrivers.set(i, currentDriver);

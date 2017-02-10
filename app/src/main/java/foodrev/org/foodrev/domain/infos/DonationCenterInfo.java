@@ -7,14 +7,16 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.foodrev.www.foodrev_android_coordinator_app.Interfaces.UIObject;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import foodrev.org.foodrev.domain.models.DonationCenter;
+
 public class DonationCenterInfo {
+    private FirebaseDatabase mFireBaseDatabaseInstance;
     private HashMap<Integer, DonationCenter> mDonationCenters = null;
     private DonationCenterListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
@@ -22,11 +24,11 @@ public class DonationCenterInfo {
 // Auto-generated file, DO NOT EDIT.
     private UIObject mUIObject = null;
 
-    public DonationCenterInfo() {
+    public DonationCenterInfo(FirebaseDatabase firebaseDatabase) {
         mLock = new ReentrantReadWriteLock(true);
-
+        mFireBaseDatabaseInstance = firebaseDatabase;
         mDonationCenters = new HashMap<>();
-        DatabaseReference ref = Root.getDatabase().getReference("donation_centers/");
+        DatabaseReference ref = firebaseDatabase.getReference("donation_centers/");
         mListener = new DonationCenterListener(this);
         ref.addValueEventListener(mListener);
     }
