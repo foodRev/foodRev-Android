@@ -7,7 +7,9 @@ public interface MainPresenter extends BasePresenter<MainPresenter.View> {
 
     interface View extends BaseView {
         // TODO: Add your view methods
+        void signOut();
         void goToSignInActivity();
+        void goToDetailItemActivity();
     }
 
     // TODO: Add your presenter methods

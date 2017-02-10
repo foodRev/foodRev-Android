@@ -48,6 +48,12 @@ public class MainPresenterImpl implements MainPresenter, SampleInteractor.Callba
     @Override
     public void signOut() {
         // Firebase sign out
-        FirebaseAuth.getInstance().signOut();
+        if(getView() != null) {
+            getView().signOut();
+        }
+    }
+
+    private View getView() {
+        return mView;
     }
 }

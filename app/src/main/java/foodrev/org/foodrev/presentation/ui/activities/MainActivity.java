@@ -24,7 +24,6 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-//import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_sign_out) {
-            // TODO: sign out user from firebase
             mPresenter.signOut();
             goToSignInActivity();
         }
@@ -199,7 +197,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return mFragments.size();
         }
 
@@ -235,7 +232,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
     public void goToDetailItemActivity() {
         startActivity(new Intent(this, DetailItemActivity.class));
+    }
+
+    @Override
+    public void signOut() {
+        mPresenter.signOut();
     }
 }
