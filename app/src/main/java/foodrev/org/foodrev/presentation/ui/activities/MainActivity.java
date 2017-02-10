@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         if (mPresenter == null) {
             mPresenter = new MainPresenterImpl();
         }
-//        mPresenter.attachView(this);
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_sign_out) {
             mPresenter.signOut();
-            goToSignInActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -245,6 +244,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         mPresenter.detachView();
+        mPresenter.destroy();
         super.onDestroy();
     }
 }
