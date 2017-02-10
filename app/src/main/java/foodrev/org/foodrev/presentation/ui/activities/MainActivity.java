@@ -159,11 +159,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             goToDetailItemActivity();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_coordinator) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_driver) {
 
-        } else if (id == R.id.nav_manage) {
+//        } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_sign_out) {
             mPresenter.signOut();

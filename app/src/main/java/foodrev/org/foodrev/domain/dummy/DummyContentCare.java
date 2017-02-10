@@ -23,7 +23,7 @@ public class DummyContentCare extends DummyContent {
      */
     public static final Map<String, DummyItemCare> ITEM_MAP = new HashMap<String, DummyItemCare>();
 
-    private static final int COUNT = 25;
+    private static final int COUNT = 6;
 
     static {
         // Add some sample items.

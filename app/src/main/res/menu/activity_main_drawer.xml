@@ -7,17 +7,17 @@
             android:icon="@drawable/ic_person_white"
             android:title="Profile"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_coordinator"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery"/>
+            android:title="Coordinator mode"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_driver"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow"/>
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"/>
+            android:title="Driver mode"/>
+        <!--<item-->
+            <!--android:id="@+id/nav_manage"-->
+            <!--android:icon="@drawable/ic_menu_manage"-->
+            <!--android:title="Tools"/>-->
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@android:drawable/ic_menu_set_as"

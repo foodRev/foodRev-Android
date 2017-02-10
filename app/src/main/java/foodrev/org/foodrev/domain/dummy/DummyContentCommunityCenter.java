@@ -23,7 +23,7 @@ public class DummyContentCommunityCenter extends DummyContent {
      */
     public static final Map<String, DummyItemCommunityCenter> ITEM_MAP = new HashMap<String, DummyItemCommunityCenter>();
 
-    private static final int COUNT = 25;
+    private static final int COUNT = 4;
 
     static {
         // Add some sample items.
