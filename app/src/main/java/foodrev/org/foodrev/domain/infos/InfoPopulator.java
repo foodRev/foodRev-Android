@@ -1,5 +1,7 @@
 package foodrev.org.foodrev.domain.infos;
 
+import android.util.Log;
+
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
@@ -18,6 +20,7 @@ public class InfoPopulator {
         mCareInfo = new CareInfo(db, mDriverInfo);
         mCommunityCenterInfo = new CommunityCenterInfo(db);
         mDonationCenterInfo = new DonationCenterInfo(db);
+        Log.d("InfoPopulator", "Infos Populated");
 
     }
 

@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
+package foodrev.org.foodrev.presentation.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +24,8 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;

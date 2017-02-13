@@ -171,11 +171,12 @@ public class CareInfo {
                 continue;
             }
             Care care = new Care();
-            if (!CaresWatcher.updateCare(care, careSnapshot)) {
-                Log.e("dbging", "in CaresListInfo.updateData, this update has wrong format.");
-            } else {
-                mCares.put(id, care);
-            }
+
+//            if (!CaresWatcher.updateCare(care, careSnapshot)) {
+//                Log.e("dbging", "in CaresListInfo.updateData, this update has wrong format.");
+//            } else {
+//                mCares.put(id, care);
+//            }
         }
         mLock.writeLock().unlock();
 

@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.domain.interactors;
 
+import foodrev.org.foodrev.domain.infos.InfoPopulator;
 import foodrev.org.foodrev.domain.interactors.base.Interactor;
 
 /**
@@ -8,7 +9,7 @@ import foodrev.org.foodrev.domain.interactors.base.Interactor;
 
 public interface GetFirebaseInfoInteractor extends Interactor {
     interface Callback {
-        void onDataReceived();
+        void onDataReceived(InfoPopulator infoPopulator);
         void onDataReceiveFailed();
     }
     void populateInfos();

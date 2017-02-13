@@ -29,24 +29,22 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
     }
 
 
-
-
-
     @Override
     public void run() {
-        InfoPopulator infoPopulator = new InfoPopulator(mFirebaseDatabase);
+        //TODO: final?
+        final InfoPopulator infoPopulator = new InfoPopulator(mFirebaseDatabase);
 
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onDataReceived();
+                mCallback.onDataReceived(infoPopulator);
             }
         });
     }
 
     @Override
     public void populateInfos() {
-
+        //Maybe remove?
     }
 
 }

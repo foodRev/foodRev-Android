@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.infos.InfoPopulator;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.SignInInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
@@ -200,9 +201,12 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     }
 
     @Override
-    public void onDataReceived() {
+    public void onDataReceived(InfoPopulator infoPopulator) {
+
         // Stop loading and switch activities
         // Pass data to mainActivity for recyclerView propagation
+
+
     }
 
     @Override
