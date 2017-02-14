@@ -112,4 +112,22 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_detail_item">DetailItemActivity</string>
+
+
+
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pick_date">Pick date</string>
+    <string name="pick_time">Pick time</string>
+    <string name="no_selection">No selection</string>
+    <string name="fyjdfhmsfgn">fyjdfhmsfgn</string>
+    <string name="mdsgndore">mdsgndore</string>
+    <string name="mofhfgbre">mofhfgbre</string>
+    <string name="more">more</string>
+    <string name="calendar">calendar</string>
+    <string name="quantity">quantity</string>
+    <string name="clock">clock</string>
+    <string name="location">location</string>
+    <string name="add_new_destination">add new destination</string>
 </resources>

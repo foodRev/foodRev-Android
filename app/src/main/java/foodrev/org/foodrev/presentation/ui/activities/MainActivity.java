@@ -28,6 +28,8 @@ import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSummary;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
@@ -163,8 +165,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_driver) {
 
-//        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_json) {
+            startActivity(new Intent(this, JsonActivity.class));
+        } else if (id == R.id.nav_ai) {
+            startActivity(new Intent(this, AiUiSummary.class));
         } else if (id == R.id.nav_sign_out) {
             mPresenter.signOut();
         }

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/content_summary_aiui"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="george.aiui.AiUiSummary"
+        tools:showIn="@layout/activity_summary_aiui"
+        android:clickable="true"
+        android:layout_gravity="center_vertical|center_horizontal">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/calendar_aiui"
+                    android:id="@+id/date_icon"
+                    android:contentDescription="@string/calendar"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/display_date"
+                    android:text="@string/no_selection"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/clock_aiui"
+                    android:id="@+id/time_icon"
+                    android:contentDescription="@string/clock"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/display_time"
+                    android:text="@string/no_selection"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/location_aiui"
+                    android:id="@+id/location_icon"
+                    android:contentDescription="@string/location"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:id="@+id/display_location"
+                    android:text="@string/no_selection"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/hashtag2_aiui"
+                    android:id="@+id/quantity_icon"
+                    android:contentDescription="@string/quantity"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/display_quantity"
+                    android:hint="@string/no_selection"/>
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_gravity="center_horizontal"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    />
+
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/display_view_aiui"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent"/>
+
+                    <include layout="@layout/edit_view_aiui"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent"/>
+                </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                />
+            </LinearLayout>
+
+            <include layout="@layout/more_view_aiui"/>
+
+    </RelativeLayout>
+
+
+</ScrollView>

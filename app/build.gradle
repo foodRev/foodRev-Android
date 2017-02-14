@@ -52,6 +52,8 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.0.2'
     // Google Sign In SDK (only required for Google Sign In)
     compile 'com.google.android.gms:play-services-auth:9.0.2'
+
+    compile 'com.google.code.gson:gson:2.6.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
