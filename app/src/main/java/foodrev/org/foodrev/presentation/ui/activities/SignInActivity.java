@@ -143,8 +143,10 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         return mDefaultWebClientId;
     }
 
-    
-
+    @Override
+    public void showRetrievedData(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void showProgressDialog() {

@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
+
 /**
  * Created by darver on 2/9/17.
  */
@@ -14,29 +16,29 @@ public class InfoPopulator {
     private CommunityCenterInfo mCommunityCenterInfo;
     private DonationCenterInfo mDonationCenterInfo;
     private DriverInfo mDriverInfo;
+    private AllDataReceived mAllDataReceived;
 
-    public InfoPopulator(FirebaseDatabase db) {
+    public InfoPopulator(FirebaseDatabase db, AllDataReceivedListener listener) {
+        mAllDataReceived = new AllDataReceived(listener);
         mDriverInfo = new DriverInfo(db);
         mCareInfo = new CareInfo(db, mDriverInfo);
         mCommunityCenterInfo = new CommunityCenterInfo(db);
         mDonationCenterInfo = new DonationCenterInfo(db);
-        Log.d("InfoPopulator", "Infos Populated");
-
     }
 
-    public CareInfo getmCareInfo() {
+    public CareInfo getCareInfo() {
         return mCareInfo;
     }
 
-    public CommunityCenterInfo getmCommunityCenterInfo() {
+    public CommunityCenterInfo getCommunityCenterInfo() {
         return mCommunityCenterInfo;
     }
 
-    public DonationCenterInfo getmDonationCenterInfo() {
+    public DonationCenterInfo getDonationCenterInfo() {
         return mDonationCenterInfo;
     }
 
-    public DriverInfo getmDriverInfo() {
+    public DriverInfo getDriverInfo() {
         return mDriverInfo;
     }
 

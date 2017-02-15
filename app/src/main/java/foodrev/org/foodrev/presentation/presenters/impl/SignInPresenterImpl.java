@@ -3,6 +3,7 @@ package foodrev.org.foodrev.presentation.presenters.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -202,11 +203,12 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
 
     @Override
     public void onDataReceived(InfoPopulator infoPopulator) {
+        String driverOne = infoPopulator.getCareInfo().getCare(0).getCareTitle();
 
         // Stop loading and switch activities
         // Pass data to mainActivity for recyclerView propagation
 
-
+        mView.showRetrievedData(driverOne);
     }
 
     @Override

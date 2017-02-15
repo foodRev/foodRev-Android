@@ -171,7 +171,7 @@ public class CareInfo {
                 continue;
             }
             Care care = new Care();
-
+            //TODO: add CaresWatcher
 //            if (!CaresWatcher.updateCare(care, careSnapshot)) {
 //                Log.e("dbging", "in CaresListInfo.updateData, this update has wrong format.");
 //            } else {
@@ -183,6 +183,8 @@ public class CareInfo {
         if (mUIObject != null) {
             mUIObject.Refresh();
         }
+
+//        mCareUpdateListener.onUpdate();
     }
 
     private void updateError(String errorMessage) {
