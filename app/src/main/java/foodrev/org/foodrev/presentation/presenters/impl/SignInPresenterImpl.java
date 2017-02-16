@@ -3,7 +3,6 @@ package foodrev.org.foodrev.presentation.presenters.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
-import foodrev.org.foodrev.domain.infos.InfoPopulator;
+import foodrev.org.foodrev.domain.infos.PopulateInfos;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.SignInInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
@@ -110,7 +109,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
         mView = view;
     }
 
-    // TODO: add detach logic
+
     @Override
     public void detachView() {
         mView = null;
@@ -202,8 +201,8 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     }
 
     @Override
-    public void onDataReceived(InfoPopulator infoPopulator) {
-        String driverOne = infoPopulator.getCareInfo().getCare(0).getCareTitle();
+    public void onDataReceived(PopulateInfos populateInfos) {
+        String driverOne = populateInfos.getCareInfo().getCare(0).getCareTitle();
 
         // Stop loading and switch activities
         // Pass data to mainActivity for recyclerView propagation

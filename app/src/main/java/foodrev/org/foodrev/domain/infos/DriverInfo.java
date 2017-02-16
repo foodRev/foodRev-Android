@@ -19,8 +19,9 @@ public class DriverInfo {
     private DriverListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
+    private AllDataReceived mAllDataReceived;
 
-    public DriverInfo(FirebaseDatabase firebaseDatabase) {
+    public DriverInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived) {
         mLock = new ReentrantReadWriteLock(true);
 
         mDrivers = new ArrayList<>();
@@ -28,6 +29,7 @@ public class DriverInfo {
         DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
         mListener = new DriverListener(this);
         ref.addValueEventListener(mListener);
+        mAllDataReceived = allDataReceived;
     }
 
     private void updateData(DataSnapshot snapshot) {
@@ -56,6 +58,9 @@ public class DriverInfo {
 
         if (mUIObject != null) {
             mUIObject.Refresh();
+        }
+        if(mAllDataReceived != null) {
+            mAllDataReceived.receivedCares();
         }
     }
 

@@ -21,12 +21,15 @@ public class DestinationInfo {
     private UIObject mUIObject = null;
 
     protected DestinationListener mListener = null;
+    protected AllDataReceived mAllDataReceived;
 
-    public DestinationInfo(FirebaseDatabase firebaseDatabase) {
+
+    public DestinationInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
         mDestinations = new HashMap<>();
         mListener = new DestinationListener(this);
+        mAllDataReceived = allDataReceived;
     }
 
     public Destination getDestination(Integer id) {
@@ -47,7 +50,7 @@ public class DestinationInfo {
         mUIObject = ui;
     }
 
-    private void updateData(DataSnapshot snapshot) {
+    protected void updateData(DataSnapshot snapshot) {
         Log.i("dbging", "in DestinationInfo.updateData: <" + snapshot.getKey() + ", " + snapshot.getValue() + ">");
         if (snapshot.getValue() == null) {
             Log.e("dbging", "in DestinationInfo.updateData, the update is null.");
@@ -70,7 +73,6 @@ public class DestinationInfo {
 
         }
         mLock.writeLock().unlock();
-
         if (mUIObject != null) {
             mUIObject.Refresh();
         }

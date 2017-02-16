@@ -1,47 +1,49 @@
 package foodrev.org.foodrev.domain.infos;
 
+import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
+
 /**
  * Created by darver on 2/13/17.
  */
 
 public class AllDataReceived {
-    private boolean caresReceived;
-    private boolean communityCentersReceived;
-    private boolean donationCentersReceived;
-    private boolean driversReceived;
-    private AllDataReceivedListener mAllDataReceivedListener;
+    private boolean mCaresReceived;
+    private boolean mCommunityCentersReceived;
+    private boolean mDonationCentersReceived;
+    private boolean mDriversReceived;
+    private GetFirebaseInfoInteractor.Callback mCallback;
 
-    public AllDataReceived(AllDataReceivedListener listener) {
-        this.mAllDataReceivedListener = listener;
-        this.caresReceived = false;
-        this.communityCentersReceived = false;
-        this.donationCentersReceived = false;
-        this.driversReceived = false;
+    public AllDataReceived(GetFirebaseInfoInteractor.Callback callback) {
+        mCallback = callback;
+        mCaresReceived = false;
+        mCommunityCentersReceived = false;
+        mDonationCentersReceived = false;
+        mDriversReceived = false;
     }
 
     private void checkAllReceived() {
-        if (caresReceived && communityCentersReceived && donationCentersReceived && driversReceived) {
-            mAllDataReceivedListener.onAllDataReceived();
+        if (mCaresReceived && mCommunityCentersReceived && mDonationCentersReceived && mDriversReceived) {
+            mCallback.onDataReceived();
         }
     }
 
     public void receivedCares() {
-        caresReceived = true;
+        mCaresReceived = true;
         checkAllReceived();
     }
 
     public void receivedCommunityCenters() {
-        communityCentersReceived = true;
+        mCommunityCentersReceived = true;
         checkAllReceived();
     }
 
     public void receivedDonationCenters() {
-        donationCentersReceived = true;
+        mDonationCentersReceived = true;
         checkAllReceived();
     }
 
     public void receivedDrivers() {
-        driversReceived = true;
+        mDriversReceived = true;
         checkAllReceived();
     }
 

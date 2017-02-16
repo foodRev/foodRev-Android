@@ -4,7 +4,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
-import foodrev.org.foodrev.domain.infos.InfoPopulator;
+import foodrev.org.foodrev.domain.infos.AllDataReceived;
+import foodrev.org.foodrev.domain.infos.PopulateInfos;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.base.AbstractInteractor;
 
@@ -34,15 +35,15 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                InfoPopulator infoPopulator = new InfoPopulator(mFirebaseDatabase, );
-                mCallback.onDataReceived(infoPopulator);
+                // on all data received, return the populated object
+//                AllDataReceived allDataReceived = new AllDataReceived(mCallback);
+                PopulateInfos populateInfos = new PopulateInfos(mFirebaseDatabase, mCallback);
+
             }
         });
     }
 
-    @Override
-    public void populateInfos() {
-        //Maybe remove?
-    }
+
+
 
 }

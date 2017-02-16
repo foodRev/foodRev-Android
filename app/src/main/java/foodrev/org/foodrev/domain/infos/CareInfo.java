@@ -27,8 +27,9 @@ public class CareInfo {
     private CareListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
+    private AllDataReceived mAllDataReceived;
 
-    public CareInfo(FirebaseDatabase firebaseDatabase, DriverInfo driverInfo) {
+    public CareInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived, DriverInfo driverInfo) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
         DatabaseReference caresRef = firebaseDatabase.getReference("cares/");
@@ -36,6 +37,7 @@ public class CareInfo {
         mCares = new HashMap<>();
         mListener = new CareListener(this);
         caresRef.addValueEventListener(mListener);
+        mAllDataReceived = allDataReceived;
     }
 
     public void setCare(Care care, Integer id) {
@@ -183,8 +185,9 @@ public class CareInfo {
         if (mUIObject != null) {
             mUIObject.Refresh();
         }
-
-//        mCareUpdateListener.onUpdate();
+        if(mAllDataReceived != null) {
+            mAllDataReceived.receivedCares();
+        }
     }
 
     private void updateError(String errorMessage) {

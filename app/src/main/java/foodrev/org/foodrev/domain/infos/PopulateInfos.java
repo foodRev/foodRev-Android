@@ -10,20 +10,19 @@ import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
  * Created by darver on 2/9/17.
  */
 
-public class InfoPopulator {
+public class PopulateInfos {
 
     private CareInfo mCareInfo;
     private CommunityCenterInfo mCommunityCenterInfo;
     private DonationCenterInfo mDonationCenterInfo;
     private DriverInfo mDriverInfo;
-    private AllDataReceived mAllDataReceived;
 
-    public InfoPopulator(FirebaseDatabase db, AllDataReceivedListener listener) {
-        mAllDataReceived = new AllDataReceived(listener);
-        mDriverInfo = new DriverInfo(db);
-        mCareInfo = new CareInfo(db, mDriverInfo);
-        mCommunityCenterInfo = new CommunityCenterInfo(db);
-        mDonationCenterInfo = new DonationCenterInfo(db);
+
+    public PopulateInfos(FirebaseDatabase db, AllDataReceived allDataReceived) {
+        mDriverInfo = new DriverInfo(db, allDataReceived);
+        mCareInfo = new CareInfo(db, allDataReceived, mDriverInfo);
+        mCommunityCenterInfo = new CommunityCenterInfo(db, allDataReceived);
+        mDonationCenterInfo = new DonationCenterInfo(db, allDataReceived);
     }
 
     public CareInfo getCareInfo() {
