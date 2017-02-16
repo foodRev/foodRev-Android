@@ -53,4 +53,6 @@ public class MainPresenterImpl implements MainPresenter, SampleInteractor.Callba
             mView.goToSignInActivity();
         }
     }
+
+
 }
