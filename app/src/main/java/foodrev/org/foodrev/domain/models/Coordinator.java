@@ -1,7 +1,7 @@
 package foodrev.org.foodrev.domain.models;
 
 /**
- * Created by dastechlabs on 2/15/17.
+ * Created by Gregory Kielian on 2/15/17.
  */
 
 public class Coordinator extends PointOfContact {
