@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity
         attachPresenter();
     }
 
+    // TODO: remove this in production code. development purposes only
     public void simulatePopulationPhase() {
         new Handler().postDelayed(new Runnable() {
             @Override
