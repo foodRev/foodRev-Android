@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import foodrev.org.foodrev.domain.infos.models.Destination;
+import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
 public class DestinationInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
@@ -20,14 +21,16 @@ public class DestinationInfo {
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
 
+
     protected DestinationListener mListener = null;
+    protected GetFirebaseInfoInteractorImpl.Callback mCallback;
 
-
-    public DestinationInfo(FirebaseDatabase firebaseDatabase) {
+    public DestinationInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
         mDestinations = new HashMap<>();
         mListener = new DestinationListener(this);
+        mCallback = callback;
     }
 
     public Destination getDestination(Integer id) {

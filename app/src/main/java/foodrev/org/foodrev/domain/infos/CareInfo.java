@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import foodrev.org.foodrev.domain.infos.models.Care;
+import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
 public class CareInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
@@ -27,9 +28,10 @@ public class CareInfo {
     private CareListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
+    private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
 
-    public CareInfo(FirebaseDatabase firebaseDatabase, DriverInfo driverInfo) {
+    public CareInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback, DriverInfo driverInfo) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
         DatabaseReference caresRef = firebaseDatabase.getReference("cares/");
@@ -37,6 +39,7 @@ public class CareInfo {
         mCares = new HashMap<>();
         mListener = new CareListener(this);
         caresRef.addValueEventListener(mListener);
+        mCallback = callback;
 
     }
 
@@ -184,6 +187,10 @@ public class CareInfo {
 
         if (mUIObject != null) {
             mUIObject.Refresh();
+        }
+
+        if(mCallback != null) {
+            mCallback.onCareInfoUpdated();
         }
 
     }

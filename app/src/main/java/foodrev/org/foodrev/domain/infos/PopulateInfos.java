@@ -1,7 +1,5 @@
 package foodrev.org.foodrev.domain.infos;
 
-import android.util.Log;
-
 import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
@@ -23,12 +21,10 @@ public class PopulateInfos {
     public PopulateInfos(FirebaseDatabase db, GetFirebaseInfoInteractorImpl.Callback callback) {
         mCallback = callback;
         mDriverInfo = new DriverInfo(db, callback);
-        mCareInfo = new CareInfo(db, mDriverInfo);
-        mCommunityCenterInfo = new CommunityCenterInfo(db);
-        mDonationCenterInfo = new DonationCenterInfo(db);
+        mCareInfo = new CareInfo(db, callback, mDriverInfo);
+        mCommunityCenterInfo = new CommunityCenterInfo(db, callback);
+        mDonationCenterInfo = new DonationCenterInfo(db, callback);
     }
-
-
 
     public CareInfo getCareInfo() {
         return mCareInfo;

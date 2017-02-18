@@ -33,6 +33,10 @@ import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.domain.infos.CareInfo;
+import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
+import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
+import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
@@ -297,23 +301,22 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void refreshCareInfos() {
+    public void refreshCareInfos(CareInfo careInfo) {
+        
+    }
+
+    @Override
+    public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
 
     }
 
     @Override
-    public void refreshCommunityCenterInfos() {
+    public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
 
     }
 
     @Override
-    public void refreshDonationCenterInfos() {
+    public void refreshDriverInfos(DriverInfo driverInfo) {
 
     }
-
-    @Override
-    public void refreshDriverInfos() {
-
-    }
-    //    }
 }
