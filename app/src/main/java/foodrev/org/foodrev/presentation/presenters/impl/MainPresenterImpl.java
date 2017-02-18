@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.presentation.presenters.impl;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.executor.Executor;
@@ -98,6 +99,17 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     public void onError(String message) {
 
     }
+
+    @Override
+    public void signOut() {
+        // Firebase sign out
+        if(mView != null) {
+            FirebaseAuth.getInstance().signOut();
+            mView.goToSignInActivity();
+        }
+    }
+
+
 
     @Override
     public void retrievePopulateInfos(PopulateInfos populateInfos) {

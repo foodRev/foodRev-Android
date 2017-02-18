@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_loading);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_loading);
+//        setContentView(R.layout.activity_main);
         attachPresenter();
-//        simulatePopulationPhase();
+        simulatePopulationPhase();
     }
 
     @Override
@@ -134,17 +134,17 @@ public class MainActivity extends AppCompatActivity implements
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_profile) {
-////            goToDetailItemActivity();
-//        } else if (id == R.id.nav_coordinator) {
-//
-//        } else if (id == R.id.nav_driver) {
-//
-////        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_sign_out) {
-////            mPresenter.signOut();
-//        }
+        if (id == R.id.nav_profile) {
+            goToDetailItemActivity();
+        } else if (id == R.id.nav_coordinator) {
+
+        } else if (id == R.id.nav_driver) {
+
+//        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_sign_out) {
+            mPresenter.signOut();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -187,6 +187,23 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void goToDetailItemActivity() {
+        startActivity(new Intent(this, DetailItemActivity.class));
+    }
+
+    @Override
+    public void signOut() {
+        mPresenter.signOut();
+    }
+
+
+    @Override
+    public void goToSignInActivity() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
@@ -201,27 +218,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-//    @Override
-//    public void goToSignInActivity() {
-//        startActivity(new Intent(this, SignInActivity.class));
-//        finish();
-//    }
-//
-//    @Override
-//    public void showError(String message) {
-//
-//    }
-//
-//    @Override
-//    public void goToDetailItemActivity() {
-//        startActivity(new Intent(this, DetailItemActivity.class));
-//    }
-//
-//    @Override
-//    public void signOut() {
-//        mPresenter.signOut();
-//    }
-
     @Override
     protected void onDestroy() {
         mPresenter.detachView();
@@ -229,66 +225,60 @@ public class MainActivity extends AppCompatActivity implements
         super.onDestroy();
     }
 
-//    @Override
-//    public void switchToPopulatedDataView() {
-//        setContentView(R.layout.activity_main);
-//
-//
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
-//
-//                intent.putExtra("mode", true);
-//
-//                startActivity(intent);
-//            }
-//        });
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//
-//        // Create the adapter that will return a fragment for each of the three
-//        // primary sections of the activity.
-//        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
-//
-//        // Set up the ViewPager with the sections adapter.
-//        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
-//
-//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
-//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
-//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
-//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
-//
-//        mViewPager.setAdapter(mSectionsPagerAdapter);
-//        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-//
-//        mTabLayout.setupWithViewPager(mViewPager);
-//
-//        Log.d("main", "we are at main again? maybe");
-//
-//
-//    }
+    @Override
+    public void switchToPopulatedDataView() {
+        setContentView(R.layout.activity_main);
 
-//    public void simulatePopulationPhase() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                switchToPopulatedDataView();
-//            }
-//        }, 3000);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
+
+                intent.putExtra("mode", true);
+
+                startActivity(intent);
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
+
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        Log.d("main", "we are at main again? maybe");
+
+
+    }
+
+//    }
 
     @Override
     public void showToastTest(String driverName) {
@@ -318,5 +308,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void refreshDriverInfos(DriverInfo driverInfo) {
 
+    }
+
+    // TODO: remove this in production code. development purposes only
+    public void simulatePopulationPhase() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switchToPopulatedDataView();
+            }
+        }, 3000);
     }
 }

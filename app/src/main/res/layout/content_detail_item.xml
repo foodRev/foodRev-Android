@@ -8,11 +8,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity"
     tools:showIn="@layout/activity_detail_item">
-
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="hello"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="world"/>
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text"/>
+        android:text="!"/>
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

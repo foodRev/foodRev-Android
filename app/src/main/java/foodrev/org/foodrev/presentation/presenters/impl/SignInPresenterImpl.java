@@ -79,8 +79,6 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
             return this;
         }
 
-
-
         public SignInPresenterImpl build() {
 
             if(client == null

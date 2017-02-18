@@ -11,6 +11,10 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
 public interface MainPresenter extends BasePresenter<MainPresenter.View> {
 
     interface View extends BaseView {
+        void signOut();
+        void goToSignInActivity();
+        void goToDetailItemActivity();
+        void switchToPopulatedDataView();
         void showToastTest(String driverName);
 
         void refreshCareInfos(CareInfo careInfo);
@@ -20,5 +24,7 @@ public interface MainPresenter extends BasePresenter<MainPresenter.View> {
     }
 
     // TODO: Add your presenter methods
+
+    void signOut();
 
 }

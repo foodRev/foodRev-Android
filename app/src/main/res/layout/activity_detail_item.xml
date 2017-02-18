@@ -42,8 +42,20 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detail_item"
-        android:id="@+id/content_include"/>
+    <LinearLayout
+        android:id="@+id/content_include"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/content_edit_item"
+                 android:id="@+id/content_edit"/>
+
+        <include layout="@layout/content_detail_item"
+                 android:id="@+id/content_detail"
+            android:layout_width="0dp"
+            android:layout_height="701dp" />
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
