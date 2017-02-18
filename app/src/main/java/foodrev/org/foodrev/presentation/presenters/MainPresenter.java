@@ -15,15 +15,13 @@ public interface MainPresenter extends BasePresenter<MainPresenter.View> {
         void goToSignInActivity();
         void goToDetailItemActivity();
         void switchToPopulatedDataView();
-        void showToastTest(String driverName);
 
+        void onAllPopulated();
         void refreshCareInfos(CareInfo careInfo);
         void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo);
         void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo);
         void refreshDriverInfos(DriverInfo driverInfo);
     }
-
-    // TODO: Add your presenter methods
 
     void signOut();
 

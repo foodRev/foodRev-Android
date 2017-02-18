@@ -5,8 +5,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.infos.CareInfo;
+import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
+import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
 import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.domain.infos.PopulateInfos;
+import foodrev.org.foodrev.domain.infos.models.Destination;
+import foodrev.org.foodrev.domain.infos.models.DonationCenter;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 import foodrev.org.foodrev.domain.wrappers.FirebaseDatabaseWrapper;
@@ -18,41 +23,50 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     private MainPresenter.View mView;
     private Executor mExecutor;
     private MainThread mMainThread;
-    private PopulateInfos mPopulateInfos;
+    private boolean mCareInfoPopulated = false;
+    private boolean mCommunityCenterInfoPopulated = false;
+    private boolean mDonationCenterInfoPopulated = false;
+    private boolean mDriverInfoPopulated = false;
 
     public MainPresenterImpl(Executor executor, MainThread mainThread) {
         mExecutor = executor;
         mMainThread = mainThread;
+    }
 
+    private void checkAllPopulated() {
+        if(mCareInfoPopulated &&
+                mCommunityCenterInfoPopulated &&
+                mDonationCenterInfoPopulated &&
+                mDriverInfoPopulated) {
+            mView.onAllPopulated();
+        }
+    }
+    @Override
+    public void onCommunityCenterInfoUpdated(CommunityCenterInfo communityCenterInfo) {
+        mView.refreshCommunityCenterInfos(communityCenterInfo);
+        mCommunityCenterInfoPopulated = true;
+        checkAllPopulated();
     }
 
     @Override
-    public void onCommunityCenterInfoUpdated() {
-        if(mPopulateInfos != null) {
-            mView.refreshCommunityCenterInfos(mPopulateInfos.getCommunityCenterInfo());
-        }
+    public void onCareInfoUpdated(CareInfo careInfo) {
+        //TODO: fix CareInfo
+        mCareInfoPopulated = true;
+        checkAllPopulated();
     }
 
     @Override
-    public void onCareInfoUpdated() {
-        if(mPopulateInfos != null) {
-            mView.refreshCareInfos(mPopulateInfos.getCareInfo());
-        }
-    }
-
-    @Override
-    public void onDonationCenterInfoUpdated() {
-        if(mPopulateInfos != null) {
-            mView.refreshDonationCenterInfos(mPopulateInfos.getDonationCenterInfo());
-        }
+    public void onDonationCenterInfoUpdated(DonationCenterInfo donationCenterInfo) {
+        mView.refreshDonationCenterInfos(donationCenterInfo);
+        mDonationCenterInfoPopulated = true;
+        checkAllPopulated();
     }
 
     @Override
     public void onDriverInfoUpdated(DriverInfo driverInfo) {
-        if(mPopulateInfos != null) {
-            mView.refreshDriverInfos(mPopulateInfos.getDriverInfo());
-        }
-        mView.showToastTest(driverInfo.getDriver(0).getName());
+        mView.refreshDriverInfos(driverInfo);
+        mDriverInfoPopulated = true;
+        checkAllPopulated();
     }
 
     @Override
@@ -107,12 +121,5 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
             FirebaseAuth.getInstance().signOut();
             mView.goToSignInActivity();
         }
-    }
-
-
-
-    @Override
-    public void retrievePopulateInfos(PopulateInfos populateInfos) {
-        mPopulateInfos = populateInfos;
     }
 }

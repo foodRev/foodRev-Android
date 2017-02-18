@@ -16,8 +16,7 @@ public class DonationCenterInfo extends DestinationInfo {
     @Override
     protected void updateData(DataSnapshot snapshot) {
         super.updateData(snapshot);
-        if(super.mCallback != null) {
-            super.mCallback.onDonationCenterInfoUpdated();
-        }
+        super.mCallback.onDonationCenterInfoUpdated(this);
+
     }
 }

@@ -15,11 +15,8 @@ public class PopulateInfos {
     private CommunityCenterInfo mCommunityCenterInfo;
     private DonationCenterInfo mDonationCenterInfo;
     private DriverInfo mDriverInfo;
-    private GetFirebaseInfoInteractor.Callback mCallback;
-
 
     public PopulateInfos(FirebaseDatabase db, GetFirebaseInfoInteractorImpl.Callback callback) {
-        mCallback = callback;
         mDriverInfo = new DriverInfo(db, callback);
         mCareInfo = new CareInfo(db, callback, mDriverInfo);
         mCommunityCenterInfo = new CommunityCenterInfo(db, callback);

@@ -11,7 +11,7 @@ public class Destination implements PostDownloadBitmap {
     private String mAddress = null;
     private String mImageURL = null;
     private String mPhoneNumber = null;
-    private Bitmap mImage = null;
+    protected Bitmap mImage = null;
 
     public Destination() {
     }
@@ -52,14 +52,6 @@ public class Destination implements PostDownloadBitmap {
         this.mPhoneNumber = otherDestination.mPhoneNumber;
     }
 
-    public static Destination getNewDestination() {
-        Destination destination = new Destination();
-        destination.setName("Name");
-        destination.setImageURL("http://abc.com/img.png");
-        destination.setPhoneNumber("000-000-0000");
-        destination.setAddress("Address");
-        return destination;
-    }
 
     public Bitmap getPicture() {
         return mImage;

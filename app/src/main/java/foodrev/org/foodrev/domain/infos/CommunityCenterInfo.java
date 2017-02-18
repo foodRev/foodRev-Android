@@ -17,8 +17,6 @@ public class CommunityCenterInfo extends DestinationInfo {
     @Override
     protected void updateData(DataSnapshot snapshot) {
         super.updateData(snapshot);
-        if(super.mCallback != null) {
-            super.mCallback.onCommunityCenterInfoUpdated();
-        }
+        super.mCallback.onCommunityCenterInfoUpdated(this);
     }
 }

@@ -4,11 +4,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
-//import foodrev.org.foodrev.domain.infos.AllDataReceived;
-import foodrev.org.foodrev.domain.infos.CareInfo;
-import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
-import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
-import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.domain.infos.PopulateInfos;
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.base.AbstractInteractor;
@@ -22,6 +17,7 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
     private static final String TAG = "GetFirebaseInfoInteractorImpl";
     private GetFirebaseInfoInteractor.Callback mCallback;
     private FirebaseDatabase mFirebaseDatabase;
+    private PopulateInfos mPopulateInfos;
 
 
     public GetFirebaseInfoInteractorImpl(Executor executor,
@@ -39,8 +35,9 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                PopulateInfos populateInfos = new PopulateInfos(mFirebaseDatabase, mCallback);
-                mCallback.retrievePopulateInfos(populateInfos);
+
+                // TODO: make callback to return mPopulateInfos
+                mPopulateInfos = new PopulateInfos(mFirebaseDatabase, mCallback);
             }
         });
     }

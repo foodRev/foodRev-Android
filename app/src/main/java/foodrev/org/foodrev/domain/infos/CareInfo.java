@@ -188,11 +188,7 @@ public class CareInfo {
         if (mUIObject != null) {
             mUIObject.Refresh();
         }
-
-        if(mCallback != null) {
-            mCallback.onCareInfoUpdated();
-        }
-
+        mCallback.onCareInfoUpdated(this);
     }
 
     private void updateError(String errorMessage) {

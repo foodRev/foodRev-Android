@@ -37,6 +37,10 @@ import foodrev.org.foodrev.domain.infos.CareInfo;
 import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
 import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
 import foodrev.org.foodrev.domain.infos.DriverInfo;
+import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
+import foodrev.org.foodrev.domain.infos.models.Destination;
+import foodrev.org.foodrev.domain.infos.models.DonationCenter;
+import foodrev.org.foodrev.domain.infos.models.Driver;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_loading);
 //        setContentView(R.layout.activity_main);
         attachPresenter();
-        simulatePopulationPhase();
+//        simulatePopulationPhase();
     }
 
     @Override
@@ -278,13 +282,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-//    }
-
-    @Override
-    public void showToastTest(String driverName) {
-        Toast.makeText(this, driverName, Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public void showError(String message) {
 
@@ -297,26 +294,24 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
-
+        Destination cc = communityCenterInfo.getDestination(0);
+        Toast.makeText(this, cc.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
-
+        Destination dc =  donationCenterInfo.getDestination(0);
+        Toast.makeText(this, dc.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void refreshDriverInfos(DriverInfo driverInfo) {
-
+        Driver driver = driverInfo.getDriver(0);
+        Toast.makeText(this, driver.getName(), Toast.LENGTH_LONG).show();
     }
 
-    // TODO: remove this in production code. development purposes only
-    public void simulatePopulationPhase() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switchToPopulatedDataView();
-            }
-        }, 3000);
+    @Override
+    public void onAllPopulated() {
+        switchToPopulatedDataView();
     }
 }
