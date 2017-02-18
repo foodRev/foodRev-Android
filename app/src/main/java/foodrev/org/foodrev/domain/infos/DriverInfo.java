@@ -11,7 +11,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import foodrev.org.foodrev.domain.models.Driver;
+import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
+import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
+import foodrev.org.foodrev.domain.infos.models.Driver;
 
 public class DriverInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
@@ -19,9 +21,10 @@ public class DriverInfo {
     private DriverListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
-    private AllDataReceived mAllDataReceived;
+    private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
-    public DriverInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived) {
+
+    public DriverInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractor.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
 
         mDrivers = new ArrayList<>();
@@ -29,7 +32,7 @@ public class DriverInfo {
         DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
         mListener = new DriverListener(this);
         ref.addValueEventListener(mListener);
-        mAllDataReceived = allDataReceived;
+        mCallback = callback;
     }
 
     private void updateData(DataSnapshot snapshot) {
@@ -59,8 +62,8 @@ public class DriverInfo {
         if (mUIObject != null) {
             mUIObject.Refresh();
         }
-        if(mAllDataReceived != null) {
-            mAllDataReceived.receivedCares();
+        if(mCallback != null) {
+            mCallback.onDriverInfoUpdated(this);
         }
     }
 

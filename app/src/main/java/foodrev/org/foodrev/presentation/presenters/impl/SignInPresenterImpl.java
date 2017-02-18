@@ -34,7 +34,7 @@ import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 
 
 
-public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Callback, GetFirebaseInfoInteractor.Callback {
+public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Callback {
 
     private static final String TAG = "SignInPresenterImpl";
     private SignInPresenter.View mView;
@@ -183,37 +183,37 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                             //Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
                         } else {
-                            retrieveAppInfoWithInteractor();
+//                            retrieveAppInfoWithInteractor();
                             mView.goToMainActivity();
                         }
                     }
                 });
     }
 
-    private void retrieveAppInfoWithInteractor() {
-        FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
-        GetFirebaseInfoInteractorImpl getFirebaseInfoInteractor =
-                new GetFirebaseInfoInteractorImpl(mExecutor,
-                                                    mMainThread,
-                                                    this,
-                                                    wrapper.getInstance());
-        getFirebaseInfoInteractor.execute();
-    }
+//    private void retrieveAppInfoWithInteractor() {
+//        FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
+//        GetFirebaseInfoInteractorImpl getFirebaseInfoInteractor =
+//                new GetFirebaseInfoInteractorImpl(mExecutor,
+//                                                    mMainThread,
+//                                                    this,
+//                                                    wrapper.getInstance());
+//        getFirebaseInfoInteractor.execute();
+//    }
 
-    @Override
-    public void onDataReceived(PopulateInfos populateInfos) {
-        String driverOne = populateInfos.getCareInfo().getCare(0).getCareTitle();
+//    @Override
+//    public void onDataReceived(PopulateInfos populateInfos) {
+//        String driverOne = populateInfos.getCareInfo().getCare(0).getCareTitle();
+//
+//        // Stop loading and switch activities
+//        // Pass data to mainActivity for recyclerView propagation
+//
+//        mView.showRetrievedData(driverOne);
+//    }
 
-        // Stop loading and switch activities
-        // Pass data to mainActivity for recyclerView propagation
-
-        mView.showRetrievedData(driverOne);
-    }
-
-    @Override
-    public void onDataReceiveFailed() {
-        // Display some kind of error
-    }
+//    @Override
+//    public void onDataReceiveFailed() {
+//        // Display some kind of error
+//    }
     @Override
     public void resume() {
         SignInInteractorImpl interactor = new SignInInteractorImpl(mExecutor, mMainThread, this);
@@ -273,4 +273,5 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     private View getView() {
         return mView;
     }
+
 }

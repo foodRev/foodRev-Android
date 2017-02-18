@@ -1,5 +1,4 @@
-// Auto-generated file, DO NOT EDIT.
-package foodrev.org.foodrev.domain.models;
+package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
 
@@ -7,14 +6,14 @@ import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class DonationCenter implements PostDownloadBitmap {
+public class CommunityCenter implements PostDownloadBitmap {
     private String mName = null;
     private String mAddress = null;
     private String mImageURL = null;
     private String mPhoneNumber = null;
     private Bitmap mImage = null;
 
-    public DonationCenter() {
+    public CommunityCenter() {
     }
 
     public String getName() {
@@ -46,20 +45,20 @@ public class DonationCenter implements PostDownloadBitmap {
         mPhoneNumber = phoneNumber;
     }
 
-    public void copy(DonationCenter otherDonationCenter) {
-        this.mAddress = otherDonationCenter.mAddress;
-        this.mImageURL = otherDonationCenter.mImageURL;
-        this.mName = otherDonationCenter.mName;
-        this.mPhoneNumber = otherDonationCenter.mPhoneNumber;
+    public void copy(CommunityCenter otherCommunityCenter) {
+        this.mAddress = otherCommunityCenter.mAddress;
+        this.mImageURL = otherCommunityCenter.mImageURL;
+        this.mName = otherCommunityCenter.mName;
+        this.mPhoneNumber = otherCommunityCenter.mPhoneNumber;
     }
 
-    public static DonationCenter getNewDonationCenter() {
-        DonationCenter donationCenter = new DonationCenter();
-        donationCenter.setName("Name");
-        donationCenter.setImageURL("http://abc.com/img.png");
-        donationCenter.setPhoneNumber("000-000-0000");
-        donationCenter.setAddress("Address");
-        return donationCenter;
+    public static CommunityCenter getNewCommunityCenter() {
+        CommunityCenter communityCenter = new CommunityCenter();
+        communityCenter.setName("Name");
+        communityCenter.setImageURL("http://abc.com/img.png");
+        communityCenter.setPhoneNumber("000-000-0000");
+        communityCenter.setAddress("Address");
+        return communityCenter;
     }
 
     public Bitmap getPicture() {
@@ -79,4 +78,5 @@ public class DonationCenter implements PostDownloadBitmap {
     public void DownloadBitmapDone(Bitmap bm) {
         mImage = bm;
     }
+
 }

@@ -6,17 +6,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class CommunityCenterInfo extends DestinationInfo {
-    public CommunityCenterInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived) {
-        super(firebaseDatabase, allDataReceived);
+    public CommunityCenterInfo(FirebaseDatabase firebaseDatabase) {
+        super(firebaseDatabase);
         DatabaseReference ref = firebaseDatabase.getReference("community_centers/");
         ref.addValueEventListener(super.mListener);
     }
 
-    @Override
-    protected void updateData(DataSnapshot snapshot) {
-        super.updateData(snapshot);
-        if(mAllDataReceived != null) {
-            super.mAllDataReceived.receivedCommunityCenters();
-        }
-    }
+//    @Override
+//    protected void updateData(DataSnapshot snapshot) {
+//        super.updateData(snapshot);
+//        if(mAllDataReceived != null) {
+//            super.mAllDataReceived.receivedCommunityCenters();
+//        }
+//    }
 }

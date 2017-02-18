@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.domain.models;
+package foodrev.org.foodrev.domain.infos.models;
 
 public class Coordinator {
     private String mName = null;

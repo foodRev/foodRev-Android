@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.domain.models;
+package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
 import android.util.Log;

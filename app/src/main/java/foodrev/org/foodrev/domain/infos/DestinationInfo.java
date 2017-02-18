@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import foodrev.org.foodrev.domain.models.Destination;
+import foodrev.org.foodrev.domain.infos.models.Destination;
 
 public class DestinationInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
@@ -21,15 +21,13 @@ public class DestinationInfo {
     private UIObject mUIObject = null;
 
     protected DestinationListener mListener = null;
-    protected AllDataReceived mAllDataReceived;
 
 
-    public DestinationInfo(FirebaseDatabase firebaseDatabase, AllDataReceived allDataReceived) {
+    public DestinationInfo(FirebaseDatabase firebaseDatabase) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
         mDestinations = new HashMap<>();
         mListener = new DestinationListener(this);
-        mAllDataReceived = allDataReceived;
     }
 
     public Destination getDestination(Integer id) {

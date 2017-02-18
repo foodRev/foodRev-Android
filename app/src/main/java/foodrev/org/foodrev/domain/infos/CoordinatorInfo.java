@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import foodrev.org.foodrev.domain.models.Coordinator;
+import foodrev.org.foodrev.domain.infos.models.Coordinator;
 
 public class CoordinatorInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;

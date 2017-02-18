@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
+import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
 /**
  * Created by darver on 2/9/17.
@@ -16,14 +17,18 @@ public class PopulateInfos {
     private CommunityCenterInfo mCommunityCenterInfo;
     private DonationCenterInfo mDonationCenterInfo;
     private DriverInfo mDriverInfo;
+    private GetFirebaseInfoInteractor.Callback mCallback;
 
 
-    public PopulateInfos(FirebaseDatabase db, AllDataReceived allDataReceived) {
-        mDriverInfo = new DriverInfo(db, allDataReceived);
-        mCareInfo = new CareInfo(db, allDataReceived, mDriverInfo);
-        mCommunityCenterInfo = new CommunityCenterInfo(db, allDataReceived);
-        mDonationCenterInfo = new DonationCenterInfo(db, allDataReceived);
+    public PopulateInfos(FirebaseDatabase db, GetFirebaseInfoInteractorImpl.Callback callback) {
+        mCallback = callback;
+        mDriverInfo = new DriverInfo(db, callback);
+        mCareInfo = new CareInfo(db, mDriverInfo);
+        mCommunityCenterInfo = new CommunityCenterInfo(db);
+        mDonationCenterInfo = new DonationCenterInfo(db);
     }
+
+
 
     public CareInfo getCareInfo() {
         return mCareInfo;

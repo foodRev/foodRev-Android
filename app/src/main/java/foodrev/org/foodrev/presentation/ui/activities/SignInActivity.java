@@ -61,8 +61,8 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
             mPresenter = new SignInPresenterImpl.Builder()
                     .setClient(setupGoogleSignIn(this))
                     .setExecutor(ThreadExecutor.getInstance())
-                    .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setMainThread(MainThreadImpl.getInstance())
+                    .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setGoogleAuthProviderWrapper(new GoogleAuthProviderWrapper())
                     .build();
         }

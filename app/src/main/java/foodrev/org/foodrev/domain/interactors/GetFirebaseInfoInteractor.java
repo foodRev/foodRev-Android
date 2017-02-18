@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.domain.interactors;
 
+import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.domain.infos.PopulateInfos;
 import foodrev.org.foodrev.domain.interactors.base.Interactor;
 
@@ -9,8 +10,15 @@ import foodrev.org.foodrev.domain.interactors.base.Interactor;
 
 public interface GetFirebaseInfoInteractor extends Interactor {
     interface Callback {
-        void onDataReceived(PopulateInfos populateInfos);
+        void retrievePopulateInfos(PopulateInfos populateInfos);
+        void onCommunityCenterInfoUpdated();
+        void onCareInfoUpdated();
+        void onDonationCenterInfoUpdated();
+        void onDriverInfoUpdated(DriverInfo driverInfo);
         void onDataReceiveFailed();
     }
+
+
+
 
 }
