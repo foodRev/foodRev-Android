@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cleanfire/cleanfire.iml" filepath="$PROJECT_DIR$/cleanfire/cleanfire.iml" />
       <module fileurl="file://$PROJECT_DIR$/foodRev-Android.iml" filepath="$PROJECT_DIR$/foodRev-Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mvpauth/mvpauth.iml" filepath="$PROJECT_DIR$/mvpauth/mvpauth.iml" />
     </modules>
   </component>
 </project>

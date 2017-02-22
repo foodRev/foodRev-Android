@@ -19,8 +19,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.infos.PopulateInfos;
+import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.SignInInteractor;
+import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 import foodrev.org.foodrev.domain.interactors.impl.SignInInteractorImpl;
+import foodrev.org.foodrev.domain.wrappers.FirebaseDatabaseWrapper;
 import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
 import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
 
@@ -29,7 +33,7 @@ import foodrev.org.foodrev.presentation.presenters.SignInPresenter;
  */
 
 
-// TODO: add GoogleApiClient.ConnectionCallbacks and GoogleApiClient.OnConnectionFailedListener interfaces
+
 public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Callback {
 
     private static final String TAG = "SignInPresenterImpl";
@@ -40,6 +44,8 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     private GoogleAuthProviderWrapper mGoogleAuthProviderWrapper;
     private Executor mExecutor;
     private MainThread mMainThread;
+
+
 
     public static class Builder {
         private GoogleApiClient client;
@@ -101,7 +107,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
         mView = view;
     }
 
-    // TODO: add detach logic
+
     @Override
     public void detachView() {
         mView = null;
@@ -175,12 +181,37 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                             //Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
                         } else {
+//                            retrieveAppInfoWithInteractor();
                             mView.goToMainActivity();
                         }
                     }
                 });
     }
 
+//    private void retrieveAppInfoWithInteractor() {
+//        FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
+//        GetFirebaseInfoInteractorImpl getFirebaseInfoInteractor =
+//                new GetFirebaseInfoInteractorImpl(mExecutor,
+//                                                    mMainThread,
+//                                                    this,
+//                                                    wrapper.getInstance());
+//        getFirebaseInfoInteractor.execute();
+//    }
+
+//    @Override
+//    public void onDataReceived(PopulateInfos populateInfos) {
+//        String driverOne = populateInfos.getCareInfo().getCare(0).getCareTitle();
+//
+//        // Stop loading and switch activities
+//        // Pass data to mainActivity for recyclerView propagation
+//
+//        mView.showRetrievedData(driverOne);
+//    }
+
+//    @Override
+//    public void onDataReceiveFailed() {
+//        // Display some kind of error
+//    }
     @Override
     public void resume() {
         SignInInteractorImpl interactor = new SignInInteractorImpl(mExecutor, mMainThread, this);
@@ -240,4 +271,5 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     private View getView() {
         return mView;
     }
+
 }

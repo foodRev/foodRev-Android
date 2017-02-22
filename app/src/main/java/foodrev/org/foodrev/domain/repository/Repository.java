@@ -1,6 +1,6 @@
 package foodrev.org.foodrev.domain.repository;
 
-import foodrev.org.foodrev.domain.models.SampleModel;
+import foodrev.org.foodrev.domain.infos.models.SampleModel;
 
 public interface Repository {
 

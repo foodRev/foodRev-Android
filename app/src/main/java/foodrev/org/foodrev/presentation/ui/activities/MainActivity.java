@@ -2,6 +2,7 @@ package foodrev.org.foodrev.presentation.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -18,24 +19,41 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+//import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
+import foodrev.org.foodrev.domain.executor.Executor;
+import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.domain.infos.CareInfo;
+import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
+import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
+import foodrev.org.foodrev.domain.infos.DriverInfo;
+import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
+import foodrev.org.foodrev.domain.infos.models.Destination;
+import foodrev.org.foodrev.domain.infos.models.DonationCenter;
+import foodrev.org.foodrev.domain.infos.models.Driver;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
         MainPresenter.View {
 
@@ -62,59 +80,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
-
-                intent.putExtra("mode", true);
-
-                startActivity(intent);
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
-
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
-
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        Log.d("main", "we are at main again? maybe");
-
+        setContentView(R.layout.activity_loading);
+//        setContentView(R.layout.activity_main);
         attachPresenter();
+//        simulatePopulationPhase();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.resume();
     }
 
     public void attachPresenter() {
         mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new MainPresenterImpl();
+            mPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         }
         mPresenter.attachView(this);
     }
@@ -210,6 +191,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void goToDetailItemActivity() {
+        startActivity(new Intent(this, DetailItemActivity.class));
+    }
+
+    @Override
+    public void signOut() {
+        mPresenter.signOut();
+    }
+
+
+    @Override
+    public void goToSignInActivity() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
@@ -225,9 +223,63 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void goToSignInActivity() {
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
+    protected void onDestroy() {
+        mPresenter.detachView();
+        mPresenter.destroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void switchToPopulatedDataView() {
+        setContentView(R.layout.activity_main);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
+
+                intent.putExtra("mode", true);
+
+                startActivity(intent);
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
+
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        Log.d("main", "we are at main again? maybe");
+
+
     }
 
     @Override
@@ -236,19 +288,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void goToDetailItemActivity() {
-        startActivity(new Intent(this, DetailItemActivity.class));
+    public void refreshCareInfos(CareInfo careInfo) {
+        
     }
 
     @Override
-    public void signOut() {
-        mPresenter.signOut();
+    public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
+        Destination cc = communityCenterInfo.getDestination(0);
+        Toast.makeText(this, cc.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
-    protected void onDestroy() {
-        mPresenter.detachView();
-        mPresenter.destroy();
-        super.onDestroy();
+    public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
+        Destination dc =  donationCenterInfo.getDestination(0);
+        Toast.makeText(this, dc.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void refreshDriverInfos(DriverInfo driverInfo) {
+        Driver driver = driverInfo.getDriver(0);
+        Toast.makeText(this, driver.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAllPopulated() {
+        switchToPopulatedDataView();
     }
 }

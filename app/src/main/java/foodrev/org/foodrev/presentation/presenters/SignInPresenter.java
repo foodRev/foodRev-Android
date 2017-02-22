@@ -15,6 +15,8 @@ public interface SignInPresenter extends BasePresenter<SignInPresenter.View>,
         void startGoogleSignIn(GoogleApiClient googleApiClient);
         void displaySignInError();
         void goToMainActivity();
+        //TODO: remove
+        void showRetrievedData(String string);
     }
 
     void signIn();

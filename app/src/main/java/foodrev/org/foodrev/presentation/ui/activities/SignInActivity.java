@@ -61,8 +61,8 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
             mPresenter = new SignInPresenterImpl.Builder()
                     .setClient(setupGoogleSignIn(this))
                     .setExecutor(ThreadExecutor.getInstance())
-                    .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setMainThread(MainThreadImpl.getInstance())
+                    .setFirebaseAuth(FirebaseAuth.getInstance())
                     .setGoogleAuthProviderWrapper(new GoogleAuthProviderWrapper())
                     .build();
         }
@@ -143,8 +143,10 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         return mDefaultWebClientId;
     }
 
-    
-
+    @Override
+    public void showRetrievedData(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void showProgressDialog() {
