@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,20 +30,32 @@ import java.util.logging.LogRecord;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
+import foodrev.org.foodrev.domain.executor.Executor;
+import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.domain.infos.CareInfo;
+import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
+import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
+import foodrev.org.foodrev.domain.infos.DriverInfo;
+import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
+import foodrev.org.foodrev.domain.infos.models.Destination;
+import foodrev.org.foodrev.domain.infos.models.DonationCenter;
+import foodrev.org.foodrev.domain.infos.models.Driver;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSummary;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
         MainPresenter.View {
 
@@ -70,14 +83,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+//        setContentView(R.layout.activity_main);
+        attachPresenter();
+//        simulatePopulationPhase();
+    }
 
-        simulatePopulationPhase();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.resume();
     }
 
     public void attachPresenter() {
         mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new MainPresenterImpl();
+            mPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         }
         mPresenter.attachView(this);
     }
@@ -176,18 +196,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
+	}
 
+    public void goToDetailItemActivity() {
+        startActivity(new Intent(this, DetailItemActivity.class));
     }
 
     @Override
-    public void showProgressDialog() {
-
+    public void signOut() {
+        mPresenter.signOut();
     }
 
-    @Override
-    public void hideProgressDialog() {
-
-    }
 
     @Override
     public void goToSignInActivity() {
@@ -201,13 +220,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void goToDetailItemActivity() {
-        startActivity(new Intent(this, DetailItemActivity.class));
+    public void showProgressDialog() {
+
     }
 
     @Override
-    public void signOut() {
-        mPresenter.signOut();
+    public void hideProgressDialog() {
+
     }
 
     @Override
@@ -267,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("main", "we are at main again? maybe");
 
-        attachPresenter();
+
     }
 
     // TODO: remove this in production code. development purposes only
@@ -278,5 +297,33 @@ public class MainActivity extends AppCompatActivity
                 switchToPopulatedDataView();
             }
         }, 3000);
+    }
+
+    @Override
+    public void refreshCareInfos(CareInfo careInfo) {
+        
+    }
+
+    @Override
+    public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
+        Destination cc = communityCenterInfo.getDestination(0);
+        Toast.makeText(this, cc.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
+        Destination dc =  donationCenterInfo.getDestination(0);
+        Toast.makeText(this, dc.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void refreshDriverInfos(DriverInfo driverInfo) {
+        Driver driver = driverInfo.getDriver(0);
+        Toast.makeText(this, driver.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAllPopulated() {
+        switchToPopulatedDataView();
     }
 }
