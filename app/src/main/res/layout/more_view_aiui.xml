@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal">
+
+    <!--TODO: new_destination and add_details functionality-->
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_destination"
+        android:text="@string/add_new_destination"
+        android:layout_marginTop="15dp"
+        android:textAppearance="@android:style/TextAppearance.Widget.TextView"
+        android:textSize="14sp"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/add_details"
+        android:hint="details"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/more_button"
+        android:text="@string/more"
+        android:layout_marginTop="15dp"
+        android:textAppearance="@android:style/TextAppearance.Widget.TextView"
+        android:textSize="14sp"/>
+</LinearLayout>

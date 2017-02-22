@@ -21,7 +21,13 @@
                   android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".presentation.ui.activities.rapidprototype.DetailItemActivity"
-            android:theme="@style/CustomDialog">
+                  android:theme="@style/CustomDialog">
+        </activity>
+        <activity android:name=".presentation.ui.activities.rapidprototype.json.JsonActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".presentation.ui.activities.rapidprototype.ai.AiUiSummary"
+                  android:theme="@style/CustomDialog">
         </activity>
     </application>
 

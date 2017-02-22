@@ -45,6 +45,8 @@ import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSummary;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
@@ -144,8 +146,10 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.nav_driver) {
 
-//        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_json) {
+            startActivity(new Intent(this, JsonActivity.class));
+        } else if (id == R.id.nav_ai) {
+            startActivity(new Intent(this, AiUiSummary.class));
         } else if (id == R.id.nav_sign_out) {
             mPresenter.signOut();
         }
@@ -191,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+	}
+
     public void goToDetailItemActivity() {
         startActivity(new Intent(this, DetailItemActivity.class));
     }
@@ -208,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void showError(String message) {
 
     }
 
@@ -282,9 +289,14 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    public void showError(String message) {
-
+    // TODO: remove this in production code. development purposes only
+    public void simulatePopulationPhase() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switchToPopulatedDataView();
+            }
+        }, 3000);
     }
 
     @Override
