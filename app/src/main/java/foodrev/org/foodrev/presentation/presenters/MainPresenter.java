@@ -10,6 +10,7 @@ public interface MainPresenter extends BasePresenter<MainPresenter.View> {
         void signOut();
         void goToSignInActivity();
         void goToDetailItemActivity();
+        void switchToPopulatedDataView();
     }
 
     // TODO: Add your presenter methods
