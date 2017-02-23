@@ -17,6 +17,5 @@ public class DonationCenterInfo extends DestinationInfo {
     protected void updateData(DataSnapshot snapshot) {
         super.updateData(snapshot);
         super.mCallback.onDonationCenterInfoUpdated(this);
-
     }
 }

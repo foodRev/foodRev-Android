@@ -4,10 +4,8 @@ package foodrev.org.foodrev.domain.infos;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,19 +13,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import foodrev.org.foodrev.domain.infos.models.Care;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
 public class CareInfo extends AbstractInfo {
-    private FirebaseDatabase mFirebaseDatabaseInstance;
     private DriverInfo mDriverInfo;
     private static final Integer MAXCARES = 10000;
     private HashMap<Integer, Care> mCares = null;
-    private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
-    private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
 
     public CareInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback, DriverInfo driverInfo) {

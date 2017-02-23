@@ -16,12 +16,8 @@ import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl
 import foodrev.org.foodrev.domain.infos.models.Driver;
 
 public class DriverInfo extends AbstractInfo {
-    private FirebaseDatabase mFirebaseDatabaseInstance;
     private ArrayList<Driver> mDrivers = null;
-    private InfoUpdateListener mListener = null;
-    private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
-    private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
 
     public DriverInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractor.Callback callback) {

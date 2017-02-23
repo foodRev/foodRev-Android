@@ -23,30 +23,10 @@ public abstract class AbstractInfo implements Serializable {
     public AbstractInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
+        mListener = new InfoUpdateListener(this);
         mCallback = callback;
     }
 
     protected abstract void updateData(DataSnapshot snapshot);
-
     protected abstract void updateError(String error);
-
-    protected class BaseListener implements ValueEventListener {
-        AbstractInfo mParent;
-
-        public BaseListener(AbstractInfo parent) {
-            mParent = parent;
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            mParent.updateData(snapshot);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            mParent.updateError(error.getMessage());
-        }
-    }
-
-
 }
