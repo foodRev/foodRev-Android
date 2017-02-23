@@ -18,7 +18,7 @@ import foodrev.org.foodrev.domain.infos.models.Driver;
 public class DriverInfo extends AbstractInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
     private ArrayList<Driver> mDrivers = null;
-    private DriverListener mListener = null;
+    private InfoUpdateListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
     private GetFirebaseInfoInteractorImpl.Callback mCallback;
@@ -28,7 +28,7 @@ public class DriverInfo extends AbstractInfo {
         super(firebaseDatabase, callback);
         mDrivers = new ArrayList<>();
         DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
-        mListener = new DriverListener(this);
+        mListener = new InfoUpdateListener(this);
         ref.addValueEventListener(mListener);
     }
 
@@ -219,21 +219,4 @@ public class DriverInfo extends AbstractInfo {
         Log.wtf("wtf", "driver not found");
     }
 
-    class DriverListener extends AbstractInfo.BaseListener implements ValueEventListener {
-        DriverInfo mParent;
-
-        public DriverListener(AbstractInfo parent) {
-            super(parent);
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            mParent.updateData(snapshot);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            mParent.updateError(error.getMessage());
-        }
-    }
 }

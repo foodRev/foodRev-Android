@@ -14,16 +14,15 @@ import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl
  * Created by darver on 2/23/17.
  */
 
-public abstract class AbstractInfo implements Serializable{
-    private FirebaseDatabase mFirebaseDatabaseInstance;
-    private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
-    private BaseListener mListener = null;
-    private GetFirebaseInfoInteractorImpl.Callback mCallback;
+public abstract class AbstractInfo implements Serializable {
+    protected FirebaseDatabase mFirebaseDatabaseInstance = null;
+    protected ReentrantReadWriteLock mLock = null;    // protects all data fields above.
+    protected GetFirebaseInfoInteractorImpl.Callback mCallback = null;
+    protected InfoUpdateListener mListener = null;
 
     public AbstractInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;
-        mListener = new BaseListener(this);
         mCallback = callback;
     }
 

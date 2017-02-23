@@ -20,27 +20,23 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import foodrev.org.foodrev.domain.infos.models.Care;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
-public class CareInfo {
+public class CareInfo extends AbstractInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
     private DriverInfo mDriverInfo;
     private static final Integer MAXCARES = 10000;
     private HashMap<Integer, Care> mCares = null;
-    private CareListener mListener = null;
     private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
     private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
 
     public CareInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback, DriverInfo driverInfo) {
-        mLock = new ReentrantReadWriteLock(true);
-        mFirebaseDatabaseInstance = firebaseDatabase;
-        DatabaseReference caresRef = firebaseDatabase.getReference("cares/");
+        super(firebaseDatabase, callback);
         mDriverInfo = driverInfo;
         mCares = new HashMap<>();
-        mListener = new CareListener(this);
+        DatabaseReference caresRef = firebaseDatabase.getReference("cares/");
+        mListener = new InfoUpdateListener(this);
         caresRef.addValueEventListener(mListener);
-        mCallback = callback;
-
     }
 
     public void setCare(Care care, Integer id) {
@@ -162,7 +158,7 @@ public class CareInfo {
         mUIObject = ui;
     }
 
-    private void updateData(DataSnapshot snapshot) {
+    protected void updateData(DataSnapshot snapshot) {
         Log.i("dbging", "in CaresListInfo.updateData: <" + snapshot.getKey() + ", " + snapshot.getValue() + ">");
         if (snapshot.getValue() == null) {
             Log.e("dbging", "in CaresListInfo.updateData, the update is null.");
@@ -191,7 +187,7 @@ public class CareInfo {
         mCallback.onCareInfoUpdated(this);
     }
 
-    private void updateError(String errorMessage) {
+    protected void updateError(String errorMessage) {
         Log.e("dbging", "in CaresListInfo.updateError: " + errorMessage);
     }
 
@@ -228,23 +224,5 @@ public class CareInfo {
         careRef.removeValue();
         mCares.remove(careId);
         mLock.writeLock().unlock();
-    }
-
-    private class CareListener implements ValueEventListener {
-        CareInfo mParent;
-
-        public CareListener(CareInfo parent) {
-            mParent = parent;
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            mParent.updateData(snapshot);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            mParent.updateError(error.getMessage());
-        }
     }
 }
