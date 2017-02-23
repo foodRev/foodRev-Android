@@ -15,7 +15,7 @@ import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 import foodrev.org.foodrev.domain.infos.models.Driver;
 
-public class DriverInfo {
+public class DriverInfo extends AbstractInfo {
     private FirebaseDatabase mFirebaseDatabaseInstance;
     private ArrayList<Driver> mDrivers = null;
     private DriverListener mListener = null;
@@ -25,17 +25,14 @@ public class DriverInfo {
 
 
     public DriverInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractor.Callback callback) {
-        mLock = new ReentrantReadWriteLock(true);
-
+        super(firebaseDatabase, callback);
         mDrivers = new ArrayList<>();
-        mFirebaseDatabaseInstance = firebaseDatabase;
         DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
         mListener = new DriverListener(this);
         ref.addValueEventListener(mListener);
-        mCallback = callback;
     }
 
-    private void updateData(DataSnapshot snapshot) {
+    protected void updateData(DataSnapshot snapshot) {
         Log.i("dbging", "in DriverInfo.updateData: <" + snapshot.getKey() + ", " + snapshot.getValue() + ">");
         if (snapshot.getValue() == null) {
             Log.e("dbging", "in DriverInfo.updateData, the update is null.");
@@ -131,7 +128,7 @@ public class DriverInfo {
         return newDriverId;
     }
 
-    private void updateError(String errorMessage) {
+    protected void updateError(String errorMessage) {
         Log.e("dbging", "in CommunityCenterInfo.updateError: " + errorMessage);
     }
 
@@ -222,11 +219,11 @@ public class DriverInfo {
         Log.wtf("wtf", "driver not found");
     }
 
-    private class DriverListener implements ValueEventListener {
+    class DriverListener extends AbstractInfo.BaseListener implements ValueEventListener {
         DriverInfo mParent;
 
-        public DriverListener(DriverInfo parent) {
-            mParent = parent;
+        public DriverListener(AbstractInfo parent) {
+            super(parent);
         }
 
         @Override
