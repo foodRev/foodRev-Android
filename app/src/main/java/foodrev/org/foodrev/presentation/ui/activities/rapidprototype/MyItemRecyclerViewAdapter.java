@@ -12,6 +12,7 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent.DummyItem;
+import foodrev.org.foodrev.domain.infos.AbstractInfo;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
 //import java.util.List;
 //
@@ -26,10 +27,16 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragmen
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<? extends DummyItem> mValues;
+    private final AbstractInfo mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<? extends DummyItem> items, OnListFragmentInteractionListener listener) {
+//    public MyItemRecyclerViewAdapter(List<? extends BaseModel> items,
+//                                     OnListFragmentInteractionListener listener) {
+//        mValues = items;
+//        mListener = listener;
+//    }
+
+    public MyItemRecyclerViewAdapter(AbstractInfo items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -48,7 +55,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         holder.mItem = mValues.get(position);
 //        holder.mItemImage.setImageResource(R.mipmap.ic_launcher);
 //        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+//        holder.mContentView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +92,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 //        public final TextView mIdView;
         public final ImageView mItemImage;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public AbstractModel mItem;
 
         public ViewHolder(View view) {
             super(view);

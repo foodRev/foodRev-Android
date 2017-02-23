@@ -8,6 +8,9 @@ import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl
 
 
 public class CommunityCenterInfo extends DestinationInfo {
+
+    String infoType = COMMUNITY_CENTER_TITLE;
+
     public CommunityCenterInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         super(firebaseDatabase, callback);
         DatabaseReference ref = firebaseDatabase.getReference("community_centers/");

@@ -23,6 +23,7 @@ public class CareInfo extends AbstractInfo {
     private HashMap<Integer, Care> mCares = null;
     private UIObject mUIObject = null;
 
+    String infoType = CARE_TITLE;
 
     public CareInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback, DriverInfo driverInfo) {
         super(firebaseDatabase, callback);

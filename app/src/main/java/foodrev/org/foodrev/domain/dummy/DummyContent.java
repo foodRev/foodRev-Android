@@ -15,10 +15,10 @@ import java.util.Map;
 public class DummyContent implements Serializable {
 
 
-    public static final String DRIVER_TITLE = "Drivers";
-    public static final String DONOR_TITLE = "Donors";
-    public static final String COMMUNITY_CENTER_TITLE = "Community Centers";
-    public static final String CARE_TITLE = "Cares";
+//    public static final String DRIVER_TITLE = "Drivers";
+//    public static final String DONOR_TITLE = "Donors";
+//    public static final String COMMUNITY_CENTER_TITLE = "Community Centers";
+//    public static final String CARE_TITLE = "Cares";
     /**
      * An array of sample (dummy) items.
      */

@@ -4,6 +4,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
@@ -13,10 +14,18 @@ import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl
  */
 
 public abstract class AbstractInfo implements Serializable {
+
+    public static final String DRIVER_TITLE = "Drivers";
+    public static final String DONOR_TITLE = "Donors";
+    public static final String COMMUNITY_CENTER_TITLE = "Community Centers";
+    public static final String CARE_TITLE = "Cares";
+
     protected FirebaseDatabase mFirebaseDatabaseInstance = null;
     protected ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     protected GetFirebaseInfoInteractorImpl.Callback mCallback = null;
     protected InfoUpdateListener mListener = null;
+
+    public String infoType;
 
     public AbstractInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);

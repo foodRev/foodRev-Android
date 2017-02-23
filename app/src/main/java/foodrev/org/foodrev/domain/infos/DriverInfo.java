@@ -16,6 +16,9 @@ import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl
 import foodrev.org.foodrev.domain.infos.models.Driver;
 
 public class DriverInfo extends AbstractInfo {
+
+    String infoType = DRIVER_TITLE;
+
     private ArrayList<Driver> mDrivers = null;
     private UIObject mUIObject = null;
 
