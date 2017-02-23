@@ -22,7 +22,7 @@ public class DestinationInfo extends AbstractInfo {
         mCallback = callback;
     }
 
-    public Destination getDestination(Integer id) {
+    public Destination get(int id) {
         Log.i("dbging", "getDestination: " + id);
 
         mLock.readLock().lock();
@@ -35,6 +35,8 @@ public class DestinationInfo extends AbstractInfo {
             return cc;
         }
     }
+
+    public int size() {return mDestinations.size();}
 
     public void registerUI(UIObject ui) {
         mUIObject = ui;
@@ -100,10 +102,6 @@ public class DestinationInfo extends AbstractInfo {
 
     protected void updateError(String errorMessage) {
         Log.e("dbging", "in DestinationInfo.updateError: " + errorMessage);
-    }
-
-    public int getNumDestination() {
-        return mDestinations.size();
     }
 
     public void setDestination(Destination destination, int mDestinationId) {

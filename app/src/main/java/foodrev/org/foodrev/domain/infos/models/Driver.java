@@ -14,7 +14,7 @@ import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 /**
  * Created by abhishekchugh on 3/5/16.
  */
-public class Driver implements PostDownloadBitmap {
+public class Driver extends AbstractModel implements PostDownloadBitmap {
     public final static String NAME_KEY = "name";
     public final static String PHONE_NUMBER_KEY = "phone_number";
     public final static String CAR_TYPE_KEY = "car_type";

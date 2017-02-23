@@ -280,16 +280,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    // TODO: remove this in production code. development purposes only
-    public void simulatePopulationPhase() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switchToPopulatedDataView();
-            }
-        }, 3000);
-    }
-
     @Override
     public void refreshCareInfos(CareInfo careInfo) {
         

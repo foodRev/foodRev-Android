@@ -128,11 +128,11 @@ public class DriverInfo extends AbstractInfo {
         Log.e("dbging", "in CommunityCenterInfo.updateError: " + errorMessage);
     }
 
-    public int getNumDriver() {
+    public int size() {
         return mDrivers.size();
     }
 
-    public Driver getDriver(int i) {
+    public Driver get(int i) {
         return mDrivers.get(i);
     }
 

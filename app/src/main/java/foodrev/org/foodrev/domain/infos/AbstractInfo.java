@@ -6,6 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.Serializable;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
 /**
@@ -17,6 +18,7 @@ public abstract class AbstractInfo implements Serializable {
     protected ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     protected GetFirebaseInfoInteractorImpl.Callback mCallback = null;
     protected InfoUpdateListener mListener = null;
+    protected String mInfoType;
 
     public AbstractInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
@@ -27,4 +29,6 @@ public abstract class AbstractInfo implements Serializable {
 
     protected abstract void updateData(DataSnapshot snapshot);
     protected abstract void updateError(String error);
+    protected abstract AbstractModel get(int position);
+    protected abstract int size();
 }

@@ -121,7 +121,7 @@ public class CareInfo extends AbstractInfo {
         return careList;
     }
 
-    public Care getCareByIndex(Integer index) {
+    public Care get(int index) {
         ArrayList<Integer> careIdArr = new ArrayList<>();
         for (Integer careId : mCares.keySet()) {
             careIdArr.add(careId);
@@ -147,6 +147,8 @@ public class CareInfo extends AbstractInfo {
             return care;
         }
     }
+
+    public int size() {return mCares.size();};
 
     public void registorUI(UIObject ui) {
         mUIObject = ui;
@@ -183,10 +185,6 @@ public class CareInfo extends AbstractInfo {
 
     protected void updateError(String errorMessage) {
         Log.e("dbging", "in CaresListInfo.updateError: " + errorMessage);
-    }
-
-    public int getNumCare() {
-        return mCares.size();
     }
 
     public Integer getNewCareId() {
