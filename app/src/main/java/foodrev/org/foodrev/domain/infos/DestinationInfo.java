@@ -4,32 +4,21 @@ package foodrev.org.foodrev.domain.infos;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import foodrev.org.foodrev.domain.infos.models.Destination;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 
-public class DestinationInfo {
-    private FirebaseDatabase mFirebaseDatabaseInstance;
+public class DestinationInfo extends AbstractInfo {
     private HashMap<Integer, Destination> mDestinations = null;
-    private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
 
-
-    protected DestinationListener mListener = null;
-    protected GetFirebaseInfoInteractorImpl.Callback mCallback;
-
     public DestinationInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
-        mLock = new ReentrantReadWriteLock(true);
-        mFirebaseDatabaseInstance = firebaseDatabase;
+        super(firebaseDatabase, callback);
         mDestinations = new HashMap<>();
-        mListener = new DestinationListener(this);
+        mListener = new InfoUpdateListener(this);
         mCallback = callback;
     }
 
@@ -109,7 +98,7 @@ public class DestinationInfo {
         return true;
     }
 
-    private void updateError(String errorMessage) {
+    protected void updateError(String errorMessage) {
         Log.e("dbging", "in DestinationInfo.updateError: " + errorMessage);
     }
 
@@ -119,23 +108,5 @@ public class DestinationInfo {
 
     public void setDestination(Destination destination, int mDestinationId) {
         mDestinations.put(mDestinationId, destination);
-    }
-
-    private class DestinationListener implements ValueEventListener {
-        DestinationInfo mParent;
-
-        public DestinationListener(DestinationInfo parent) {
-            mParent = parent;
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            mParent.updateData(snapshot);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            mParent.updateError(error.getMessage());
-        }
     }
 }

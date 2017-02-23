@@ -15,27 +15,20 @@ import foodrev.org.foodrev.domain.interactors.GetFirebaseInfoInteractor;
 import foodrev.org.foodrev.domain.interactors.impl.GetFirebaseInfoInteractorImpl;
 import foodrev.org.foodrev.domain.infos.models.Driver;
 
-public class DriverInfo {
-    private FirebaseDatabase mFirebaseDatabaseInstance;
+public class DriverInfo extends AbstractInfo {
     private ArrayList<Driver> mDrivers = null;
-    private DriverListener mListener = null;
-    private ReentrantReadWriteLock mLock = null;    // protects all data fields above.
     private UIObject mUIObject = null;
-    private GetFirebaseInfoInteractorImpl.Callback mCallback;
 
 
     public DriverInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractor.Callback callback) {
-        mLock = new ReentrantReadWriteLock(true);
-
+        super(firebaseDatabase, callback);
         mDrivers = new ArrayList<>();
-        mFirebaseDatabaseInstance = firebaseDatabase;
         DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
-        mListener = new DriverListener(this);
+        mListener = new InfoUpdateListener(this);
         ref.addValueEventListener(mListener);
-        mCallback = callback;
     }
 
-    private void updateData(DataSnapshot snapshot) {
+    protected void updateData(DataSnapshot snapshot) {
         Log.i("dbging", "in DriverInfo.updateData: <" + snapshot.getKey() + ", " + snapshot.getValue() + ">");
         if (snapshot.getValue() == null) {
             Log.e("dbging", "in DriverInfo.updateData, the update is null.");
@@ -131,7 +124,7 @@ public class DriverInfo {
         return newDriverId;
     }
 
-    private void updateError(String errorMessage) {
+    protected void updateError(String errorMessage) {
         Log.e("dbging", "in CommunityCenterInfo.updateError: " + errorMessage);
     }
 
@@ -222,21 +215,4 @@ public class DriverInfo {
         Log.wtf("wtf", "driver not found");
     }
 
-    private class DriverListener implements ValueEventListener {
-        DriverInfo mParent;
-
-        public DriverListener(DriverInfo parent) {
-            mParent = parent;
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            mParent.updateData(snapshot);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            mParent.updateError(error.getMessage());
-        }
-    }
 }
