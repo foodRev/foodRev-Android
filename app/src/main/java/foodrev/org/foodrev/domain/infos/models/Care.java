@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Care {
+public class Care extends AbstractModel {
     private Integer mCareID = null;
     private CareStatus mCareStatus = null;
     private String mCareTitle = null;

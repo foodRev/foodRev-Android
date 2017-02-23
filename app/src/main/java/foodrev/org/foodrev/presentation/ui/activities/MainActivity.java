@@ -23,23 +23,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-//import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.domain.executor.Executor;
-import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.CareInfo;
 import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
 import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
 import foodrev.org.foodrev.domain.infos.DriverInfo;
-import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
 import foodrev.org.foodrev.domain.infos.models.Destination;
-import foodrev.org.foodrev.domain.infos.models.DonationCenter;
 import foodrev.org.foodrev.domain.infos.models.Driver;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
@@ -54,6 +46,7 @@ import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TIT
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
 
+// TODO: Properly separate into MVP
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
@@ -83,9 +76,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-//        setContentView(R.layout.activity_main);
         attachPresenter();
-//        simulatePopulationPhase();
     }
 
     @Override
@@ -287,16 +278,6 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("main", "we are at main again? maybe");
 
 
-    }
-
-    // TODO: remove this in production code. development purposes only
-    public void simulatePopulationPhase() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switchToPopulatedDataView();
-            }
-        }, 3000);
     }
 
     @Override

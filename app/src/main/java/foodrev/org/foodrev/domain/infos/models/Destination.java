@@ -6,7 +6,7 @@ import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class Destination implements PostDownloadBitmap {
+public class Destination extends AbstractModel implements PostDownloadBitmap {
     private String mName = null;
     private String mAddress = null;
     private String mImageURL = null;
