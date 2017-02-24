@@ -6,12 +6,12 @@ import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class Destination extends AbstractModel implements PostDownloadBitmap {
+public class Destination extends AbstractModel /*implements PostDownloadBitmap */{
     private String mName = null;
     private String mAddress = null;
     private String mImageURL = null;
     private String mPhoneNumber = null;
-    protected Bitmap mImage = null;
+//    protected Bitmap mImage = null;
 
     public Destination() {
     }
@@ -53,22 +53,22 @@ public class Destination extends AbstractModel implements PostDownloadBitmap {
     }
 
 
-    public Bitmap getPicture() {
-        return mImage;
-    }
+//    public Bitmap getPicture() {
+//        return mImage;
+//    }
 
     public void setImageURL(String imageURL) {
         if (mImageURL == null || !mImageURL.equals(imageURL)) {
             mImageURL = imageURL;
-            mImage = null;
-            DownloadBitmapTask task = new DownloadBitmapTask(mImageURL, this);
-            task.execute();
+//            mImage = null;
+//            DownloadBitmapTask task = new DownloadBitmapTask(mImageURL, this);
+//            task.execute();
         }
     }
 
-    @Override
-    public void DownloadBitmapDone(Bitmap bm) {
-        mImage = bm;
-    }
+//    @Override
+//    public void DownloadBitmapDone(Bitmap bm) {
+//        mImage = bm;
+//    }
 
 }

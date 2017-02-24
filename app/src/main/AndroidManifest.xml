@@ -9,6 +9,7 @@
         android:icon="@drawable/foodrev_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".App"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.ui.activities.SignInActivity">
             <intent-filter>

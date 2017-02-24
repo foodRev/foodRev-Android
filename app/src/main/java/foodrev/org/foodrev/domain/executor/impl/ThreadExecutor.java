@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.domain.executor.impl;
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

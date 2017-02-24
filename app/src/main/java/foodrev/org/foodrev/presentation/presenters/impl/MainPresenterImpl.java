@@ -1,8 +1,13 @@
 package foodrev.org.foodrev.presentation.presenters.impl;
 
+import android.content.Context;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
+
+import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.infos.CareInfo;
@@ -27,10 +32,13 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     private boolean mCommunityCenterInfoPopulated = false;
     private boolean mDonationCenterInfoPopulated = false;
     private boolean mDriverInfoPopulated = false;
+    private Context mContext;
+    private PopulateInfos mPopulateInfos;
 
-    public MainPresenterImpl(Executor executor, MainThread mainThread) {
+    public MainPresenterImpl(Executor executor, MainThread mainThread, Context context) {
         mExecutor = executor;
         mMainThread = mainThread;
+        mContext = context;
     }
 
     private void checkAllPopulated() {
@@ -89,7 +97,7 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
         FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
         final FirebaseDatabase firebaseDatabaseInstance = wrapper.getInstance();
         GetFirebaseInfoInteractorImpl interactor =
-                new GetFirebaseInfoInteractorImpl(mExecutor, mMainThread, this, firebaseDatabaseInstance);
+                new GetFirebaseInfoInteractorImpl(mExecutor, mMainThread, this, firebaseDatabaseInstance, mContext);
         interactor.execute();
 
     }

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 
 public class DetailItemActivity extends AppCompatActivity {
@@ -64,6 +63,7 @@ public class DetailItemActivity extends AppCompatActivity {
                 //TODO here get the string stored in the string variable and do
                 // setText() on userName
                 mItem = (AbstractModel) bundle.getSerializable("item");
+
             }
 
             if (bundle.getBoolean("mode")) {

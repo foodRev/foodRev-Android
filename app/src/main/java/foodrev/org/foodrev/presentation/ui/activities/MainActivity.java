@@ -24,6 +24,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.CareInfo;
@@ -39,6 +40,7 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSumm
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.CARE_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.DRIVER_TITLE;
@@ -78,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+
+        App app = (App) getApplicationContext();
+
+
+
         attachPresenter();
     }
 
@@ -90,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements
     public void attachPresenter() {
         mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
+            mPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), getApplicationContext());
         }
         mPresenter.attachView(this);
     }
@@ -189,6 +196,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(AbstractModel item) {
+
+        Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
+
+        intent.putExtra("item", item);
+
+        startActivity(intent);
 	}
 
     public void goToDetailItemActivity() {
@@ -268,10 +281,10 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
 
         if (driverInfo != null && donorInfo != null && ccInfo != null /*&& careInfo != null*/) {
-            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(driverInfo), DRIVER_TITLE);
-            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(donorInfo), DONOR_TITLE);
-            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(ccInfo), COMMUNITY_CENTER_TITLE);
-//            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(careInfo), CARE_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
         }
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -312,13 +325,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onAllPopulated() {
+
+        App app = (App) getApplicationContext();
+
+        app.setAllInfos(driverInfo,donorInfo,ccInfo,careInfo);
+
         switchToPopulatedDataView();
+
+
     }
 
-    public void switchContent(int id, Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(id, fragment, fragment.toString());
-        ft.addToBackStack(null);
-        ft.commit();
-    }
 }

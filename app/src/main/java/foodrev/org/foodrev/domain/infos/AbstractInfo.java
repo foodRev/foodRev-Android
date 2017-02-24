@@ -27,8 +27,6 @@ public abstract class AbstractInfo implements Serializable {
     protected InfoUpdateListener mListener = null;
     protected String mInfoType;
 
-    public String infoType;
-
     public AbstractInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         mLock = new ReentrantReadWriteLock(true);
         mFirebaseDatabaseInstance = firebaseDatabase;

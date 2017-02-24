@@ -10,9 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.infos.AbstractInfo;
+import foodrev.org.foodrev.domain.infos.PopulateInfos;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
+
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.CARE_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.COMMUNITY_CENTER_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.DONOR_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.DRIVER_TITLE;
 
 /**
  * A fragment representing a list of Items.
@@ -26,6 +33,7 @@ public class ItemFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private String mContentType;
     private AbstractInfo mContent;
     private OnListFragmentInteractionListener mListener;
 
@@ -46,25 +54,25 @@ public class ItemFragment extends Fragment {
 //        return fragment;
 //    }
 
-//    // TODO: Customize parameter initialization
-//    @SuppressWarnings("unused")
-//    public static ItemFragment newInstance(String content) {
-//        ItemFragment fragment = new ItemFragment();
-//        Bundle args = new Bundle();
-//        args.putString("content", content);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ItemFragment newInstance(AbstractInfo content) {
+    public static ItemFragment newInstance(String content) {
         ItemFragment fragment = new ItemFragment();
         Bundle args = new Bundle();
-        args.putSerializable("content", content);
+        args.putString("content", content);
         fragment.setArguments(args);
         return fragment;
     }
+
+//    // TODO: Customize parameter initialization
+//    @SuppressWarnings("unused")
+//    public static ItemFragment newInstance(AbstractInfo content) {
+//        ItemFragment fragment = new ItemFragment();
+//        Bundle args = new Bundle();
+//        args.putSerializable("content", content);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +81,26 @@ public class ItemFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
 
-            mContent = (AbstractInfo) (getArguments().getSerializable("content"));
+            mContentType = (getArguments().getString("content"));
 
+            App app = (App) getActivity().getApplicationContext();
+
+            if (mContentType != null) {
+                switch (mContentType) {
+                    case DRIVER_TITLE:
+                        mContent = app.getDriverInfo();
+                        break;
+                    case DONOR_TITLE:
+                        mContent = app.getDonorInfo();
+                        break;
+                    case COMMUNITY_CENTER_TITLE:
+                        mContent = app.getCcInfo();
+                        break;
+                    case CARE_TITLE:
+                        mContent = app.getCareInfo();
+                        break;
+                }
+            }
         }
 
 
@@ -95,7 +121,8 @@ public class ItemFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mContent, mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mContent,
+                    mListener));
 
         }
         return view;

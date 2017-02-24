@@ -9,7 +9,7 @@ import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class DonationCenter extends Destination implements PostDownloadBitmap, Serializable {
+public class DonationCenter extends Destination implements /*PostDownloadBitmap,*/ Serializable {
     public static DonationCenter getNewDonationCenter() {
         DonationCenter donationCenter = new DonationCenter();
         donationCenter.setName("Name");

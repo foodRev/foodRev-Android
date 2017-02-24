@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent.DummyItem;
 import foodrev.org.foodrev.domain.infos.AbstractInfo;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
@@ -22,7 +21,7 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragmen
 //import foodrev.org.rapidprototype.dummy.DummyContentDriver.DummyItemDriver;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link AbstractModel} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -65,12 +64,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
-                    Intent intent = new Intent(v.getContext(), DetailItemActivity.class);
-
-                    intent.putExtra("item", holder.mItem);
-
-                    v.getContext().startActivity(intent);
                 }
             }
         });
