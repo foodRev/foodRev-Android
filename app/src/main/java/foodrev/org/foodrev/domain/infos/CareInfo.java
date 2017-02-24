@@ -48,7 +48,7 @@ public class CareInfo extends AbstractInfo {
         }
 
         mLock.writeLock().lock();
-        DatabaseReference careRef = mFirebaseDatabaseInstance.getReference("cares/" + id.toString());
+        DatabaseReference careRef = mFirebaseDatabaseInstance.getReference("cares/list" + id.toString());
         care.WriteToSnapshot(careRef);
         mCares.put(id, care);
         mLock.writeLock().unlock();
