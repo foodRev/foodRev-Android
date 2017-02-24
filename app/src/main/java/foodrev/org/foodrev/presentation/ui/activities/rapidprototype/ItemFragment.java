@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.infos.AbstractInfo;
+import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 
 /**
  * A fragment representing a list of Items.
@@ -35,25 +36,25 @@ public class ItemFragment extends Fragment {
     public ItemFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ItemFragment newInstance(int columnCount) {
-        ItemFragment fragment = new ItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    // TODO: Customize parameter initialization
+//    @SuppressWarnings("unused")
+//    public static ItemFragment newInstance(int columnCount) {
+//        ItemFragment fragment = new ItemFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(ARG_COLUMN_COUNT, columnCount);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ItemFragment newInstance(String content) {
-        ItemFragment fragment = new ItemFragment();
-        Bundle args = new Bundle();
-        args.putString("content", content);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    // TODO: Customize parameter initialization
+//    @SuppressWarnings("unused")
+//    public static ItemFragment newInstance(String content) {
+//        ItemFragment fragment = new ItemFragment();
+//        Bundle args = new Bundle();
+//        args.putString("content", content);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -72,8 +73,11 @@ public class ItemFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
 
-            mContent = (AbstractInfo) getArguments().getSerializable("content");
+            mContent = (AbstractInfo) (getArguments().getSerializable("content"));
+
         }
+
+
     }
 
     @Override

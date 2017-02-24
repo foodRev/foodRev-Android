@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
+import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 
 public class DetailItemActivity extends AppCompatActivity {
 
-    DummyContent.DummyItem mDummyItem;
+    AbstractModel mItem;
     NestedScrollView contentDetail;
     NestedScrollView contentEdit;
 
@@ -62,7 +63,7 @@ public class DetailItemActivity extends AppCompatActivity {
             if (bundle.getSerializable("item") != null) {
                 //TODO here get the string stored in the string variable and do
                 // setText() on userName
-                mDummyItem = (DummyContent.DummyItem) bundle.getSerializable("item");
+                mItem = (AbstractModel) bundle.getSerializable("item");
             }
 
             if (bundle.getBoolean("mode")) {
@@ -76,8 +77,8 @@ public class DetailItemActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        if (mDummyItem != null) {
-            Toast.makeText(this, mDummyItem.toString(), Toast.LENGTH_SHORT).show();
+        if (mItem != null) {
+            Toast.makeText(this, mItem.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 

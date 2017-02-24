@@ -38,6 +38,6 @@ public abstract class AbstractInfo implements Serializable {
 
     protected abstract void updateData(DataSnapshot snapshot);
     protected abstract void updateError(String error);
-    protected abstract AbstractModel get(int position);
-    protected abstract int size();
+    public abstract AbstractModel get(int position);
+    public abstract int size();
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent.DummyItem;
 import foodrev.org.foodrev.domain.infos.AbstractInfo;
+import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
 //import java.util.List;
 //

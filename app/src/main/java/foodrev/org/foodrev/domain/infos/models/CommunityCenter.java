@@ -2,12 +2,14 @@ package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 import foodrev.org.foodrev.domain.infos.DestinationInfo;
 import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class CommunityCenter extends Destination implements PostDownloadBitmap {
+public class CommunityCenter extends Destination implements PostDownloadBitmap, Serializable {
     public static CommunityCenter getNewCommunityCenter() {
         CommunityCenter communityCenter = new CommunityCenter();
         communityCenter.setName("Name");

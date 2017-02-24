@@ -1,5 +1,8 @@
 package foodrev.org.foodrev.domain.infos.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**

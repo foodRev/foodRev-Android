@@ -3,6 +3,7 @@ package foodrev.org.foodrev.domain.infos.models;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Care extends AbstractModel {
+public class Care extends AbstractModel implements Serializable {
     private Integer mCareID = null;
     private CareStatus mCareStatus = null;
     private String mCareTitle = null;

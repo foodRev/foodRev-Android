@@ -1,10 +1,13 @@
 package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -14,7 +17,7 @@ import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 /**
  * Created by abhishekchugh on 3/5/16.
  */
-public class Driver extends AbstractModel implements PostDownloadBitmap {
+public class Driver extends AbstractModel /*implements PostDownloadBitmap, Parcelable*/ {
     public final static String NAME_KEY = "name";
     public final static String PHONE_NUMBER_KEY = "phone_number";
     public final static String CAR_TYPE_KEY = "car_type";
@@ -30,7 +33,7 @@ public class Driver extends AbstractModel implements PostDownloadBitmap {
     private String mEmail = null;
     private String mPicUrl = null;
     private ArrayList<Integer> mCares = null;
-    private Bitmap mPicture = null;
+//    private Bitmap mPicture = null;
 
     public String getName() {
         return mName;
@@ -104,23 +107,23 @@ public class Driver extends AbstractModel implements PostDownloadBitmap {
         mEmail = email;
     }
 
-    public Bitmap getPicture() {
-        return mPicture;
-    }
+//    public Bitmap getPicture() {
+//        return mPicture;
+//    }
 
     public void setPicUrl(String picUrl) {
-        if(mPicture == null || !mPicUrl.equals(picUrl)) {
+        if(/*mPicture == null ||*/ !mPicUrl.equals(picUrl)) {
             mPicUrl = picUrl;
-            mPicture = null;
-            DownloadBitmapTask task = new DownloadBitmapTask(mPicUrl, this);
-            task.execute();
+//            mPicture = null;
+//            DownloadBitmapTask task = new DownloadBitmapTask(mPicUrl, this);
+//            task.execute();
         }
     }
 
-    @Override
-    public void DownloadBitmapDone(Bitmap bm) {
-        mPicture = bm;
-    }
+//    @Override
+//    public void DownloadBitmapDone(Bitmap bm) {
+//        mPicture = bm;
+//    }
 
     public void WriteUserInfoToSnapshot(DatabaseReference driverUserInfoRef) {
 
@@ -168,4 +171,46 @@ public class Driver extends AbstractModel implements PostDownloadBitmap {
         }
     }
 
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(this.mDriverID);
+//        dest.writeString(this.mName);
+//        dest.writeString(this.mPhoneNumber);
+//        dest.writeString(this.mCarType);
+//        dest.writeString(this.mAddress);
+//        dest.writeString(this.mEmail);
+//        dest.writeString(this.mPicUrl);
+//        dest.writeList(this.mCares);
+////        dest.writeParcelable(this.mPicture, flags);
+//    }
+//
+//    protected Driver(Parcel in) {
+//        this.mDriverID = in.readString();
+//        this.mName = in.readString();
+//        this.mPhoneNumber = in.readString();
+//        this.mCarType = in.readString();
+//        this.mAddress = in.readString();
+//        this.mEmail = in.readString();
+//        this.mPicUrl = in.readString();
+//        this.mCares = new ArrayList<Integer>();
+//        in.readList(this.mCares, Integer.class.getClassLoader());
+////        this.mPicture = in.readParcelable(Bitmap.class.getClassLoader());
+//    }
+//
+//    public static final Creator<Driver> CREATOR = new Creator<Driver>() {
+//        @Override
+//        public Driver createFromParcel(Parcel source) {
+//            return new Driver(source);
+//        }
+//
+//        @Override
+//        public Driver[] newArray(int size) {
+//            return new Driver[size];
+//        }
+//    };
 }

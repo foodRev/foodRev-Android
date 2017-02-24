@@ -1,14 +1,15 @@
 package foodrev.org.foodrev.presentation.ui.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,20 +20,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.CareInfo;
 import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
 import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
 import foodrev.org.foodrev.domain.infos.DriverInfo;
-import foodrev.org.foodrev.domain.infos.models.Destination;
-import foodrev.org.foodrev.domain.infos.models.Driver;
+import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
@@ -41,10 +39,9 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSumm
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 
-import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.COMMUNITY_CENTER_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.DONOR_TITLE;
+import static foodrev.org.foodrev.domain.infos.AbstractInfo.DRIVER_TITLE;
 
 // TODO: Properly separate into MVP
 public class MainActivity extends AppCompatActivity implements
@@ -54,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String TAG = "MainActivity";
     private MainPresenter mPresenter;
+
+    private DriverInfo driverInfo;
+    private CommunityCenterInfo ccInfo;
+    private DonationCenterInfo donorInfo;
+    private CareInfo careInfo;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(AbstractModel item) {
 	}
 
     public void goToDetailItemActivity() {
@@ -265,10 +267,12 @@ public class MainActivity extends AppCompatActivity implements
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
 
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
+        if (driverInfo != null && donorInfo != null && ccInfo != null /*&& careInfo != null*/) {
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(driverInfo), DRIVER_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(donorInfo), DONOR_TITLE);
+            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(ccInfo), COMMUNITY_CENTER_TITLE);
+//            mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(careInfo), CARE_TITLE);
+        }
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -282,29 +286,39 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void refreshCareInfos(CareInfo careInfo) {
-        
+        this.careInfo = careInfo;
     }
 
     @Override
     public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
-        Destination cc = communityCenterInfo.getDestination(0);
-        Toast.makeText(this, cc.getName(), Toast.LENGTH_LONG).show();
+        this.ccInfo = communityCenterInfo;
+//        Destination cc = communityCenterInfo.getDestination(0);
+//        Toast.makeText(this, cc.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
-        Destination dc =  donationCenterInfo.getDestination(0);
-        Toast.makeText(this, dc.getName(), Toast.LENGTH_LONG).show();
+        this.donorInfo = donationCenterInfo;
+//        Destination dc =  donationCenterInfo.getDestination(0);
+//        Toast.makeText(this, dc.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void refreshDriverInfos(DriverInfo driverInfo) {
-        Driver driver = driverInfo.getDriver(0);
-        Toast.makeText(this, driver.getName(), Toast.LENGTH_LONG).show();
+        this.driverInfo = driverInfo;
+//        Driver driver = driverInfo.getDriver(0);
+//        Toast.makeText(this, driver.getName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onAllPopulated() {
         switchToPopulatedDataView();
+    }
+
+    public void switchContent(int id, Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, fragment, fragment.toString());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

@@ -3,11 +3,13 @@ package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
 import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 
-public class DonationCenter extends Destination implements PostDownloadBitmap {
+public class DonationCenter extends Destination implements PostDownloadBitmap, Serializable {
     public static DonationCenter getNewDonationCenter() {
         DonationCenter donationCenter = new DonationCenter();
         donationCenter.setName("Name");
