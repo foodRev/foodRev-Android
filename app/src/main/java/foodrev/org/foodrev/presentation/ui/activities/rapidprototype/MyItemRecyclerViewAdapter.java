@@ -15,6 +15,7 @@ import foodrev.org.foodrev.domain.infos.AbstractInfo;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.domain.infos.models.Care;
 import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
+import foodrev.org.foodrev.domain.infos.models.Destination;
 import foodrev.org.foodrev.domain.infos.models.DonationCenter;
 import foodrev.org.foodrev.domain.infos.models.Driver;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
@@ -64,10 +65,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         if (data instanceof Driver) {
             holder.mContentView.setText(((Driver) data).getName());
-        } else if (data instanceof DonationCenter) {
-            holder.mContentView.setText(((DonationCenter) data).getPhoneNumber());
-        } else if (data instanceof CommunityCenter) {
-            holder.mContentView.setText(((CommunityCenter) data).getName());
+        } else if (data instanceof Destination) {
+            holder.mContentView.setText(((Destination) data).getName());
         } else if (data instanceof Care) {
             holder.mContentView.setText(((Care) data).getCareTitle());
         }
