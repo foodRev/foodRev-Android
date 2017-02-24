@@ -1,10 +1,6 @@
 package foodrev.org.foodrev.domain.interactors.impl;
 
-import android.content.Context;
-
 import com.google.firebase.database.FirebaseDatabase;
-
-import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.domain.executor.Executor;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.infos.PopulateInfos;
@@ -21,32 +17,24 @@ public class GetFirebaseInfoInteractorImpl extends AbstractInteractor implements
     private GetFirebaseInfoInteractor.Callback mCallback;
     private FirebaseDatabase mFirebaseDatabase;
     private PopulateInfos mPopulateInfos;
-    private Context mContext;
 
     public GetFirebaseInfoInteractorImpl(Executor executor,
                                          MainThread mainThread,
                                          GetFirebaseInfoInteractor.Callback callback,
-                                         FirebaseDatabase firebaseDatabase,
-                                         Context context) {
+                                         FirebaseDatabase firebaseDatabase) {
         super(executor, mainThread);
         mCallback = callback;
         mFirebaseDatabase = firebaseDatabase;
-        mContext = context;
     }
-
 
     @Override
     public void run() {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-
                 // TODO: make callback to return mPopulateInfos
                 mPopulateInfos = new PopulateInfos(mFirebaseDatabase, mCallback);
             }
         });
     }
-
-
-
 }

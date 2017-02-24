@@ -32,13 +32,10 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     private boolean mCommunityCenterInfoPopulated = false;
     private boolean mDonationCenterInfoPopulated = false;
     private boolean mDriverInfoPopulated = false;
-    private Context mContext;
-    private PopulateInfos mPopulateInfos;
 
-    public MainPresenterImpl(Executor executor, MainThread mainThread, Context context) {
+    public MainPresenterImpl(Executor executor, MainThread mainThread) {
         mExecutor = executor;
         mMainThread = mainThread;
-        mContext = context;
     }
 
     private void checkAllPopulated() {
@@ -97,7 +94,7 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
         FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
         final FirebaseDatabase firebaseDatabaseInstance = wrapper.getInstance();
         GetFirebaseInfoInteractorImpl interactor =
-                new GetFirebaseInfoInteractorImpl(mExecutor, mMainThread, this, firebaseDatabaseInstance, mContext);
+                new GetFirebaseInfoInteractorImpl(mExecutor, mMainThread, this, firebaseDatabaseInstance);
         interactor.execute();
 
     }
