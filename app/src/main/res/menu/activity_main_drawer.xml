@@ -14,6 +14,10 @@
             android:id="@+id/nav_driver"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Driver mode"/>
+        <item
+            android:id="@+id/nav_foodmap"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="foodMap"/>
         <!--<item-->
             <!--android:id="@+id/nav_manage"-->
             <!--android:icon="@drawable/ic_menu_manage"-->

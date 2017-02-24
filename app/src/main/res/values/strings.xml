@@ -13,7 +13,6 @@
     <string name="loading">Loading…</string>
 
 
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -112,4 +111,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_detail_item">DetailItemActivity</string>
+    <string name="title_activity_food_map">Map</string>
 </resources>

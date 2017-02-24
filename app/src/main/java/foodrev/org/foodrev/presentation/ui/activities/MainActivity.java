@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
@@ -162,6 +164,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_coordinator) {
 
         } else if (id == R.id.nav_driver) {
+            Intent intent = new Intent(this, FoodMap.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_foodmap) {
+            Intent intent = new Intent(this, FoodMap.class);
+            startActivity(intent);
 
 //        } else if (id == R.id.nav_manage) {
 
