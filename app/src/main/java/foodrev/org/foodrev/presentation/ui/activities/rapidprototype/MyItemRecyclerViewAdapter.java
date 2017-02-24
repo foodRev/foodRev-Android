@@ -93,11 +93,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        if (mValues != null) {
-            return mValues.size() > 0 ? mValues.size() : 0;
-        }
-
-        return 0;
+        return mValues != null ? mValues.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
