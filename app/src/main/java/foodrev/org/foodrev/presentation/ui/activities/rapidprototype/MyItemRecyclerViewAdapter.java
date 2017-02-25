@@ -1,6 +1,8 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.infos.AbstractInfo;
+import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
+import foodrev.org.foodrev.domain.infos.DriverInfo;
+import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.domain.infos.models.Care;
 import foodrev.org.foodrev.domain.infos.models.CommunityCenter;
@@ -30,10 +36,13 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragmen
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PostDownloadBitmap {
 
     private final AbstractInfo mValues;
     private final OnListFragmentInteractionListener mListener;
+
+    Bitmap mPicture;
+    ViewHolder mHolder;
 
 //    public MyItemRecyclerViewAdapter(List<? extends BaseModel> items,
 //                                     OnListFragmentInteractionListener listener) {
@@ -57,17 +66,40 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         final ViewHolder holder = (ViewHolder) viewHolder;
+        mHolder = holder;
         holder.mItem = mValues.get(position);
-//        holder.mItemImage.setImageResource(R.mipmap.ic_launcher);
 //        holder.mIdView.setText(mValues.get(position).id);
 
         AbstractModel data = mValues.get(position);
 
+        //TODO: download and cache bitmaps at initialization of model objects
         if (data instanceof Driver) {
-            holder.mContentView.setText(((Driver) data).getName());
+            Driver driverItem = (Driver) data;
+
+            DownloadBitmapTask task = new DownloadBitmapTask(holder,driverItem.getPicUrl(),this);
+
+            task.execute();
+
+            holder.mContentView.setText(driverItem.getName());
         } else if (data instanceof Destination) {
+
+            Destination destinationItem = (Destination) data;
+
+            DownloadBitmapTask task = new DownloadBitmapTask(holder,destinationItem.getImageURL(),this);
+
+            task.execute();
             holder.mContentView.setText(((Destination) data).getName());
         } else if (data instanceof Care) {
+
+            Care careItem = (Care) data;
+
+            App app = (App) holder.mView.getContext().getApplicationContext();
+
+            Driver associatedDriver = app.getDriverInfo().getDriver(careItem.getDriverID());
+
+            DownloadBitmapTask task = new DownloadBitmapTask(holder,associatedDriver.getPicUrl(),this);
+
+            task.execute();
             holder.mContentView.setText(((Care) data).getCareTitle());
         }
 
@@ -114,5 +146,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
+    }
+
+    @Override
+    public void DownloadBitmapDone(Bitmap bm) {
+        mPicture = bm;
     }
 }

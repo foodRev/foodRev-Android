@@ -3,9 +3,13 @@ package foodrev.org.foodrev.domain.infos;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.io.InputStream;
+
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.MyItemRecyclerViewAdapter;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.MyJsonAdapter;
 
 /**
  * Created by heavenhuang on 10/1/15.
@@ -15,8 +19,10 @@ import java.io.InputStream;
 public class DownloadBitmapTask extends AsyncTask<Void, Void, Bitmap> {
     private String mURI = null;
     private PostDownloadBitmap mPostDownloadBitmap = null;
+    private MyItemRecyclerViewAdapter.ViewHolder mHolder;
 
-    public DownloadBitmapTask(String uri, PostDownloadBitmap postTaskBitmap) {
+    public DownloadBitmapTask(MyItemRecyclerViewAdapter.ViewHolder holder, String uri, PostDownloadBitmap postTaskBitmap) {
+        this.mHolder = holder;
         this.mURI = uri;
         this.mPostDownloadBitmap = postTaskBitmap;
     }
@@ -36,5 +42,8 @@ public class DownloadBitmapTask extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bm) {
         mPostDownloadBitmap.DownloadBitmapDone(bm);
+        if (bm != null) {
+            mHolder.mItemImage.setImageBitmap(bm);
+        }
     }
 };

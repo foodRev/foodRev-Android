@@ -1,6 +1,7 @@
 package foodrev.org.foodrev.domain.infos.models;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
@@ -8,9 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import foodrev.org.foodrev.domain.infos.DownloadBitmapTask;
-import foodrev.org.foodrev.domain.infos.PostDownloadBitmap;
 
 /**
  * Created by abhishekchugh on 3/5/16.
@@ -99,7 +97,7 @@ public class Driver extends AbstractModel implements Serializable {
     }
 
     public String getDisplayString(){
-        return getName() + "-" + getDriverID();
+        return mName + "-" + mDriverID;
     }
     public void setEmail(String email) {
         mEmail = email;

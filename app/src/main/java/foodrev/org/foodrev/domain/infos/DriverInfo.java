@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.domain.infos;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -218,5 +219,4 @@ public class DriverInfo extends AbstractInfo implements Serializable {
         }
         Log.wtf("wtf", "driver not found");
     }
-
 }
