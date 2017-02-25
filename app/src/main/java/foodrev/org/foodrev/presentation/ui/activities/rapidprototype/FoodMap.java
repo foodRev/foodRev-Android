@@ -3,6 +3,7 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,23 +24,43 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.R;
-
-import static android.util.JsonToken.STRING;
 
 public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LatLng myLatLng;
     private FirebaseDatabase firebaseDatabase;
+
+    //Driver Status
+    private DatabaseReference driverStatus; //driving/unloading/loading
+    private DatabaseReference driverCarrying; //string description of meals carrying for FoodMap
+    private DatabaseReference driverAssigned;
+
+    //Driver Location
     private DatabaseReference driverGpsFirebaseLat;
     private DatabaseReference driverGpsFirebaseLong;
+    private DatabaseReference driverCurrentSite;
+    private DatabaseReference driverSiteHeadingNext;
+
+    //Driver Info
+    private DatabaseReference driverName;
+    private DatabaseReference driverEmail;
+    private DatabaseReference driverPhone;
+
+    //Driver Car Info
+    private DatabaseReference driverCarType;
+    private DatabaseReference driverCapacity;
+
     private MarkerOptions myMarkerOptions;
     private Marker myMarker;
     private LocationManager locationManager;
@@ -47,11 +68,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
     private final int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
     private final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 0;
     private final int PERMISSION_ALL = 1;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +78,6 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     /**
@@ -82,26 +95,52 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         myLatLng = new LatLng(37.7768052, -122.4171676);
-        myMarkerOptions = new MarkerOptions().position(myLatLng).title("Your Location");
-        myMarker = mMap.addMarker(myMarkerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
-        setupFirebase();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            myMarkerOptions = new MarkerOptions()
+                    .position(myLatLng)
+                    .title(firebaseUser.getDisplayName())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_icon));
+            myMarker = mMap.addMarker(myMarkerOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            setupFirebase();
+        }
     }
-
 
     public void setupFirebase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        driverGpsFirebaseLat = firebaseDatabase.getReference("DRIVER_STATUS/Larry_S/lat");
-        driverGpsFirebaseLong = firebaseDatabase.getReference("DRIVER_STATUS/Larry_S/long");
 
-        driverGpsFirebaseLat.setValue(myLatLng.latitude);
-        driverGpsFirebaseLong.setValue(myLatLng.longitude);
+        //Driver Status
+        driverStatus = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/status"); //driving/unloading/loading
+        driverCarrying = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/carrying");
+        driverAssigned = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/assigned");
+
+        //Driver Location
+        driverGpsFirebaseLat = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/lat");
+        driverGpsFirebaseLong = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/long");
+        driverCurrentSite = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/current_site");
+        driverSiteHeadingNext = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/site_heading_next");
+
+        //Driver Info
+        driverName = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/name");
+        driverEmail = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/email");
+        driverPhone = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/phone");
+
+        //Driver Car/Capacity/Carrying Info
+        driverCarType = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/car_type");
+        driverCapacity = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/capacity");
+
+        //initialize known values
+        driverName.setValue(firebaseUser.getDisplayName());
+        driverEmail.setValue(firebaseUser.getEmail());
+
+        //setup GPS Tracking
         setupLocationManager();
     }
 
-    public void updateUI(LatLng currentLatLong) {
+    public void updateGPS(LatLng currentLatLong) {
         myMarker.setPosition(currentLatLong);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLong));
 
         driverGpsFirebaseLat.setValue(myLatLng.latitude);
         driverGpsFirebaseLong.setValue(myLatLng.longitude);
@@ -116,7 +155,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
                 myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                updateUI(myLatLng);
+                updateGPS(myLatLng);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -173,39 +212,22 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("FoodMap Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if(locationManager != null && locationListener != null) {
+            locationManager.removeUpdates(locationListener);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
     }
 }
