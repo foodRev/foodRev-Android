@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -30,16 +31,29 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 import foodrev.org.foodrev.R;
 
 public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final int MIN_TIME = 5000;
+    private static final int MIN_DISTANCE = 10;
+
+    private HashMap<String,Marker> driverLocations = new HashMap<String,Marker>();
+
     private GoogleMap mMap;
     private LatLng myLatLng;
     private FirebaseDatabase firebaseDatabase;
+
+    // Driver Status Root
+    private DatabaseReference driverStatusRoot; //driving/unloading/loading
 
     //Driver Status
     private DatabaseReference driverStatus; //driving/unloading/loading
@@ -53,7 +67,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference driverSiteHeadingNext;
 
     //Driver Info
-    private DatabaseReference driverName;
+    private DatabaseReference driverFullName;
     private DatabaseReference driverEmail;
     private DatabaseReference driverPhone;
 
@@ -96,20 +110,31 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         myLatLng = new LatLng(37.7768052, -122.4171676);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-            myMarkerOptions = new MarkerOptions()
-                    .position(myLatLng)
-                    .title(firebaseUser.getDisplayName())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_icon));
-            myMarker = mMap.addMarker(myMarkerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+//        if (firebaseUser != null) {
+//            myMarkerOptions = new MarkerOptions()
+//                    .position(myLatLng)
+//                    .title(firebaseUser.getDisplayName())
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_icon));
+//            myMarker = mMap.addMarker(myMarkerOptions);
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
+//            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
             setupFirebase();
-        }
+//        }
     }
 
     public void setupFirebase() {
+        //setup GPS Tracking
+        setupLocationManager();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+        //Driver Status Root
+        driverStatusRoot = firebaseDatabase.getReference("DRIVER_STATUS/");
 
         //Driver Status
         driverStatus = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/status"); //driving/unloading/loading
@@ -117,13 +142,13 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         driverAssigned = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/assigned");
 
         //Driver Location
-        driverGpsFirebaseLat = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/lat");
-        driverGpsFirebaseLong = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/long");
+        driverGpsFirebaseLat = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/latitude");
+        driverGpsFirebaseLong = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/longitude");
         driverCurrentSite = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/current_site");
         driverSiteHeadingNext = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/site_heading_next");
 
         //Driver Info
-        driverName = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/name");
+        driverFullName = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/fullName");
         driverEmail = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/email");
         driverPhone = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/phone");
 
@@ -132,16 +157,66 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         driverCapacity = firebaseDatabase.getReference("DRIVER_STATUS/" + firebaseUser.getUid() + "/capacity");
 
         //initialize known values
-        driverName.setValue(firebaseUser.getDisplayName());
+        driverFullName.setValue(firebaseUser.getDisplayName());
         driverEmail.setValue(firebaseUser.getEmail());
 
-        //setup GPS Tracking
-        setupLocationManager();
+        //watch all drivers
+        ValueEventListener driverUpdates = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    LatLng driverLatLng;
+
+                if (dataSnapshot.exists()) {
+
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        double driverLatitude;
+                        double driverLongitude;
+
+                        if (child.child("latitude").getValue(Double.class) == null
+                                || child.child("longitude").getValue(Double.class) == null ) {
+                            continue;
+                        } else if (!driverLocations.containsKey(child.getKey())) {
+                            //store latlng in LatLng object
+                            driverLatLng = new LatLng(child.child("latitude").getValue(Double.class),
+                                    child.child("longitude").getValue(Double.class));
+
+                            //create marker description
+                            myMarkerOptions = new MarkerOptions()
+                                    .position(driverLatLng)
+                                    .title(child.child("fullName").getValue(String.class))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_icon));
+
+                            //create new marker
+                            Marker driverMarker = mMap.addMarker(myMarkerOptions);
+
+                            //store marker in hashmap
+                            driverLocations.put(child.getKey(), driverMarker);
+                        } else {
+                            driverLatLng = driverLocations.get(child.getKey()).getPosition();
+                            driverLatitude = child.child("latitude").getValue(Double.class);
+                            driverLongitude = child.child("longitude").getValue(Double.class);
+                            if (driverLatLng.latitude == driverLatitude
+                                    && driverLatLng.longitude == driverLongitude) {
+                                continue;
+                            } else {
+                                driverLocations.get(child.getKey()).setPosition(
+                                        new LatLng(driverLatitude, driverLongitude));
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        driverStatusRoot.addValueEventListener(driverUpdates);
+
+
     }
 
     public void updateGPS(LatLng currentLatLong) {
-        myMarker.setPosition(currentLatLong);
-
         driverGpsFirebaseLat.setValue(myLatLng.latitude);
         driverGpsFirebaseLong.setValue(myLatLng.longitude);
     }
@@ -176,7 +251,8 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
                     PERMISSIONS, PERMISSION_ALL);
             return;
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
         }
     }
 
@@ -202,7 +278,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         switch(requestCode) {
             case 1:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
                 } else {
                     Toast.makeText(this, "Enable GPS for this app to proceed", Toast.LENGTH_SHORT).show();
                     //return to main activity
