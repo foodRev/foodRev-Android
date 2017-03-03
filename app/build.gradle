@@ -42,6 +42,7 @@ dependencies {
 
     // Firebase Authentication
     // Google Sign In SDK (only required for Google Sign In)
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:design:25.2.0'
@@ -51,10 +52,12 @@ dependencies {
     compile 'com.google.firebase:firebase-appindexing:10.0.0'
     compile 'com.google.android.gms:play-services-auth:10.2.0'
     compile 'com.google.android.gms:play-services:10.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.3'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
 }
+
 
 
 apply plugin: 'com.google.gms.google-services'

@@ -112,4 +112,5 @@
     </string>
     <string name="title_activity_detail_item">DetailItemActivity</string>
     <string name="title_activity_food_map">Map</string>
+    <string name="title_activity_intro_slides_generic">IntroSlidesGeneric</string>
 </resources>

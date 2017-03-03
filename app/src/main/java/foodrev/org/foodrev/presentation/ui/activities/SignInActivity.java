@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.IntroSlidesGeneric;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.wrappers.GoogleAuthProviderWrapper;
@@ -160,7 +161,9 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
 
     @Override
     public void goToMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, IntroSlidesGeneric.class));
+        //TODO create shared preferences for skipping intros if seen
+        //startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
