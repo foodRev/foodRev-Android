@@ -3,12 +3,9 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import agency.tango.materialintroscreen.MaterialIntroActivity;
-import agency.tango.materialintroscreen.MessageButtonBehaviour;
 import agency.tango.materialintroscreen.SlideFragmentBuilder;
-import foodrev.org.foodrev.Manifest;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.presentation.ui.activities.MainActivity;
 
