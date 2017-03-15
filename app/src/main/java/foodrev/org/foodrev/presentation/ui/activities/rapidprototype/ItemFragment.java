@@ -14,6 +14,7 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.domain.dummy.DummyContentCare;
 import foodrev.org.foodrev.domain.dummy.DummyContentCommunityCenter;
+import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
 import foodrev.org.foodrev.domain.dummy.DummyContentDonor;
 import foodrev.org.foodrev.domain.dummy.DummyContentDriver;
 
@@ -113,6 +114,9 @@ public class ItemFragment extends Fragment {
                     break;
                 case CARE_TITLE:
                     recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentCare.ITEMS, mListener));
+                    break;
+                case "Dispatches":
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentDispatch.ITEMS, mListener));
                     break;
             }
         }

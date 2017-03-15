@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,23 +26,22 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMainActivity;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.FoodMap;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
 
-public class MainActivity extends AppCompatActivity
+public class CoordinatorMainActivity extends AppCompatActivity
+
         implements NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
         MainPresenter.View {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CoordinatorMainActivity";
     private MainPresenter mPresenter;
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
+    private CoordinatorMainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.coordinator_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailItemActivity.class);
+                Intent intent = new Intent(CoordinatorMainActivity.this, DetailItemActivity.class);
 
                 intent.putExtra("mode", true);
 
@@ -93,22 +92,22 @@ public class MainActivity extends AppCompatActivity
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new CoordinatorMainActivity.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
 
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DRIVER_TITLE), DRIVER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
-        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
+        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(
+                getResources().getString(R.string.coord_dispatch)),
+                getResources().getString(R.string.coord_dispatch));
+//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(DONOR_TITLE), DONOR_TITLE);
+//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(COMMUNITY_CENTER_TITLE), COMMUNITY_CENTER_TITLE);
+//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         mTabLayout.setupWithViewPager(mViewPager);
-
-        Log.d("main", "we are at main again? maybe");
 
         attachPresenter();
     }
@@ -161,17 +160,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             goToDetailItemActivity();
-        } else if (id == R.id.nav_coordinator) {
-            Intent intent = new Intent(this, CoordinatorMainActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_driver) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
 
-        } else if (id == R.id.nav_donor) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_community) {
+        } else if (id == R.id.nav_main_prototype) {
+            //go back to main prototyping section
+            finish();
+
+        } else if (id == R.id.nav_foodmap) {
             Intent intent = new Intent(this, FoodMap.class);
             startActivity(intent);
 
