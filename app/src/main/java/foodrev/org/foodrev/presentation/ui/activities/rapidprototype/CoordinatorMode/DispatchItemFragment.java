@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,27 +12,7 @@ import android.view.ViewGroup;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.domain.dummy.DummyContentCare;
-import foodrev.org.foodrev.domain.dummy.DummyContentCommunityCenter;
 import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
-import foodrev.org.foodrev.domain.dummy.DummyContentDonor;
-import foodrev.org.foodrev.domain.dummy.DummyContentDriver;
-
-import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.DONOR_TITLE;
-import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
-
-//import foodrev.org.rapidprototype.dummy.DummyContent.DummyItem;
-//import foodrev.org.rapidprototype.dummy.DummyContentCare;
-//import foodrev.org.rapidprototype.dummy.DummyContentCommunityCenter;
-//import foodrev.org.rapidprototype.dummy.DummyContentDonor;
-//import foodrev.org.rapidprototype.dummy.DummyContentDriver;
-//
-//import static foodrev.org.rapidprototype.dummy.DummyContent.CARE_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.DONOR_TITLE;
-//import static foodrev.org.rapidprototype.dummy.DummyContent.DRIVER_TITLE;
 
 /**
  * A fragment representing a list of Items.
@@ -40,7 +20,7 @@ import static foodrev.org.foodrev.domain.dummy.DummyContent.DRIVER_TITLE;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends Fragment {
+public class DispatchItemFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -53,13 +33,13 @@ public class ItemFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ItemFragment() {
+    public DispatchItemFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ItemFragment newInstance(int columnCount) {
-        ItemFragment fragment = new ItemFragment();
+    public static DispatchItemFragment newInstance(int columnCount) {
+        DispatchItemFragment fragment = new DispatchItemFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -68,8 +48,8 @@ public class ItemFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ItemFragment newInstance(String content) {
-        ItemFragment fragment = new ItemFragment();
+    public static DispatchItemFragment newInstance(String content) {
+        DispatchItemFragment fragment = new DispatchItemFragment();
         Bundle args = new Bundle();
         args.putString("content", content);
         fragment.setArguments(args);
@@ -103,17 +83,8 @@ public class ItemFragment extends Fragment {
             }
 
             switch (mContent) {
-                case DRIVER_TITLE:
-                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentDriver.ITEMS, mListener));
-                    break;
-                case DONOR_TITLE:
-                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentDonor.ITEMS, mListener));
-                    break;
-                case COMMUNITY_CENTER_TITLE:
-                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentCommunityCenter.ITEMS, mListener));
-                    break;
-                case CARE_TITLE:
-                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContentCare.ITEMS, mListener));
+                case "Dispatches":
+                    recyclerView.setAdapter(new DispatchViewAdapter(DummyContentDispatch.ITEMS, mListener));
                     break;
             }
         }

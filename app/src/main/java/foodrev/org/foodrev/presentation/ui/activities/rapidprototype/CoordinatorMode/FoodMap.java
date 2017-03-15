@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
 
 import android.Manifest;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -12,24 +12,14 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent.DummyItem;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
-//import java.util.List;
-//
-//import foodrev.org.rapidprototype.ItemFragment.OnListFragmentInteractionListener;
-//import foodrev.org.rapidprototype.dummy.DummyContent.DummyItem;
-//import foodrev.org.rapidprototype.dummy.DummyContentDriver.DummyItemDriver;
+import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DispatchViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<? extends DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<DummyContentDispatch.DummyItemDispatch> mValues;
+    private final DispatchItemFragment.OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<? extends DummyItem> items, OnListFragmentInteractionListener listener) {
+    public DispatchViewAdapter(List<DummyContentDispatch.DummyItemDispatch> items, DispatchItemFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -56,7 +46,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
 
-                    Intent intent = new Intent(v.getContext(), DetailItemActivity.class);
+                    Intent intent = new Intent(v.getContext(), DispatchDetailItemActivity.class);
 
                     intent.putExtra("item", holder.mItem);
 
@@ -90,6 +80,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mView = view;
 //            mIdView = (TextView) view.findViewById(R.id.id);
             mItemImage = (ImageView) view.findViewById(R.id.item_image);
+            mItemImage.setImageResource(R.drawable.ic_dispatch);
             mContentView = (TextView) view.findViewById(R.id.dummy_content);
         }
 

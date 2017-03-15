@@ -33,6 +33,9 @@
         <activity
             android:name=".presentation.ui.activities.rapidprototype.DetailItemActivity"
             android:theme="@style/CustomDialog" />
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDetailItemActivity"
+            android:theme="@style/CustomDialog" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,7 +49,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.FoodMap"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap"
             android:label="@string/title_activity_food_map" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -61,7 +64,7 @@
             android:label="@string/title_activity_intro_slides_generic"
             android:theme="@style/AppIntroTheme" />
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMainActivity"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity"
             android:label="@string/title_activity_coordinator_main"
             android:theme="@style/AppTheme"></activity>
     </application>

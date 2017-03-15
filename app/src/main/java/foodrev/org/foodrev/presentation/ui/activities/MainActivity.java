@@ -26,9 +26,9 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMainActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.FoodMap;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;

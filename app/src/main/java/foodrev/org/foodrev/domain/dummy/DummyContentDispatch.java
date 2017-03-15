@@ -21,9 +21,12 @@ public class DummyContentDispatch extends DummyContent {
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, DummyItemDispatch> ITEM_MAP = new HashMap<String, DummyItemDispatch>();
+    public static final Map<String, DummyItemDispatch> ITEM_MAP = new HashMap<>();
+    /**
+     * An array of sample (dummy) items.
+     */
 
-    private static final int COUNT = 8;
+    private static final int COUNT = 1;
 
     static {
         // Add some sample items.
