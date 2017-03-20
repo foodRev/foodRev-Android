@@ -9,10 +9,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent;
-import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
+import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
+
+import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.NEED_TO_PLAN;
 
 /**
  * A fragment representing a list of Items.
@@ -21,6 +33,21 @@ import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
  * interface.
  */
 public class DispatchItemFragment extends Fragment {
+    //TODO Clean Class
+
+    DispatchViewAdapter dispatchViewAdapter;
+
+    //Firebase
+    private FirebaseDatabase firebaseDatabase;
+
+    // Dispatch Root
+    private DatabaseReference dispatchRoot; //driving/unloading/loading
+
+    //create custom ordering query to sort results
+    private Query dispatchQuery;
+
+    // get firebase user
+    FirebaseUser firebaseUser;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -28,6 +55,8 @@ public class DispatchItemFragment extends Fragment {
     private int mColumnCount = 1;
     private String mContent;
     private OnListFragmentInteractionListener mListener;
+
+    ArrayList<Dispatch> dispatches = new ArrayList<Dispatch>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,22 +104,72 @@ public class DispatchItemFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            RecyclerView rvDispatches = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                rvDispatches.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                rvDispatches.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
             switch (mContent) {
                 case "Dispatches":
-                    recyclerView.setAdapter(new DispatchViewAdapter(DummyContentDispatch.ITEMS, mListener));
+
+                    // initialize list of dispatches
+                    // and setup firebase listeners
+                    setupFirebase();
+
+                    // create adapter passing the sample user data
+                    dispatchViewAdapter = new DispatchViewAdapter(getContext(), dispatches);
+
+                    // attach adapter to recyclerview in order to populate the items
+                    rvDispatches.setAdapter(dispatchViewAdapter);
+
+                    // set layout manager to position items
+                    rvDispatches.setLayoutManager(new LinearLayoutManager((getContext())));
                     break;
             }
         }
         return view;
     }
 
+    private void setupFirebase() {
+
+        //TODO get dispatch list once and place into Dispatch object list
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        //dispatch Root
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+
+        // note: this will also do the initial population of the list as well
+        dispatchRoot.addChildEventListener(new ChildEventListener() {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                // update the client-side model
+                dispatches.add( 0, new Dispatch(
+                                dataSnapshot.getKey(),
+                                "dispatch date placeholder",
+                                NEED_TO_PLAN));
+
+                // update the UI
+                dispatchViewAdapter.notifyItemInserted(0);
+
+            }
+
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Toast.makeText(getContext(), "child changed", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Toast.makeText(getContext(), "child removed", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onCancelled(DatabaseError e) {
+            }
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -121,6 +200,6 @@ public class DispatchItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyContent.DummyItem item);
+        void onListFragmentInteraction(Dispatch dispatch );
     }
 }

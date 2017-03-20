@@ -1,92 +1,100 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent.DummyItem;
-import foodrev.org.foodrev.domain.dummy.DummyContentDispatch;
+import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 
-public class DispatchViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DispatchViewAdapter extends
+        RecyclerView.Adapter<DispatchViewAdapter.ViewHolder> {
 
-    private final List<DummyContentDispatch.DummyItemDispatch> mValues;
-    private final DispatchItemFragment.OnListFragmentInteractionListener mListener;
+    // member variable for dispatches
+    private ArrayList<Dispatch> dispatches;
 
-    public DispatchViewAdapter(List<DummyContentDispatch.DummyItemDispatch> items, DispatchItemFragment.OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    // context to facilitate access
+    private Context context;
+
+    //pass in the contact array into constructor
+
+    public DispatchViewAdapter(Context context, ArrayList<Dispatch> dispatches) {
+        this.dispatches = dispatches;
+        this.context = context;
+    }
+
+    private Context getContext() {
+        return this.context;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+    public DispatchViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+       Context context = parent.getContext();
+       LayoutInflater inflater = LayoutInflater.from(context);
+
+        // inflate custom layout
+        // TODO create custom dispatch item
+        View dispatchView = inflater.inflate(R.layout.fragment_item, parent, false);
+
+        // return new holder instance
+        ViewHolder viewHolder = new ViewHolder(dispatchView);
+        return viewHolder;
     }
 
+    // populate data in the item through the holder
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(DispatchViewAdapter.ViewHolder viewHolder, int position) {
+        // get the data model based on position
+        Dispatch dispatch = dispatches.get(position);
 
-        final ViewHolder holder = (ViewHolder) viewHolder;
-        holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).content);
+        // set item views based on your views and data model
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+        // set description
+        TextView dispatchDescription = viewHolder.dispatchDescription;
+        dispatchDescription.setText(dispatch.getDispatchId() + dispatch.getDispatchDate());
 
-                    Intent intent = new Intent(v.getContext(), DispatchDetailItemActivity.class);
+        // set dispatch icon
+        ImageView dispatchIcon = viewHolder.dispatchIcon;
+        dispatchIcon.setImageResource(R.drawable.ic_dispatch);
+   }
 
-                    intent.putExtra("item", holder.mItem);
-
-                    v.getContext().startActivity(intent);
-                }
-            }
-        });
-    }
-
-//    @Override
-//    public int getItemViewType(int position) {
-//        // Just as an example, return 0 or 2 depending on position
-//        // Note that unlike in ListView adapters, types don't have to be contiguous
-//        return position % 2 * 2;
-//    }
-
+    // return total count of items in list
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if (dispatches == null) {
+            return 0;
+        } else {
+            return dispatches.size();
+        }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-//        public final TextView mIdView;
-        public final ImageView mItemImage;
-        public final TextView mContentView;
-        public DummyItem mItem;
+    // Provide a direct reference to each of the view within a data item
+    // Used to cache the views within the item layout for fast access
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // Your holder should contain a member variable
+        // for any view that will be set as you render a row
+        public ImageView dispatchIcon;
+        public TextView dispatchDescription;
 
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-//            mIdView = (TextView) view.findViewById(R.id.id);
-            mItemImage = (ImageView) view.findViewById(R.id.item_image);
-            mItemImage.setImageResource(R.drawable.ic_dispatch);
-            mContentView = (TextView) view.findViewById(R.id.dummy_content);
-        }
+        // We also create a constructor that accepts the entire item row
+        // and does the view lookups to find each subview
+        public ViewHolder(View itemView) {
+            // Stores the itemView in a public final member variable that can be used
+            // to access the context from any ViewHolder instance.
+            super(itemView);
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            dispatchIcon = (ImageView) itemView.findViewById(R.id.item_image);
+            dispatchDescription = (TextView) itemView.findViewById(R.id.dummy_content);
         }
     }
 }

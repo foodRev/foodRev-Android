@@ -17,26 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.dummy.DummyContent;
+import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
@@ -68,20 +56,8 @@ public class CoordinatorMainActivity extends AppCompatActivity
 
     private TabLayout mTabLayout;
 
-
-
-    //Firebase
-    private FirebaseDatabase firebaseDatabase;
-
-    // Dispatch Root
-    private DatabaseReference dispatchRoot; //driving/unloading/loading
-
-    //create custom ordering query to sort results
-    private Query dispatchQuery;
-
     // get firebase user
     FirebaseUser firebaseUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +71,7 @@ public class CoordinatorMainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CoordinatorMainActivity.this, DetailItemActivity.class);
-
-                intent.putExtra("mode", true);
-
+                Intent intent = new Intent(CoordinatorMainActivity.this, DispatchCreationActivity.class);
                 startActivity(intent);
             }
         });
@@ -126,45 +99,15 @@ public class CoordinatorMainActivity extends AppCompatActivity
 //        mSectionsPagerAdapter.addFragment(DispatchItemFragment.newInstance(
 //                getResources().getString(R.string.coord_dispatch_editing)),
 //                getResources().getString(R.string.coord_dispatch_editing));
-//        mSectionsPagerAdapter.addFragment(DispatchItemFragment.newInstance(
-//                getResources().getString(R.string.coord_dispatch_posted_donations)),
-//                getResources().getString(R.string.coord_dispatch_posted_donations));
-//        mSectionsPagerAdapter.addFragment(ItemFragment.newInstance(CARE_TITLE), CARE_TITLE);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         mTabLayout.setupWithViewPager(mViewPager);
 
-        setupFirebase();
-
         attachPresenter();
     }
 
-    private void setupFirebase() {
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        //dispatch Root
-        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
-
-        dispatchRoot.addChildEventListener( new ChildEventListener() {
-
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Toast.makeText(CoordinatorMainActivity.this, "child added", Toast.LENGTH_SHORT).show();
-            }
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        Toast.makeText(CoordinatorMainActivity.this, "child added", Toast.LENGTH_SHORT).show();
-            }
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        Toast.makeText(CoordinatorMainActivity.this, "child removed", Toast.LENGTH_SHORT).show();
-            }
-            public void onCancelled(DatabaseError e) {
-            }
-        });
-
-    }
 
     public void attachPresenter() {
         mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
@@ -268,7 +211,7 @@ public class CoordinatorMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Dispatch dispatch) {
 
     }
 
