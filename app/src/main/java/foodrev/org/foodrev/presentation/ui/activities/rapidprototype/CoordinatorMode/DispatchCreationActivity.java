@@ -72,7 +72,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectTimeCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DispatchCreationActivity.this, DispatchCreationActivity.class);
+                Intent intent = new Intent(DispatchCreationActivity.this,  DispatchDateTimeSelect.class);
                 intent.putExtra("mode", "time");
                 startActivity(intent);
             }

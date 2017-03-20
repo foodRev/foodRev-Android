@@ -76,6 +76,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity"/>
         </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDateTimeSelect"
+            android:label="@string/title_activity_dispatch_date_time_select"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -129,5 +129,6 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_activity_dispatch_date_time_select">Select Date and Time</string>
 
 </resources>
