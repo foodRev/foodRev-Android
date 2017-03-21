@@ -33,6 +33,8 @@ public class DispatchCreationActivity extends AppCompatActivity {
     View selectDriversCard;
     View selectCommunitiesCard;
 
+    Intent coordinatorMainIntent;
+    String dispatchKey;
     //Firebase
     private FirebaseDatabase firebaseDatabase;
     // Dispatch Root
@@ -55,6 +57,9 @@ public class DispatchCreationActivity extends AppCompatActivity {
 
         setupFirebase();
 
+        coordinatorMainIntent = getIntent();
+        dispatchKey = coordinatorMainIntent.getStringExtra("dispatch_key");
+
         selectDonorCard = findViewById(R.id.dispatch_donor_card);
         selectTimeCard = findViewById(R.id.dispatch_time_card);
         selectDriversCard = findViewById(R.id.dispatch_drivers_card);
@@ -73,7 +78,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DispatchCreationActivity.this,  DispatchDateTimeSelect.class);
-                intent.putExtra("mode", "time");
+                intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }
         });

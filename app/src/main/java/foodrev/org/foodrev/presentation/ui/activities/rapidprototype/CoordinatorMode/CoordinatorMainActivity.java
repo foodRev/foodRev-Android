@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +58,21 @@ public class CoordinatorMainActivity extends AppCompatActivity
 
     private TabLayout mTabLayout;
 
+    //Firebase
+    private FirebaseDatabase firebaseDatabase;
+    // Dispatch Root
+    private DatabaseReference dispatchRoot; //driving/unloading/loading
     // get firebase user
     FirebaseUser firebaseUser;
+
+
+    private void setupFirebase() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        //dispatch Root
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +81,17 @@ public class CoordinatorMainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        setupFirebase();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String dispatchKey = dispatchRoot.push().getKey();
+
                 Intent intent = new Intent(CoordinatorMainActivity.this, DispatchCreationActivity.class);
+                intent.putExtra("dispatch_key",dispatchKey);
                 startActivity(intent);
             }
         });

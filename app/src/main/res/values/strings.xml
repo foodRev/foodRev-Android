@@ -34,12 +34,12 @@
     <string name="dispatch_communities">Communities</string>
 
     <!--coordinator activity strings-->
-    <string name="title_activity_coordinator_main">CoordinatorMainActivity</string>
+    <string name="title_activity_coordinator_main">Coordinator Mode</string>
     <string name="coord_dispatch">Dispatches</string>
     <string name="coord_dispatch_editing">Dispatch Editing</string>
     <string name="coord_dispatch_posted_donations">Posted Donations</string>
     <string name="coord_company">Company</string>
-    <string name="title_activity_dispatch_creation">DispatchCreationActivity</string>
+    <string name="title_activity_dispatch_creation">FoodRev Dispatch</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
