@@ -28,7 +28,10 @@ public class DispatchDonorSelect extends AppCompatActivity {
         RecyclerView rvDispatchDonors = (RecyclerView) findViewById(R.id.rvDonorSelect);
 
         // initialize donor array
-        dispatchDonors.add(new DispatchDonor("Donor M", 10));
+        dispatchDonors.add(new DispatchDonor("Donor M", 10, false));
+        dispatchDonors.add(new DispatchDonor("Donor P", 2, true));
+        dispatchDonors.add(new DispatchDonor("Donor L", 2, true));
+        dispatchDonors.add(new DispatchDonor("Donor T", 2, true));
 
         // create adapter and pass in the data
         DonorSelectAdapter donorSelectAdapter = new DonorSelectAdapter(this,dispatchDonors);

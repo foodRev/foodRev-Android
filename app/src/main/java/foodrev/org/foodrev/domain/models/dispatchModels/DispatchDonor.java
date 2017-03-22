@@ -12,15 +12,18 @@ import java.util.Map;
 public class DispatchDonor {
     private String donorName;
     private int carsOfFood;
+    private boolean isSelected = false;
     //TODO
     //address
     //gps
     //poc
     //etc
 
-    public DispatchDonor (String donorName, int carsOfFood){
+
+    public DispatchDonor (String donorName, int carsOfFood, boolean isSelected){
         this.donorName = donorName;
         this.carsOfFood = carsOfFood;
+        this.isSelected = isSelected;
     }
 
     @Exclude
@@ -48,5 +51,12 @@ public class DispatchDonor {
         this.carsOfFood = carsOfFood;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
 }

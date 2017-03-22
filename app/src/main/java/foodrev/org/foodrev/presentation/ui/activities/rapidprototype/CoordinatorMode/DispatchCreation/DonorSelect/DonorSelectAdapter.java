@@ -1,7 +1,10 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
+
+import static foodrev.org.foodrev.R.color.cardview_light_background;
 
 /**
  * Created by dastechlabs on 3/21/17.
@@ -30,6 +35,7 @@ public class DonorSelectAdapter extends
         public ImageView donorIcon;
         public TextView donorNameTextView;
         public TextView donorCarsOfFood;
+        public CardView donorCardView;
 
         public ViewHolder(View donorItemView) {
             super(donorItemView);
@@ -37,6 +43,7 @@ public class DonorSelectAdapter extends
             donorIcon = (ImageView) donorItemView.findViewById(R.id.donor_select_icon);
             donorNameTextView = (TextView) donorItemView.findViewById(R.id.donor_select_name);
             donorCarsOfFood = (TextView) donorItemView.findViewById(R.id.donor_select_cars_of_food);
+            donorCardView = (CardView) donorItemView.findViewById(R.id.dispatch_donor_select_card_view);
 
         }
     }
@@ -65,8 +72,8 @@ public class DonorSelectAdapter extends
 
     // populate date into item through holder
     @Override
-    public void onBindViewHolder(DonorSelectAdapter.ViewHolder viewHolder, int position) {
-        DispatchDonor dispatchDonor = dispatchDonors.get(position);
+    public void onBindViewHolder(final DonorSelectAdapter.ViewHolder viewHolder, int position) {
+        final DispatchDonor dispatchDonor = dispatchDonors.get(position);
 
         // set item views based on xml and model
 
@@ -82,6 +89,28 @@ public class DonorSelectAdapter extends
         // TODO create different icons for different donors based on url
         ImageView donorIcon = viewHolder.donorIcon;
         donorIcon.setImageResource(R.drawable.ic_donor);
+
+        // set card onclicklistener
+        final CardView donorCardView = viewHolder.donorCardView;
+        if (dispatchDonor.isSelected()) {
+            donorCardView.setCardBackgroundColor(Color.CYAN);
+        } else {
+            donorCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+        }
+        donorCardView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchDonor.setSelected(!dispatchDonor.isSelected());
+                if (dispatchDonor.isSelected()) {
+                    donorCardView.setCardBackgroundColor(Color.CYAN);
+                } else {
+                    donorCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+                }
+
+            }
+
+        });
+
     }
 
     // necessary, returns total count of items in list
