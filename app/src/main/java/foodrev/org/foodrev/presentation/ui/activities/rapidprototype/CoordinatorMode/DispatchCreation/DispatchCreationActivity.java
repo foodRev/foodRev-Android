@@ -106,7 +106,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         //dispatch Root
-        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
     }
 
     private void writeNewPost() {

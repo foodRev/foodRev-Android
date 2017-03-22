@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,6 +22,9 @@ import java.util.ArrayList;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
+
+import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.NEED_TO_PLAN;
+import static java.security.AccessController.getContext;
 
 public class DispatchDonorSelect extends AppCompatActivity {
 
@@ -31,8 +37,13 @@ public class DispatchDonorSelect extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     // Dispatch Root
     private DatabaseReference dispatchRoot; //driving/unloading/loading
+    // Donor at Root
+    private DatabaseReference donorRoot; //driving/unloading/loading
 
     ArrayList<DispatchDonor> dispatchDonors = new ArrayList<>();
+
+    // donor adapter
+    DonorSelectAdapter donorSelectAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,27 +56,34 @@ public class DispatchDonorSelect extends AppCompatActivity {
         dispatchKey = dispatchCreateIntent.getStringExtra("dispatch_key");
 
 
-        //setup Firebase
-        setupFirebase();
 
 
         // init recyclerview
         RecyclerView rvDispatchDonors = (RecyclerView) findViewById(R.id.rvDonorSelect);
 
+
         // initialize donor array
-        dispatchDonors.add(new DispatchDonor("Donor M", 10, false));
-        dispatchDonors.add(new DispatchDonor("Donor P", 2, true));
-        dispatchDonors.add(new DispatchDonor("Donor L", 2, true));
-        dispatchDonors.add(new DispatchDonor("Donor T", 2, true));
+
+
+
+        //manual setting for testing
+//        dispatchDonors.add(new DispatchDonor("Donor M", 2, false));
+//        dispatchDonors.add(new DispatchDonor("Donor P", 4, true));
+//        dispatchDonors.add(new DispatchDonor("Donor T", 3, true));
+//        dispatchDonors.add(new DispatchDonor("Donor W", 2, true));
+//        dispatchDonors.add(new DispatchDonor("Donor S", 3, true));
 
         // create adapter and pass in the data
-        DonorSelectAdapter donorSelectAdapter = new DonorSelectAdapter(this,dispatchDonors);
+        donorSelectAdapter = new DonorSelectAdapter(this,dispatchDonors);
 
         // attach the adapter to the rv and populate items
         rvDispatchDonors.setAdapter(donorSelectAdapter);
 
         // set layout manager to position items
         rvDispatchDonors.setLayoutManager(new LinearLayoutManager(this));
+
+        //setup Firebase must come after adapter is set up
+        setupFirebase();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,9 +107,41 @@ public class DispatchDonorSelect extends AppCompatActivity {
     private void setupFirebase() {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+        // donor Root
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
 
-        //dispatch Root
-        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+        // donor Root
+        donorRoot = firebaseDatabase.getReference("/DONORS");
+
+        // note: this will also do the initial population of the list as well
+        donorRoot.addChildEventListener(new ChildEventListener() {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                // update the client-side model
+                dispatchDonors.add( 0, new DispatchDonor(
+                        dataSnapshot.getKey().toString(),
+                        Integer.parseInt(dataSnapshot.child("CARS_OF_FOOD").getValue().toString()),
+                        false));
+
+                // update the UI
+                donorSelectAdapter.notifyItemInserted(0);
+
+            }
+
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Toast.makeText(DispatchDonorSelect.this, "child changed", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Toast.makeText(DispatchDonorSelect.this, "child removed", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onCancelled(DatabaseError e) {
+            }
+        });
     }
 
 

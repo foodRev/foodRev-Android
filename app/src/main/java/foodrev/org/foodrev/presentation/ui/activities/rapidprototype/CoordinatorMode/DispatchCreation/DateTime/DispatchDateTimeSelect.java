@@ -70,7 +70,6 @@ public class DispatchDateTimeSelect extends AppCompatActivity {
                 dispatchRoot.child(dispatchKey).child("date").setValue("1");
                 dispatchRoot.child(dispatchKey).child("time").setValue("0");
 
-                finish();
             }
 
         });
@@ -84,7 +83,7 @@ public class DispatchDateTimeSelect extends AppCompatActivity {
             firebaseDatabase = FirebaseDatabase.getInstance();
 
             //dispatch Root
-            dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+            dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
         }
 
 }

@@ -134,11 +134,10 @@ public class DispatchItemFragment extends Fragment {
 
     private void setupFirebase() {
 
-        //TODO get dispatch list once and place into Dispatch object list
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         //dispatch Root
-        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
 
         // note: this will also do the initial population of the list as well
         dispatchRoot.addChildEventListener(new ChildEventListener() {
@@ -146,7 +145,7 @@ public class DispatchItemFragment extends Fragment {
 
                 // update the client-side model
                 dispatches.add( 0, new Dispatch(
-                                dataSnapshot.getKey(),
+                                dataSnapshot.getValue().toString(),
                                 "dispatch date placeholder",
                                 NEED_TO_PLAN));
 

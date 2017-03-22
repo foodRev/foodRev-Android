@@ -72,7 +72,7 @@ public class CoordinatorMainActivity extends AppCompatActivity
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         //dispatch Root
-        dispatchRoot = firebaseDatabase.getReference("/DISPATCH");
+        dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
     }
 
 
