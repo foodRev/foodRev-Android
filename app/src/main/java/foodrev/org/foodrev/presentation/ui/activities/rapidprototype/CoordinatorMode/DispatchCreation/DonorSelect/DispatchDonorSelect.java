@@ -62,17 +62,6 @@ public class DispatchDonorSelect extends AppCompatActivity {
         RecyclerView rvDispatchDonors = (RecyclerView) findViewById(R.id.rvDonorSelect);
 
 
-        // initialize donor array
-
-
-
-        //manual setting for testing
-//        dispatchDonors.add(new DispatchDonor("Donor M", 2, false));
-//        dispatchDonors.add(new DispatchDonor("Donor P", 4, true));
-//        dispatchDonors.add(new DispatchDonor("Donor T", 3, true));
-//        dispatchDonors.add(new DispatchDonor("Donor W", 2, true));
-//        dispatchDonors.add(new DispatchDonor("Donor S", 3, true));
-
         // create adapter and pass in the data
         donorSelectAdapter = new DonorSelectAdapter(this,dispatchDonors);
 
@@ -83,7 +72,15 @@ public class DispatchDonorSelect extends AppCompatActivity {
         rvDispatchDonors.setLayoutManager(new LinearLayoutManager(this));
 
         //setup Firebase must come after adapter is set up
+        // and initialize donor array
         setupFirebase();
+
+        // manual setting for testing
+//        dispatchDonors.add(new DispatchDonor("Donor M", 2, false));
+//        dispatchDonors.add(new DispatchDonor("Donor P", 4, true));
+//        dispatchDonors.add(new DispatchDonor("Donor T", 3, true));
+//        dispatchDonors.add(new DispatchDonor("Donor W", 2, true));
+//        dispatchDonors.add(new DispatchDonor("Donor S", 3, true));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +89,13 @@ public class DispatchDonorSelect extends AppCompatActivity {
                 Toast.makeText(DispatchDonorSelect.this, "Donor update sent to cloud", Toast.LENGTH_SHORT).show();
 
                 for (DispatchDonor dispatchDonor : dispatchDonors) {
-                    dispatchRoot.child(dispatchKey)
-                            .child("DONORS")
-                            .child(dispatchDonor.getDonorName()) //todo replace with unique id, which can then act as a pointer to other fields
-                            .child("CARS_OF_FOOD") //todo replace with unique id, which can then act as a pointer to other fields
-                            .setValue(dispatchDonor.getCarsOfFood());
+                    if (dispatchDonor.isSelected()) {
+                        dispatchRoot.child(dispatchKey)
+                                .child("DONORS")
+                                .child(dispatchDonor.getDonorName()) //todo replace with unique id, which can then act as a pointer to other fields
+                                .child("CARS_OF_FOOD") //todo replace with unique id, which can then act as a pointer to other fields
+                                .setValue(dispatchDonor.getCarsOfFood());
+                    }
                 }
 
             }
