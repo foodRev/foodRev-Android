@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding;
 
 import android.content.Context;
 import android.os.Bundle;

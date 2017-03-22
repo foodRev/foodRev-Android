@@ -17,11 +17,11 @@
         <item
             android:id="@+id/nav_donor"
             android:icon="@drawable/ic_donation"
-            android:title="Donor Mode"/>
+            android:title="Donor mode"/>
         <item
             android:id="@+id/nav_community"
             android:icon="@drawable/ic_community"
-            android:title="Community Mode"/>
+            android:title="Community mode"/>
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@android:drawable/ic_menu_set_as"

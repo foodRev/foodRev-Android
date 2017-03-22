@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +30,8 @@ import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 
 public class CoordinatorMainActivity extends AppCompatActivity

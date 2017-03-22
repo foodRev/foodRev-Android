@@ -1,17 +1,12 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,10 +15,12 @@ import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect;
 
 import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.NEED_TO_PLAN;
-import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.PLAN_PREPARED;
-import static java.security.AccessController.getContext;
 
 
 public class DispatchCreationActivity extends AppCompatActivity {
@@ -65,11 +62,12 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectDriversCard = findViewById(R.id.dispatch_drivers_card);
         selectCommunitiesCard = findViewById(R.id.dispatch_communities_card);
 
+        //TODO refactor into single recycler view with intent modes for driver/donor/community
         selectDonorCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DispatchCreationActivity.this, DispatchCreationActivity.class);
-                intent.putExtra("mode", "donor");
+                Intent intent = new Intent(DispatchCreationActivity.this, DispatchDonorSelect.class);
+                intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }
         });
@@ -86,8 +84,8 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectDriversCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DispatchCreationActivity.this, DispatchCreationActivity.class);
-                intent.putExtra("mode", "drivers");
+                Intent intent = new Intent(DispatchCreationActivity.this, DispatchDriverSelect.class);
+                intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }
         });
@@ -95,8 +93,8 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectCommunitiesCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DispatchCreationActivity.this, DispatchCreationActivity.class);
-                intent.putExtra("mode", "communities");
+                Intent intent = new Intent(DispatchCreationActivity.this, DispatchCommunitySelect.class);
+                intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }
         });

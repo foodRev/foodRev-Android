@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"
+    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
     tools:showIn="@layout/activity_dispatch_creation">
 
     <LinearLayout

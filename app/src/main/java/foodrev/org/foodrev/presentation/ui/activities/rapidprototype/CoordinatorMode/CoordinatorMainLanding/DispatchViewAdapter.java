@@ -1,18 +1,14 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;

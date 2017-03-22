@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDateTimeSelect"
+    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect"
     tools:showIn="@layout/activity_dispatch_date_time_select"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">

@@ -64,26 +64,53 @@
             android:label="@string/title_activity_intro_slides_generic"
             android:theme="@style/AppIntroTheme"/>
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"
             android:label="@string/title_activity_coordinator_main"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
             android:label="@string/title_activity_dispatch_creation"
-            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainActivity"/>
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"/>
         </activity>
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDateTimeSelect"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect"
             android:label="@string/title_activity_dispatch_date_time_select"
-            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreationActivity"/>
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
+        </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect"
+            android:label="@string/title_activity_dispatch_driver_select"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
+        </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect"
+            android:label="@string/title_activity_dispatch_community_select"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
+        </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect"
+            android:label="@string/title_activity_dispatch_donor_select"
+            android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
     </application>
 
