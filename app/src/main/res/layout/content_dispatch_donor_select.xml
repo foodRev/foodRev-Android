@@ -9,4 +9,9 @@
     tools:context=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect"
     tools:showIn="@layout/activity_dispatch_donor_select">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvDonorSelect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
