@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
@@ -29,6 +32,7 @@ public class DonorSelectAdapter extends
 
     private ArrayList<DispatchDonor> dispatchDonors;
     private Context context;
+
 
     // define viewholder
     public static class ViewHolder extends RecyclerView.ViewHolder {
