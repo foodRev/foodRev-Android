@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 
-public class DispatchViewAdapter extends
-        RecyclerView.Adapter<DispatchViewAdapter.ViewHolder> {
+public class DispatchSelectAdapter extends
+        RecyclerView.Adapter<DispatchSelectAdapter.ViewHolder> {
 
     // member variable for dispatches
     private ArrayList<Dispatch> dispatches;
@@ -24,7 +24,7 @@ public class DispatchViewAdapter extends
 
     //pass in the contact array into constructor
 
-    public DispatchViewAdapter(Context context, ArrayList<Dispatch> dispatches) {
+    public DispatchSelectAdapter(Context context, ArrayList<Dispatch> dispatches) {
         this.dispatches = dispatches;
         this.context = context;
     }
@@ -34,7 +34,7 @@ public class DispatchViewAdapter extends
     }
 
     @Override
-    public DispatchViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DispatchSelectAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
        Context context = parent.getContext();
        LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -49,7 +49,7 @@ public class DispatchViewAdapter extends
 
     // populate data in the item through the holder
     @Override
-    public void onBindViewHolder(DispatchViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(DispatchSelectAdapter.ViewHolder viewHolder, int position) {
         // get the data model based on position
         Dispatch dispatch = dispatches.get(position);
 

@@ -35,7 +35,7 @@ import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.Dispatch
 public class DispatchItemFragment extends Fragment {
     //TODO Clean Class
 
-    DispatchViewAdapter dispatchViewAdapter;
+    DispatchSelectAdapter dispatchViewAdapter;
 
     //Firebase
     private FirebaseDatabase firebaseDatabase;
@@ -119,7 +119,7 @@ public class DispatchItemFragment extends Fragment {
                     setupFirebase();
 
                     // create adapter passing the sample user data
-                    dispatchViewAdapter = new DispatchViewAdapter(getContext(), dispatches);
+                    dispatchViewAdapter = new DispatchSelectAdapter(getContext(), dispatches);
 
                     // attach adapter to recyclerview in order to populate the items
                     rvDispatches.setAdapter(dispatchViewAdapter);
