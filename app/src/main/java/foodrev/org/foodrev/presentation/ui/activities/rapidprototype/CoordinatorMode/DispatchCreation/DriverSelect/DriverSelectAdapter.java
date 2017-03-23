@@ -87,7 +87,7 @@ public class DriverSelectAdapter extends
         if (dispatchDriver.isSelected()) {
             driverCardView.setCardBackgroundColor(Color.CYAN);
         } else {
-            driverCardView.setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+            driverCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
         }
 
         driverCardView.setOnClickListener( new View.OnClickListener() {
@@ -97,7 +97,7 @@ public class DriverSelectAdapter extends
                 if (dispatchDriver.isSelected()) {
                     driverCardView.setCardBackgroundColor(Color.CYAN);
                 } else {
-                    driverCardView.setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+                    driverCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
                 }
             }
         });
