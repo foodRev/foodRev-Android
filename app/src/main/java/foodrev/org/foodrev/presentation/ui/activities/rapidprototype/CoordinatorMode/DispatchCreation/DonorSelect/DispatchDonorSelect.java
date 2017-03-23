@@ -56,14 +56,11 @@ public class DispatchDonorSelect extends AppCompatActivity {
         dispatchKey = dispatchCreateIntent.getStringExtra("dispatch_key");
 
 
-
-
         // init recyclerview
         RecyclerView rvDispatchDonors = (RecyclerView) findViewById(R.id.rvDonorSelect);
 
-
         // create adapter and pass in the data
-        donorSelectAdapter = new DonorSelectAdapter(this,dispatchDonors);
+        donorSelectAdapter = new DonorSelectAdapter(this, dispatchDonors);
 
         // attach the adapter to the rv and populate items
         rvDispatchDonors.setAdapter(donorSelectAdapter);

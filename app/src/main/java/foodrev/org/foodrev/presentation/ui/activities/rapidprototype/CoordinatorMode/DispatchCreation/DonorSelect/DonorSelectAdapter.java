@@ -12,16 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 
-import static foodrev.org.foodrev.R.color.cardview_light_background;
 
 /**
  * Created by dastechlabs on 3/21/17.
@@ -58,9 +53,6 @@ public class DonorSelectAdapter extends
         this.dispatchDonors = dispatchDonors;
     }
 
-    private Context getContext() {
-        return context;
-    }
 
     // inflates layout from xml and returns the view holder
     @Override
@@ -74,7 +66,7 @@ public class DonorSelectAdapter extends
         return viewHolder;
     }
 
-    // populate date into item through holder
+    // populate values into item through holder
     @Override
     public void onBindViewHolder(final DonorSelectAdapter.ViewHolder viewHolder, int position) {
         final DispatchDonor dispatchDonor = dispatchDonors.get(position);
