@@ -32,18 +32,19 @@ public class DispatchDonorSelect extends AppCompatActivity {
     Intent dispatchCreateIntent;
     String dispatchKey;
 
-
-    // Firebase
+    // Firebase Root Object
     private FirebaseDatabase firebaseDatabase;
     // Dispatch Root
     private DatabaseReference dispatchRoot; //driving/unloading/loading
     // Donor at Root
     private DatabaseReference donorRoot; //driving/unloading/loading
 
+    // donor list to be tied to rv
     ArrayList<DispatchDonor> dispatchDonors = new ArrayList<>();
 
     // donor adapter
     DonorSelectAdapter donorSelectAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
