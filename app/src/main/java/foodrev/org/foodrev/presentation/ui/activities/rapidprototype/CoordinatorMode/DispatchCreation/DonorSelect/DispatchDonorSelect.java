@@ -32,18 +32,19 @@ public class DispatchDonorSelect extends AppCompatActivity {
     Intent dispatchCreateIntent;
     String dispatchKey;
 
-
-    // Firebase
+    // Firebase Root Object
     private FirebaseDatabase firebaseDatabase;
     // Dispatch Root
     private DatabaseReference dispatchRoot; //driving/unloading/loading
     // Donor at Root
     private DatabaseReference donorRoot; //driving/unloading/loading
 
+    // donor list to be tied to rv
     ArrayList<DispatchDonor> dispatchDonors = new ArrayList<>();
 
     // donor adapter
     DonorSelectAdapter donorSelectAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +72,6 @@ public class DispatchDonorSelect extends AppCompatActivity {
         //setup Firebase must come after adapter is set up
         // and initialize donor array
         setupFirebase();
-
-        // manual setting for testing
-//        dispatchDonors.add(new DispatchDonor("Donor M", 2, false));
-//        dispatchDonors.add(new DispatchDonor("Donor P", 4, true));
-//        dispatchDonors.add(new DispatchDonor("Donor T", 3, true));
-//        dispatchDonors.add(new DispatchDonor("Donor W", 2, true));
-//        dispatchDonors.add(new DispatchDonor("Donor S", 3, true));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
