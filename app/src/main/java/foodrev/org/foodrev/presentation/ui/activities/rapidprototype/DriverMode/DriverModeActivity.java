@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +28,23 @@ public class DriverModeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
         DriverModePresenter.View {
+
     private static final String TAG = "DriverModeActivity";
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
     private DriverModePresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_mode);
+        setupUi();
+        setupRecyclerView();
+        attachPresenter();
+    }
+
+    private void setupUi() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -42,7 +54,15 @@ public class DriverModeActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        attachPresenter();
+    }
+
+    private void setupRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.driver_mode_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        //using linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     public void attachPresenter() {
@@ -123,7 +143,7 @@ public class DriverModeActivity extends AppCompatActivity
         finish();
     }
 
-//    @Override
+    //    @Override
     public void goToDetailItemActivity() {
         startActivity(new Intent(this, DetailItemActivity.class));
     }

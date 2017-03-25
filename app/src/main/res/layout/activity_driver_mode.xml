@@ -25,22 +25,7 @@ tools:context="foodrev.org.foodrev.presentation.ui.activities.MainActivity">
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/driver_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
+    <include layout="@layout/content_driver_mode" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
