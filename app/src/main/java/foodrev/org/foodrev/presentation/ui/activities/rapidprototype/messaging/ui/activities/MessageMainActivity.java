@@ -52,7 +52,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-//import com.sinch.android.rtc.calling.Call;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
@@ -63,12 +62,6 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.m
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.ChannelUtil;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.MessageUtil;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.UserUtil;
-
-
-//import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.AudioUtil;
-//import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.DesignUtils;
-//import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.MapLoader;
-//import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.LocationUtils;
 
 public class MessageMainActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener,
@@ -390,7 +383,6 @@ public class MessageMainActivity extends AppCompatActivity
                 FirebaseAuth.getInstance().signOut();
                 break;
         }
-
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);

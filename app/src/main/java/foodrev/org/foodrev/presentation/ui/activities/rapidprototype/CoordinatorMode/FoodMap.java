@@ -253,7 +253,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
                     PERMISSIONS, PERMISSION_ALL);
             return;
         } else {
-
+//            TODO: Greg, this line needs a permissions check
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
         }
     }
@@ -280,6 +280,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         switch(requestCode) {
             case 1:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+//            TODO: Greg, this line needs a permissions check
 //                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
                 } else {
                     Toast.makeText(this, "Enable GPS for this app to proceed", Toast.LENGTH_SHORT).show();
