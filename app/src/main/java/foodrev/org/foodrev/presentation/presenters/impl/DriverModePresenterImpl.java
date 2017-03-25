@@ -2,16 +2,18 @@ package foodrev.org.foodrev.presentation.presenters.impl;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import foodrev.org.foodrev.domain.interactors.SampleInteractor;
-import foodrev.org.foodrev.presentation.presenters.MainPresenter;
+import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 
+/**
+ * Created by darver on 3/24/17.
+ */
 
-public class MainPresenterImpl implements MainPresenter {
+public class DriverModePresenterImpl implements DriverModePresenter {
 
-    private MainPresenter.View mView;
+    private DriverModePresenter.View mView;
 
     @Override
-    public void attachView(View view) {
+    public void attachView(DriverModePresenter.View view) {
         mView = view;
     }
 
@@ -22,8 +24,9 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void resume() {
-        // populate firebase stuff
+
     }
+
 
     @Override
     public void pause() {
@@ -47,10 +50,10 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void signOut() {
-        // Firebase sign out
         if(mView != null) {
             FirebaseAuth.getInstance().signOut();
             mView.goToSignInActivity();
         }
+
     }
 }

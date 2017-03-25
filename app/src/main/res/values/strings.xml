@@ -45,4 +45,7 @@
     <string name="title_activity_dispatch_community_select">Select Community Centers</string>
     <string name="title_activity_dispatch_donor_select">Select Donors</string>
 
+    <!--driver activity strings-->
+    <string name="title_activity_driver">Driver Mode</string>
+
 </resources>

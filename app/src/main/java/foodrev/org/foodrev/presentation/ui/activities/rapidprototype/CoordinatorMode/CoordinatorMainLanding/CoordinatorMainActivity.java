@@ -176,20 +176,23 @@ public class CoordinatorMainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
+        switch(id){
+            case(R.id.nav_profile):
+                goToDetailItemActivity();
+                break;
+            case(R.id.nav_main_prototype):
+                //go back to main prototyping section
+                finish();
+                break;
+            case(R.id.nav_foodmap):
+                intent = new Intent(this, FoodMap.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_sign_out):
+                mPresenter.signOut();
+                break;
 
-        if (id == R.id.nav_profile) {
-            goToDetailItemActivity();
-
-        } else if (id == R.id.nav_main_prototype) {
-            //go back to main prototyping section
-            finish();
-
-        } else if (id == R.id.nav_foodmap) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_sign_out) {
-            mPresenter.signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

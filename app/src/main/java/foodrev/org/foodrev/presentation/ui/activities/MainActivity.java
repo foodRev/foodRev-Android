@@ -24,11 +24,13 @@ import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.dummy.DummyContent;
+import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode.DriverModeActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
@@ -158,26 +160,33 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
 
-        if (id == R.id.nav_profile) {
-            goToDetailItemActivity();
-        } else if (id == R.id.nav_coordinator) {
-            Intent intent = new Intent(this, CoordinatorMainActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_driver) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_donor) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_community) {
-            Intent intent = new Intent(this, FoodMap.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_sign_out) {
-            mPresenter.signOut();
+        switch(id){
+            case(R.id.nav_profile):
+                goToDetailItemActivity();
+                break;
+            case(R.id.nav_coordinator):
+                intent = new Intent(this, CoordinatorMainActivity.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_driver):
+                intent = new Intent(this, DriverModeActivity.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_donor):
+                intent = new Intent(this, FoodMap.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_community):
+                intent = new Intent(this, FoodMap.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_sign_out):
+                mPresenter.signOut();
+                break;
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

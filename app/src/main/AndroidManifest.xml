@@ -68,6 +68,10 @@
             android:label="@string/title_activity_coordinator_main"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".presentation.ui.activities.rapidprototype.DriverMode.DriverModeActivity"
+            android:label="@string/title_activity_driver"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
             android:label="@string/title_activity_dispatch_creation"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"
