@@ -20,7 +20,7 @@ public class DateSelectFragment extends DialogFragment implements DatePickerDial
         //Use the current date as the default date in the date picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
+        int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         //Create a new DatePickerDialog instance and return it
@@ -33,6 +33,7 @@ public class DateSelectFragment extends DialogFragment implements DatePickerDial
     }
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //Do something with the date chosen by the user
+        month += 1; //correct for zero indexing
         TextView tv = (TextView) getActivity().findViewById(R.id.date_select_display);
         String stringOfDate = month + "-" + day + "-" + year;
         tv.setText(stringOfDate);
