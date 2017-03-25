@@ -43,6 +43,9 @@ public class DispatchItemFragment extends Fragment {
     // Dispatch Root
     private DatabaseReference dispatchRoot; //driving/unloading/loading
 
+    //ChildEventListener
+    private ChildEventListener childEventListener;
+
     //create custom ordering query to sort results
     private Query dispatchQuery;
 
@@ -115,8 +118,9 @@ public class DispatchItemFragment extends Fragment {
                 case "Dispatches":
 
                     // initialize list of dispatches
-                    // and setup firebase listeners
+                    // asnd eetup firebase listeners
                     setupFirebase();
+//                    addFirebaseListener();
 
                     // create adapter passing the sample user data
                     dispatchViewAdapter = new DispatchSelectAdapter(getContext(), dispatches);
@@ -139,18 +143,34 @@ public class DispatchItemFragment extends Fragment {
         //dispatch Root
         dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
 
+    }
+
+    private void removeFirebaseListener() {
+
+        dispatchRoot.removeEventListener(childEventListener);
+    }
+
+    private void addFirebaseListener() {
         // note: this will also do the initial population of the list as well
-        dispatchRoot.addChildEventListener(new ChildEventListener() {
+        childEventListener = dispatchRoot.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                // update the client-side model
-                dispatches.add( 0, new Dispatch(
-                                dataSnapshot.getValue().toString(),
-                                "dispatch date placeholder",
-                                NEED_TO_PLAN));
-
-                // update the UI
-                dispatchViewAdapter.notifyItemInserted(0);
+                if(dataSnapshot.child("DISPATCH_WINDOW").child("START_TIME").getValue() != null
+                        && dataSnapshot.child("DISPATCH_WINDOW").child("END_TIME").getValue() != null
+                        && dataSnapshot.child("DISPATCH_WINDOW").child("CALENDAR_DATE").getValue() != null) {
+                    // update the client-side model
+                    dispatches.add(0, new Dispatch(
+                            dataSnapshot.child("DISPATCH_WINDOW")
+                                    .child("CALENDAR_DATE")
+                                    .getValue().toString(),
+                            dataSnapshot.child("DISPATCH_WINDOW")
+                                    .child("START_TIME")
+                                    .getValue().toString(),
+                            NEED_TO_PLAN));
+                    // update the UI
+                    dispatchViewAdapter.notifyItemInserted(0);
+                    Toast.makeText(getContext(), "child added", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
@@ -158,11 +178,11 @@ public class DispatchItemFragment extends Fragment {
             }
 
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(getContext(), "child changed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "child changed", Toast.LENGTH_SHORT).show();
             }
 
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(getContext(), "child removed", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "child removed", Toast.LENGTH_SHORT).show();
             }
 
             public void onCancelled(DatabaseError e) {
@@ -179,6 +199,19 @@ public class DispatchItemFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        removeFirebaseListener();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addFirebaseListener();
     }
 
     @Override

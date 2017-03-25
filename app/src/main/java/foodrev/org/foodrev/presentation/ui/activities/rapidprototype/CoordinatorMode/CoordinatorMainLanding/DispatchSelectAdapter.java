@@ -57,7 +57,7 @@ public class DispatchSelectAdapter extends
 
         // set description
         TextView dispatchDescription = viewHolder.dispatchDescription;
-        dispatchDescription.setText(dispatch.getDispatchId() + dispatch.getDispatchDate());
+        dispatchDescription.setText(dispatch.getDispatchDate() + " " + dispatch.getDispatchStartTime());
 
         // set dispatch icon
         ImageView dispatchIcon = viewHolder.dispatchIcon;

@@ -19,19 +19,24 @@ public class Dispatch {
         PLAN_PREPARED,
     };
 
-    private String dispatchId = "todo id";
-    private String dispatchDate = "todo date";
-    private DispatchStatus dispatchStatus = NEED_TO_PLAN;
+    private String dispatchId = ""; // the firebase hash
+
+    private String dispatchDate = "";
+
+    private String dispatchStartTime = "";
+    private String dispatchEndTime = "";
 
     ArrayList<DispatchDriver> dispatchDrivers;
     ArrayList<DispatchCommunity> dispatchCommunities;
     ArrayList<DispatchCoordinator> dispatchCoordinators;
     ArrayList<DispatchDonor> dispatchDonors;
 
+    private DispatchStatus dispatchStatus = NEED_TO_PLAN;
 
-    public Dispatch(String dispatchId, String dispatchDate, DispatchStatus dispatchStatus) {
-        this.dispatchId = dispatchId;
+
+    public Dispatch(String dispatchDate, String dispatchStartTime, DispatchStatus dispatchStatus) {
         this.dispatchDate = dispatchDate;
+        this.dispatchStartTime = dispatchStartTime;
         this.dispatchStatus = dispatchStatus;
     }
 
@@ -45,6 +50,22 @@ public class Dispatch {
 
 
     //getters and setters
+
+    public String getDispatchStartTime() {
+        return dispatchStartTime;
+    }
+
+    public void setDispatchStartTime(String dispatchStartTime) {
+        this.dispatchStartTime = dispatchStartTime;
+    }
+
+    public String getDispatchEndTime() {
+        return dispatchEndTime;
+    }
+
+    public void setDispatchEndTime(String dispatchEndTime) {
+        this.dispatchEndTime = dispatchEndTime;
+    }
 
     public String getDispatchId() {
         return dispatchId;
