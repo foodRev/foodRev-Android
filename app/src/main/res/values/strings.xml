@@ -48,4 +48,23 @@
     <!--driver activity strings-->
     <string name="title_activity_driver">Driver Mode</string>
 
+
+
+    <string name="pound">#</string>
+    <string name="at_sign">\@</string>
+
+    <string name="create">CREATE</string>
+    <string name="channels">CHANNELS</string>
+
+    <string name="users">Users</string>
+    <string name="home">Home</string>
+    <string name="public_channel">Public</string>
+    <string name="private_channel">Private</string>
+    <string name="public_description">Anyone on your team can join</string>
+    <string name="private_description">Private channels are invite-only, and do not show up in the channel browser list</string>
+    <string name="channel_name_description">Names must be 21 characters or less, lower case and cannot contain spaces or periods</string>
+    <string name="channel_purpose">Optional. Give your channel a purpose that describes what it will be used for</string>
+    <string name="enter_message">Enter Message Here</string>
+
+
 </resources>

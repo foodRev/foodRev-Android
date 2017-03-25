@@ -116,6 +116,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
+
+
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.ChannelSearchActivity"/>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.CreateChannelActivity"/>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageMainActivity"/>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageSearchActivity"/>
     </application>
 
 </manifest>

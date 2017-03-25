@@ -41,6 +41,8 @@ import java.util.HashMap;
 
 import foodrev.org.foodrev.R;
 
+//import foodrev.org.foodrev.R;
+
 public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int MIN_TIME = 5000;
@@ -252,7 +254,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
             return;
         } else {
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
         }
     }
 
@@ -278,7 +280,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         switch(requestCode) {
             case 1:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
                 } else {
                     Toast.makeText(this, "Enable GPS for this app to proceed", Toast.LENGTH_SHORT).show();
                     //return to main activity

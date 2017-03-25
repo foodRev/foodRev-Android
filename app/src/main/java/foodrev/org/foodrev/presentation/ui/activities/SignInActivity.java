@@ -163,7 +163,7 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
     public void goToMainActivity() {
         startActivity(new Intent(this, IntroSlidesGeneric.class));
         //TODO create shared preferences for skipping intros if seen
-        //startActivity(new Intent(this, MainActivity.class));
+        //startActivity(new Intent(this, MessageMainActivity.class));
         finish();
     }
 
