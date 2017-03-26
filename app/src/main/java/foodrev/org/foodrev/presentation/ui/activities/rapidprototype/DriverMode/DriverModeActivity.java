@@ -63,6 +63,11 @@ public class DriverModeActivity extends AppCompatActivity
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        String[] myDataset = new String[60];
+
+        //specify an adapter
+        mAdapter = new DriverModeRecyclerViewAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void attachPresenter() {

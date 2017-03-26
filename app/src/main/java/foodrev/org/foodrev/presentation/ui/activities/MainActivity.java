@@ -32,8 +32,6 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemA
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode.DriverModeActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JSONHelpers.JSONAsyncRequest;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 
 import static foodrev.org.foodrev.domain.dummy.DummyContent.CARE_TITLE;
 import static foodrev.org.foodrev.domain.dummy.DummyContent.COMMUNITY_CENTER_TITLE;
