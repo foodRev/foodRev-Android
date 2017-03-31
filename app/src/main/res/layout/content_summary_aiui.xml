@@ -37,11 +37,11 @@
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/calendar_aiui"
                     android:id="@+id/date_icon"
-                    android:contentDescription="@string/calendar"
+                    android:contentDescription="calendar"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/display_date"
-                    android:text="@string/no_selection"
+                    android:text="no_selection"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="6"/>
@@ -58,14 +58,14 @@
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/clock_aiui"
                     android:id="@+id/time_icon"
-                    android:contentDescription="@string/clock"
+                    android:contentDescription="clock"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="6"
                     android:layout_height="wrap_content"
                     android:id="@+id/display_time"
-                    android:text="@string/no_selection"/>
+                    android:text="no_selection"/>
             </TableRow>
 
             <TableRow
@@ -79,14 +79,14 @@
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/location_aiui"
                     android:id="@+id/location_icon"
-                    android:contentDescription="@string/location"
+                    android:contentDescription="location"
                     android:layout_weight="1"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="6"
                     android:id="@+id/display_location"
-                    android:text="@string/no_selection"
+                    android:text="no_selection"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dropdown"/>
             </TableRow>
@@ -102,14 +102,14 @@
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/hashtag2_aiui"
                     android:id="@+id/quantity_icon"
-                    android:contentDescription="@string/quantity"
+                    android:contentDescription="quantity"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="6"
                     android:layout_height="wrap_content"
                     android:id="@+id/display_quantity"
-                    android:hint="@string/no_selection"/>
+                    android:hint="no_selection"/>
             </TableRow>
         </TableLayout>
 

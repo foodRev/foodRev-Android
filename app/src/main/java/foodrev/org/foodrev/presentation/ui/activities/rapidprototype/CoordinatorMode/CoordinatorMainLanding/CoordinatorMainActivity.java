@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
+import foodrev.org.foodrev.domain.infos.CareInfo;
+import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
+import foodrev.org.foodrev.domain.infos.DonationCenterInfo;
+import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
@@ -33,6 +38,7 @@ import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 
 public class CoordinatorMainActivity extends AppCompatActivity
 
@@ -134,7 +140,7 @@ public class CoordinatorMainActivity extends AppCompatActivity
     public void attachPresenter() {
         mPresenter = (MainPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new MainPresenterImpl();
+            mPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         }
         mPresenter.attachView(this);
     }
@@ -264,6 +270,36 @@ public class CoordinatorMainActivity extends AppCompatActivity
     @Override
     public void goToDetailItemActivity() {
         startActivity(new Intent(this, DetailItemActivity.class));
+    }
+
+    @Override
+    public void switchToPopulatedDataView() {
+
+    }
+
+    @Override
+    public void onAllPopulated() {
+
+    }
+
+    @Override
+    public void refreshCareInfos(CareInfo careInfo) {
+
+    }
+
+    @Override
+    public void refreshCommunityCenterInfos(CommunityCenterInfo communityCenterInfo) {
+
+    }
+
+    @Override
+    public void refreshDonationCenterInfos(DonationCenterInfo donationCenterInfo) {
+
+    }
+
+    @Override
+    public void refreshDriverInfos(DriverInfo driverInfo) {
+
     }
 
     @Override
