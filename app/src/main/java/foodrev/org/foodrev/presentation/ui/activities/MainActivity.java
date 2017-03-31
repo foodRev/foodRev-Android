@@ -21,11 +21,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import foodrev.org.foodrev.App;
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.CareInfo;
 import foodrev.org.foodrev.domain.infos.CommunityCenterInfo;
@@ -34,20 +43,30 @@ import foodrev.org.foodrev.domain.infos.DriverInfo;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.presenters.MainPresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.MainPresenterImpl;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode.DriverModeActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.model.Channel;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.model.User;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageMainActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.ChannelUtil;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.UserUtil;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ai.AiUiSummary;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.json.JsonActivity;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 
+import static foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.ChannelUtil.CHANNELS_CHILD;
+import static foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.MessageUtil.MESSAGING_CHILD;
+import static foodrev.org.foodrev.presentation.ui.activities.rapidprototype.messaging.ui.utils.UserUtil.USER_CHILD;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.CARE_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.COMMUNITY_CENTER_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.DONOR_TITLE;
 import static foodrev.org.foodrev.domain.infos.AbstractInfo.DRIVER_TITLE;
 
-// TODO: Properly separate into MVP
-public class MainActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
         ItemFragment.OnListFragmentInteractionListener,
         MainPresenter.View {
 
@@ -75,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
 
     private TabLayout mTabLayout;
+    private DatabaseReference mFirebaseDatabaseReference =
+            FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,20 +161,45 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
 
-        if (id == R.id.nav_profile) {
-            goToDetailItemActivity();
-        } else if (id == R.id.nav_coordinator) {
-
-        } else if (id == R.id.nav_driver) {
-
-        } else if (id == R.id.nav_json) {
-            startActivity(new Intent(this, JsonActivity.class));
-        } else if (id == R.id.nav_ai) {
-            startActivity(new Intent(this, AiUiSummary.class));
-        } else if (id == R.id.nav_sign_out) {
-            mPresenter.signOut();
+        switch(id){
+            case(R.id.nav_profile):
+                goToDetailItemActivity();
+                break;
+            case(R.id.nav_coordinator):
+                intent = new Intent(this, CoordinatorMainActivity.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_driver):
+                intent = new Intent(this, DriverModeActivity.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_donor):
+                intent = new Intent(this, FoodMap.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_community):
+                intent = new Intent(this, FoodMap.class);
+                startActivity(intent);
+                break;
+            case(R.id.nav_messaging):
+                setUserAddEventListener(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().replace(".", ""));
+                setInitialChannelAddEventListener();
+                intent = new Intent(this, MessageMainActivity.class);
+                startActivity(intent);
+                break;
+			case(R.id.nav_json):
+            	startActivity(new Intent(this, JsonActivity.class));
+				break;
+        	case(R.id.nav_ai):
+            	startActivity(new Intent(this, AiUiSummary.class));
+        		break;
+            case(R.id.nav_sign_out):
+                mPresenter.signOut();
+                break;
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -240,6 +287,96 @@ public class MainActivity extends AppCompatActivity implements
         mPresenter.detachView();
         mPresenter.destroy();
         super.onDestroy();
+    }
+
+
+    private void setUserAddEventListener(final String username) {
+        mFirebaseDatabaseReference.child(MESSAGING_CHILD).child(USER_CHILD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "setUserAddEventListener running.");
+                addUserIfExists(dataSnapshot, UserUtil.parseUsername(username));
+                mFirebaseDatabaseReference.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    private void addUserIfExists(DataSnapshot dataSnapshot, String username) {
+        boolean isUserInFirebase = false;
+        //TODO: Change to email to prevent same display name
+        Log.e(TAG, "USERNAME: "+ username);
+        //This checks the edgecase where firebase doesn't have any users at all
+        if(!dataSnapshot.getChildren().iterator().hasNext()) {
+            putUserIntoFirebase();
+        } else {
+            //Goes through each of the users in firebase
+            for (DataSnapshot children : dataSnapshot.getChildren()) {
+                //Goes deep into the user json
+                //Basically chathub/users/{some-user-name}/username/{some-user-name}
+                //then compares {some-user-name} with the username
+                if(children.getChildren().iterator().next().getChildren().iterator().next().getKey().equals(username)) {
+                    isUserInFirebase = true;
+                }
+            }
+            if(!isUserInFirebase) {
+                putUserIntoFirebase();
+            }
+        }
+    }
+
+    private void setInitialChannelAddEventListener() {
+        mFirebaseDatabaseReference.child(MESSAGING_CHILD).child(CHANNELS_CHILD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                checkIfChildChannelExists(dataSnapshot, "general");
+
+                mFirebaseDatabaseReference.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    private void checkIfChildChannelExists(DataSnapshot dataSnapshot, String channel) {
+        boolean isChannelInFirebase = false;
+        if(!dataSnapshot.child("MESSAGING").getChildren().iterator().hasNext()) {
+            createChannelIntoFirebase(channel);
+        } else {
+            //Goes through each of the channels in firebase
+            for (DataSnapshot children : dataSnapshot.child("Public").getChildren()) {
+                //Goes deep into the channels json
+                //Basically chathub/channels/UNIQUE_KEY/channelName
+                if (children.getChildren().iterator().next().getValue().equals(channel)) {
+                    isChannelInFirebase = true;
+                }
+            }
+            if(!isChannelInFirebase) {
+                createChannelIntoFirebase(channel);
+            } else {
+                ChannelUtil.addUserToChannelList(dataSnapshot.child("Public").getChildren(), channel);
+            }
+        }
+    }
+
+    private void createChannelIntoFirebase(String channelName) {
+        HashMap<String, String> userList = new HashMap<>();
+        //user list
+        userList.put(UserUtil.parseUsername(mAuth.getCurrentUser().getDisplayName()), mAuth.getCurrentUser().getDisplayName());
+        Channel channel = new Channel(userList, channelName, "General Purpose");
+        ChannelUtil.createChannel(channel, true);
+    }
+
+    private void putUserIntoFirebase() {
+        HashMap<String, String> channels = new HashMap<String, String>();
+        channels.put("general", "general");
+        channels.put("random", "random");
+        HashMap<String, HashMap<String, String>> newUser = new HashMap<>();
+        newUser.put(UserUtil.parseUsername(mAuth.getCurrentUser().getDisplayName()), channels);
+        UserUtil.createUser(new User(newUser));
     }
 
     @Override

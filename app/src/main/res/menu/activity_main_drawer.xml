@@ -8,12 +8,24 @@
             android:title="Profile"/>
         <item
             android:id="@+id/nav_coordinator"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@android:drawable/ic_menu_mapmode"
             android:title="Coordinator mode"/>
         <item
             android:id="@+id/nav_driver"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_driver"
             android:title="Driver mode"/>
+        <item
+            android:id="@+id/nav_donor"
+            android:icon="@drawable/ic_donation"
+            android:title="Donor mode"/>
+        <item
+            android:id="@+id/nav_community"
+            android:icon="@drawable/ic_community"
+            android:title="Community mode"/>
+        <item
+            android:id="@+id/nav_messaging"
+            android:icon="@drawable/ic_action_action_search"
+            android:title="Messaging mode"/>
         <item
             android:id="@+id/nav_json"
             android:icon="@drawable/ic_menu_manage"
