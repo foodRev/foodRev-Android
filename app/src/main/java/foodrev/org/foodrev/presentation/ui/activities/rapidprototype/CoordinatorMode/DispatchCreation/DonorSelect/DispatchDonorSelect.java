@@ -73,13 +73,6 @@ public class DispatchDonorSelect extends AppCompatActivity {
         // and initialize donor array
         setupFirebase();
 
-        // manual setting for testing
-//        dispatchDonors.add(new DispatchDonor("Donor M", 2, false));
-//        dispatchDonors.add(new DispatchDonor("Donor P", 4, true));
-//        dispatchDonors.add(new DispatchDonor("Donor T", 3, true));
-//        dispatchDonors.add(new DispatchDonor("Donor W", 2, true));
-//        dispatchDonors.add(new DispatchDonor("Donor S", 3, true));
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +91,7 @@ public class DispatchDonorSelect extends AppCompatActivity {
 
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setupFirebase() {

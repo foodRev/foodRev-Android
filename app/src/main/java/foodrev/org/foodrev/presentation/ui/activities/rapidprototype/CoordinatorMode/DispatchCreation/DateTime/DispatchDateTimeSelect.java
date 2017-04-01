@@ -12,25 +12,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect;
 
 public class DispatchDateTimeSelect extends AppCompatActivity {
 
     // date times
     Button calendarDatePickButton;
-    TextView dateValue;
-
-    // start and end times
-    EditText startHour;
-    EditText startMin;
-    EditText endHour;
-    EditText endMin;
-
-    ToggleButton startAmPm;
-    ToggleButton endAmPm;
 
     // Firebase
     private FirebaseDatabase firebaseDatabase;
@@ -38,6 +31,18 @@ public class DispatchDateTimeSelect extends AppCompatActivity {
     private DatabaseReference dispatchRoot; //driving/unloading/loading
     Intent intent;
     String dispatchKey;
+
+    TextView dispatchCalendarDate;
+
+    EditText startHourField;
+    EditText startMinuteField;
+
+    EditText endHourField;
+    EditText endMinuteField;
+
+    ToggleButton startAmPm;
+    ToggleButton endAmPm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,17 @@ public class DispatchDateTimeSelect extends AppCompatActivity {
 
         intent = getIntent();
         dispatchKey = intent.getStringExtra("dispatch_key");
+
+        dispatchCalendarDate = (TextView) findViewById(R.id.date_select_display);
+
+        startHourField = (EditText) findViewById(R.id.start_hour_input) ;
+        startMinuteField = (EditText) findViewById(R.id.start_minute_input) ;
+
+        endHourField = (EditText) findViewById(R.id.end_hour_input) ;
+        endMinuteField = (EditText) findViewById(R.id.end_minute_input) ;
+
+        startAmPm = (ToggleButton) findViewById(R.id.start_time_am_pm_input);
+        endAmPm = (ToggleButton) findViewById(R.id.end_time_am_pm_input);
 
         setupFirebase();
 
@@ -65,16 +81,27 @@ public class DispatchDateTimeSelect extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(DispatchDateTimeSelect.this, "Date and Time Set", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DispatchDateTimeSelect.this, "Date-Time update sent to cloud", Toast.LENGTH_SHORT).show();
 
-                dispatchRoot.child(dispatchKey).child("date").setValue("1");
-                dispatchRoot.child(dispatchKey).child("time").setValue("0");
+                dispatchRoot.child(dispatchKey)
+                        .child("DISPATCH_WINDOW")
+                        .child("START_TIME")
+                        .setValue(startHourField.getText() + ":" + startMinuteField.getText() + " " +  startAmPm.getText());
 
+                dispatchRoot.child(dispatchKey)
+                        .child("DISPATCH_WINDOW")
+                        .child("END_TIME")
+                        .setValue(endHourField.getText() + ":" + endMinuteField.getText() + " " +  endAmPm.getText());
+
+                dispatchRoot.child(dispatchKey)
+                        .child("DISPATCH_WINDOW")
+                        .child("CALENDAR_DATE")
+                        .setValue(dispatchCalendarDate.getText());
             }
 
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
         private void setupFirebase() {

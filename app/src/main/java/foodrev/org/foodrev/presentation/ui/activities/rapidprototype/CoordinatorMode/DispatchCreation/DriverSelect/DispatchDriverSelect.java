@@ -88,7 +88,7 @@ public class DispatchDriverSelect extends AppCompatActivity {
                 }
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setupFirebase() {

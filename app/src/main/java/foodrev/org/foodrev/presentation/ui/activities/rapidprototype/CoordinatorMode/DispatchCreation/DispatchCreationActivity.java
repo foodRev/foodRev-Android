@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.models.Coordinator;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect;
@@ -48,7 +50,9 @@ public class DispatchCreationActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeNewPost();
+                Intent i = new Intent(DispatchCreationActivity.this, CoordinatorMainActivity.class);
+                startActivity(i);
+                //writeNewPost();
             }
         });
 
