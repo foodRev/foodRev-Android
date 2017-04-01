@@ -253,9 +253,16 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
                     PERMISSIONS, PERMISSION_ALL);
             return;
         } else {
-//            TODO: Greg, this line needs a permissions check
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+            requestLocationUpdate();
         }
+    }
+
+    // having now wrapped location update request in permissions, we'll need to
+    // annotate to suppress missing permissions notification
+    // source: http://stackoverflow.com/questions/35124794/android-studio-remove-security-exception-warning
+    @SuppressWarnings({"MissingPermission"})
+    private void requestLocationUpdate() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
     }
 
     //permissions helper
@@ -280,8 +287,7 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         switch(requestCode) {
             case 1:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-//            TODO: Greg, this line needs a permissions check
-//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, locationListener);
+                    requestLocationUpdate();
                 } else {
                     Toast.makeText(this, "Enable GPS for this app to proceed", Toast.LENGTH_SHORT).show();
                     //return to main activity

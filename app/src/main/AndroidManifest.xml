@@ -33,9 +33,6 @@
         <activity
             android:name=".presentation.ui.activities.rapidprototype.DetailItemActivity"
             android:theme="@style/CustomDialog"/>
-        <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDetailItemActivity"
-            android:theme="@style/CustomDialog"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
