@@ -112,17 +112,17 @@ public class DispatchCreationActivity extends AppCompatActivity {
         //dispatch Root
         dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
     }
-
-    private void writeNewPost() {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
-        String key = dispatchRoot.push().getKey();
-        Dispatch dispatch = new Dispatch("DispatchID", "Time and Date", NEED_TO_PLAN);
-        Map<String, Object> dispatchValues = dispatch.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, dispatchValues);
-
-        dispatchRoot.updateChildren(childUpdates);
-    }
+    // TODO add wiki doc on how to create hashmap -> firebase bulk write
+//    private void writeNewPost() {
+//        // Create new post at /user-posts/$userid/$postid and at
+//        // /posts/$postid simultaneously
+//        String key = dispatchRoot.push().getKey();
+//        Dispatch dispatch = new Dispatch("DispatchID", "Time and Date", NEED_TO_PLAN);
+//        Map<String, Object> dispatchValues = dispatch.toMap();
+//
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put(key, dispatchValues);
+//
+//        dispatchRoot.updateChildren(childUpdates);
+//    }
 }

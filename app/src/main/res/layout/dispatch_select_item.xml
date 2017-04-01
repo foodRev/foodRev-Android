@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview"
+    android:id="@+id/dispatch_select_card_view"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:elevation="@dimen/cardview_default_elevation"
@@ -21,11 +21,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/item_image"
+            android:id="@+id/dispatch_select_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_donation"
+            android:src="@drawable/ic_dispatch"
             />
         <TextView
             android:id="@+id/dispatch_description_left"

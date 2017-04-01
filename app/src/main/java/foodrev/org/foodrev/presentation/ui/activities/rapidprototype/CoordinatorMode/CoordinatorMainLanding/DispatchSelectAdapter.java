@@ -1,6 +1,9 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,23 +32,42 @@ public class DispatchSelectAdapter extends
         this.context = context;
     }
 
-    private Context getContext() {
-        return this.context;
-    }
-
     @Override
     public DispatchSelectAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-       Context context = parent.getContext();
-       LayoutInflater inflater = LayoutInflater.from(context);
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
 
         // inflate custom layout
-        // TODO create custom dispatch item
-        View dispatchView = inflater.inflate(R.layout.fragment_item, parent, false);
+        View dispatchView = inflater.inflate(R.layout.dispatch_select_item, parent, false);
 
         // return new holder instance
         ViewHolder viewHolder = new ViewHolder(dispatchView);
         return viewHolder;
     }
+
+    // Provide a direct reference to each of the view within a data item
+    // Used to cache the views within the item layout for fast access
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // Your holder should contain a member variable
+        // for any view that will be set as you render a row
+        public ImageView dispatchIcon;
+        public TextView dispatchDescription;
+        public CardView dispatchCardView;
+
+        // We also create a constructor that accepts the entire item row
+        // and does the view lookups to find each subview
+        public ViewHolder(View dispatchItemView) {
+            // Stores the itemView in a public final member variable that can be used
+            // to access the context from any ViewHolder instance.
+            super(dispatchItemView);
+
+            dispatchIcon = (ImageView) dispatchItemView.findViewById(R.id.dispatch_select_icon);
+            dispatchDescription = (TextView) dispatchItemView.findViewById(R.id.dispatch_description_left);
+            dispatchCardView = (CardView) dispatchItemView.findViewById(R.id.dispatch_select_card_view);
+        }
+
+    }
+
 
     // populate data in the item through the holder
     @Override
@@ -62,6 +84,22 @@ public class DispatchSelectAdapter extends
         // set dispatch icon
         ImageView dispatchIcon = viewHolder.dispatchIcon;
         dispatchIcon.setImageResource(R.drawable.ic_dispatch);
+
+        // set card color based on information input
+        final CardView dispatchCardView = viewHolder.dispatchCardView;
+
+        if (dispatch.getDispatchStatus() == Dispatch.DispatchStatus.NEED_TO_PLAN) {
+            dispatchCardView.setCardBackgroundColor(Color.YELLOW);
+        } else {
+            dispatchCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+        }
+
+        dispatchCardView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
    }
 
     // return total count of items in list
@@ -74,23 +112,9 @@ public class DispatchSelectAdapter extends
         }
     }
 
-    // Provide a direct reference to each of the view within a data item
-    // Used to cache the views within the item layout for fast access
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        public ImageView dispatchIcon;
-        public TextView dispatchDescription;
-
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
-            super(itemView);
-
-            dispatchIcon = (ImageView) itemView.findViewById(R.id.item_image);
-            dispatchDescription = (TextView) itemView.findViewById(R.id.dummy_content);
-        }
+    //smaller methods
+    private Context getContext() {
+        return this.context;
     }
+
 }

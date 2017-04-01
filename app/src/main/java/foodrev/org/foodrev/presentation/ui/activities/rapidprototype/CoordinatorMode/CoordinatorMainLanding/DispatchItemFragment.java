@@ -155,17 +155,31 @@ public class DispatchItemFragment extends Fragment {
         childEventListener = dispatchRoot.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                String dispatchId; //create single string entity to hold start time
+
+                String dispatchDate; //create single string entity to hold start time
+                String dispatchStartTime; //create single string entity to hold start time
+
                 if(dataSnapshot.child("DISPATCH_WINDOW").child("START_TIME").getValue() != null
                         && dataSnapshot.child("DISPATCH_WINDOW").child("END_TIME").getValue() != null
                         && dataSnapshot.child("DISPATCH_WINDOW").child("CALENDAR_DATE").getValue() != null) {
+
+                    dispatchId = dataSnapshot
+                            .getKey()
+                            .toString();
+
+                    dispatchStartTime = dataSnapshot.child("DISPATCH_WINDOW")
+                            .child("START_TIME")
+                            .getValue().toString();
+
+                     dispatchDate = dataSnapshot.child("DISPATCH_WINDOW")
+                            .child("CALENDAR_DATE")
+                            .getValue().toString();
                     // update the client-side model
                     dispatches.add(0, new Dispatch(
-                            dataSnapshot.child("DISPATCH_WINDOW")
-                                    .child("CALENDAR_DATE")
-                                    .getValue().toString(),
-                            dataSnapshot.child("DISPATCH_WINDOW")
-                                    .child("START_TIME")
-                                    .getValue().toString(),
+                            dispatchId,
+                            dispatchDate,
+                            dispatchStartTime,
                             NEED_TO_PLAN));
                     // update the UI
                     dispatchViewAdapter.notifyItemInserted(0);

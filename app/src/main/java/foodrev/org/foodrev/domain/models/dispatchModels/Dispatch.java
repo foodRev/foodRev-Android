@@ -16,7 +16,8 @@ public class Dispatch {
 
     public enum DispatchStatus {
         NEED_TO_PLAN,
-        PLAN_PREPARED,
+        PARTIALLY_PLANNED,
+        PLAN_COMPLETE,
     };
 
     private String dispatchId = ""; // the firebase hash
@@ -34,7 +35,8 @@ public class Dispatch {
     private DispatchStatus dispatchStatus = NEED_TO_PLAN;
 
 
-    public Dispatch(String dispatchDate, String dispatchStartTime, DispatchStatus dispatchStatus) {
+    public Dispatch(String dispatchId, String dispatchDate, String dispatchStartTime, DispatchStatus dispatchStatus) {
+        this.dispatchId = dispatchId;
         this.dispatchDate = dispatchDate;
         this.dispatchStartTime = dispatchStartTime;
         this.dispatchStatus = dispatchStatus;
