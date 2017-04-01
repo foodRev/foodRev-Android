@@ -1,6 +1,7 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity;
 
 public class DispatchSelectAdapter extends
         RecyclerView.Adapter<DispatchSelectAdapter.ViewHolder> {
@@ -75,6 +77,8 @@ public class DispatchSelectAdapter extends
         // get the data model based on position
         Dispatch dispatch = dispatches.get(position);
 
+        final String dispatchId = dispatch.getDispatchId();
+
         // set item views based on your views and data model
 
         // set description
@@ -97,6 +101,9 @@ public class DispatchSelectAdapter extends
         dispatchCardView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DispatchCreationActivity.class);
+                intent.putExtra("dispatch_key", dispatchId);
+                getContext().startActivity(intent);
             }
         });
 
