@@ -202,10 +202,17 @@ public class DispatchItemFragment extends Fragment {
     }
 
 
+    private void clearList() {
+        int size = this.dispatches.size();
+        this.dispatches.clear();
+        dispatchViewAdapter.notifyItemRangeRemoved(0,size);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
         removeFirebaseListener();
+        clearList();
     }
 
     @Override
