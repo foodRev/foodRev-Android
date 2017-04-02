@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.EntityAddTest.AddFirebaseEntity"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <Button
+        android:id="@+id/add_donor"
+        android:layout_width="0dp"
+        android:layout_height="131dp"
+        android:text="ADD DONOR"
+        app:layout_constraintBottom_toTopOf="@+id/add_driver"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/add_driver"
+        android:layout_width="0dp"
+        android:layout_height="132dp"
+        android:text="ADD DRIVER"
+        app:layout_constraintBottom_toTopOf="@+id/add_community"
+        app:layout_constraintTop_toBottomOf="@+id/add_donor"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/add_community"
+        android:layout_width="0dp"
+        android:layout_height="132dp"
+        android:text="ADD COMMUNITY"
+        app:layout_constraintBottom_toTopOf="@+id/add_coordinator"
+        app:layout_constraintTop_toBottomOf="@+id/add_driver"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/add_driver"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/add_driver"/>
+
+    <Button
+        android:id="@+id/add_coordinator"
+        android:layout_width="0dp"
+        android:layout_height="132dp"
+        android:text="ADD COORDINATOR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_community"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/add_community"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/add_community"/>
+</android.support.constraint.ConstraintLayout>

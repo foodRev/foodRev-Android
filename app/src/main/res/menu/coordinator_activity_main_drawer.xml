@@ -8,8 +8,12 @@
             android:title="Profile"/>
         <item
             android:id="@+id/nav_main_prototype"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@android:drawable/ic_menu_revert"
             android:title="Back to Prototype Main"/>
+        <item
+            android:id="@+id/nav_add_firebase_entity"
+            android:icon="@drawable/ic_round_add_button"
+            android:title="add firebase test entity"/>
         <item
             android:id="@+id/nav_foodmap"
             android:icon="@android:drawable/ic_menu_mapmode"

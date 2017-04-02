@@ -33,6 +33,7 @@ import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.EntityAddTest.AddFirebaseEntity;
 
 public class CoordinatorMainActivity extends AppCompatActivity
 
@@ -184,6 +185,10 @@ public class CoordinatorMainActivity extends AppCompatActivity
             case(R.id.nav_main_prototype):
                 //go back to main prototyping section
                 finish();
+                break;
+            case(R.id.nav_add_firebase_entity):
+                intent = new Intent(this, AddFirebaseEntity.class);
+                startActivity(intent);
                 break;
             case(R.id.nav_foodmap):
                 intent = new Intent(this, FoodMap.class);
