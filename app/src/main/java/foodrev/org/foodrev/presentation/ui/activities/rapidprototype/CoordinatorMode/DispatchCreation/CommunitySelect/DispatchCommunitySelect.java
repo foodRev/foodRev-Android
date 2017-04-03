@@ -76,11 +76,17 @@ public class DispatchCommunitySelect extends AppCompatActivity {
 
                 for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
                     if (dispatchCommunity.isSelected()) {
+                        //TODO replace with hashmap update strategy for all communities at once instead of one at a time
                         dispatchRoot.child(dispatchKey)
                                 .child("COMMUNITIES")
-                                .child(dispatchCommunity.getCommunityName()) //todo replace with unique id, which can then act as a pointer to other fields
-                                .child("FOOD_DONATION_CAPACITY") //todo replace with unique id, which can then act as a pointer to other fields
+                                .child(dispatchCommunity.getCommunityUid())
+                                .child("foodDonationCapacity")
                                 .setValue(dispatchCommunity.getFoodDonationCapacity());
+                        dispatchRoot.child(dispatchKey)
+                                .child("COMMUNITIES")
+                                .child(dispatchCommunity.getCommunityUid())
+                                .child("communityName")
+                                .setValue(dispatchCommunity.getCommunityName());
                     }
                 }
             }
@@ -104,7 +110,8 @@ public class DispatchCommunitySelect extends AppCompatActivity {
                 // update the client-side model
                 dispatchCommunities.add( 0, new DispatchCommunity(
                         dataSnapshot.getKey().toString(),
-                        Integer.parseInt(dataSnapshot.child("FOOD_DONATION_CAPACITY").getValue().toString()),
+                        dataSnapshot.child("communityName").getValue().toString(),
+                        Integer.parseInt(dataSnapshot.child("foodDonationCapacity").getValue().toString()),
                         false));
 
                 // update the UI

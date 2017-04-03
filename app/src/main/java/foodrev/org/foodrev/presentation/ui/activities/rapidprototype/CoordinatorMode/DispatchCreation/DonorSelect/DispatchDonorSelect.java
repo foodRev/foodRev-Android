@@ -83,9 +83,14 @@ public class DispatchDonorSelect extends AppCompatActivity {
                     if (dispatchDonor.isSelected()) {
                         dispatchRoot.child(dispatchKey)
                                 .child("DONORS")
-                                .child(dispatchDonor.getDonorName()) //todo replace with unique id, which can then act as a pointer to other fields
-                                .child("CARS_OF_FOOD") //todo replace with unique id, which can then act as a pointer to other fields
+                                .child(dispatchDonor.getDonorUid())
+                                .child("carsOfFood") //todo replace with unique id, which can then act as a pointer to other fields
                                 .setValue(dispatchDonor.getCarsOfFood());
+                        dispatchRoot.child(dispatchKey)
+                                .child("DONORS")
+                                .child(dispatchDonor.getDonorUid())
+                                .child("donorName") //todo replace with unique id, which can then act as a pointer to other fields
+                                .setValue(dispatchDonor.getDonorName());
                     }
                 }
 
@@ -110,7 +115,8 @@ public class DispatchDonorSelect extends AppCompatActivity {
                 // update the client-side model
                 dispatchDonors.add( 0, new DispatchDonor(
                         dataSnapshot.getKey().toString(),
-                        Integer.parseInt(dataSnapshot.child("CARS_OF_FOOD").getValue().toString()),
+                        dataSnapshot.child("donorName").getValue().toString(),
+                        Integer.parseInt(dataSnapshot.child("carsOfFood").getValue().toString()),
                         false));
 
                 // update the UI

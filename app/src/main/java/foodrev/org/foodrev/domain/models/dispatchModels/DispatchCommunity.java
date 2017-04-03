@@ -10,20 +10,52 @@ import java.util.Map;
  */
 
 public class DispatchCommunity {
+    private String communityUid;
+
     private String communityName;
     private int foodDonationCapacity;
     private boolean isSelected = false;
+
+    private double latitude;
+    private double longitude;
+
     //TODO
     //address
-    //gps
     //poc
     //etc
 
+    public String getCommunityUid() {
+        return communityUid;
+    }
+
+    public void setCommunityUid(String communityUid) {
+        this.communityUid = communityUid;
+    }
+
     // constructor
-    public DispatchCommunity(String communityName, int foodDonationCapacity, boolean isSelected) {
+    public DispatchCommunity(String communityUid, String communityName, int foodDonationCapacity, boolean isSelected) {
+        this.communityUid = communityUid;
         this.communityName = communityName;
         this.foodDonationCapacity = foodDonationCapacity;
         this.isSelected = isSelected;
+    }
+
+    // add firebase entity constructor
+    public DispatchCommunity(String communityName, int foodDonationCapacity, double latitude, double longitude) {
+        this.communityName = communityName;
+        this.foodDonationCapacity = foodDonationCapacity;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("communityName",this.getCommunityName());
+        result.put("foodDonationCapacity",this.getFoodDonationCapacity());
+        result.put("latitude",this.getLatitude());
+        result.put("longitude",this.getLongitude());
+        return result;
     }
 
     // getters and setters
@@ -50,4 +82,21 @@ public class DispatchCommunity {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
 }

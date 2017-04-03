@@ -12,14 +12,33 @@ import java.util.Map;
 
 public class DispatchDriver {
 
-    public ArrayList<String> driverInstructions;
+    private String driverUid;
+
+    private ArrayList<String> driverInstructions;
 
     private String driverName;
     private int vehicleFoodCapacity;
     private boolean isSelected = false;
 
-    public ArrayList<String> getDriverInstructions() {
-        return driverInstructions;
+    public String getDriverUid() {
+        return driverUid;
+    }
+
+    public void setDriverUid(String driverUid) {
+        this.driverUid = driverUid;
+    }
+
+    // constructor
+    public DispatchDriver(String driverName, int vehicleFoodCapacity) {
+        this.driverName = driverName;
+        this.vehicleFoodCapacity = vehicleFoodCapacity;
+    }
+
+    public DispatchDriver(String driverUid, String driverName, int vehicleFoodCapacity, boolean isSelected) {
+        this.driverUid = driverUid;
+        this.driverName = driverName;
+        this.vehicleFoodCapacity = vehicleFoodCapacity;
+        this.isSelected = isSelected;
     }
 
     @Exclude
@@ -31,6 +50,11 @@ public class DispatchDriver {
     }
 
     // getters and setters
+
+    public ArrayList<String> getDriverInstructions() {
+        return driverInstructions;
+    }
+
     public void setDriverInstructions(ArrayList<String> driverInstructions) {
         this.driverInstructions = driverInstructions;
     }
@@ -59,11 +83,6 @@ public class DispatchDriver {
         isSelected = selected;
     }
 
-    public DispatchDriver (String driverName, int vehicleFoodCapacity, boolean isSelected) {
-        this.driverName = driverName;
-        this.vehicleFoodCapacity = vehicleFoodCapacity;
-        this.isSelected = isSelected;
-    }
 
 
 }

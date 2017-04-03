@@ -81,9 +81,14 @@ public class DispatchDriverSelect extends AppCompatActivity {
                     if (dispatchDriver.isSelected()) {
                         dispatchRoot.child(dispatchKey)
                                 .child("DRIVERS")
-                                .child(dispatchDriver.getDriverName()) //todo replace with unique id, which can then act as a pointer to other fields
-                                .child("TRUNKS_OF_CAPACITY") //todo replace with unique id, which can then act as a pointer to other fields
+                                .child(dispatchDriver.getDriverUid())
+                                .child("vehicleFoodCapacity") //todo replace with unique id, which can then act as a pointer to other fields
                                 .setValue(dispatchDriver.getVehicleFoodCapacity());
+                        dispatchRoot.child(dispatchKey)
+                                .child("DRIVERS")
+                                .child(dispatchDriver.getDriverUid())
+                                .child("driverName") //todo replace with unique id, which can then act as a pointer to other fields
+                                .setValue(dispatchDriver.getDriverName());
                     }
                 }
             }
@@ -107,7 +112,8 @@ public class DispatchDriverSelect extends AppCompatActivity {
                 // update the client-side model
                 dispatchDrivers.add( 0, new DispatchDriver(
                         dataSnapshot.getKey().toString(),
-                        Integer.parseInt(dataSnapshot.child("TRUNKS_OF_CAPACITY").getValue().toString()),
+                        dataSnapshot.child("driverName").getValue().toString(),
+                        Integer.parseInt(dataSnapshot.child("vehicleFoodCapacity").getValue().toString()),
                         false));
 
                 // update the UI
