@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,7 +16,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
@@ -41,6 +44,8 @@ public class DispatchCommunitySelect extends AppCompatActivity {
 
     // donor adapter
     CommunitySelectAdapter communitySelectAdapter;
+    private ArrayList<String> chosenItems;
+    private ValueEventListener communityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +69,10 @@ public class DispatchCommunitySelect extends AppCompatActivity {
         rvDispatchCommunities.setAdapter(communitySelectAdapter);
 
         // setup Firbase -- this must come after adapter setup
-        // this will also initialize the community array
+        // initialize the community array in onResume
         setupFirebase();
+        getExistingList();
+        populateList();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -102,36 +109,80 @@ public class DispatchCommunitySelect extends AppCompatActivity {
 
         // community Root
         communityRoot = firebaseDatabase.getReference("/COMMUNITIES");
+    }
 
-        // note: this will also do the initial population of the list as well
-        communityRoot.addChildEventListener(new ChildEventListener() {
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+    // TODO: consider factoring this out into an Abstract Select Class
+    private void getExistingList() {
+        chosenItems = new ArrayList<>();
+        dispatchRoot.child(dispatchKey).child("COMMUNITIES").addListenerForSingleValueEvent(new ValueEventListener() {
 
-                // update the client-side model
-                dispatchCommunities.add( 0, new DispatchCommunity(
-                        dataSnapshot.getKey().toString(),
-                        dataSnapshot.child("communityName").getValue().toString(),
-                        Integer.parseInt(dataSnapshot.child("foodDonationCapacity").getValue().toString()),
-                        false));
 
-                // update the UI
-                communitySelectAdapter.notifyItemInserted(0);
-
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    chosenItems.add(snapshot.getKey().toString());
+                }
             }
 
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO create tags for logging errors instead of hardcoding
+                Log.e("DispatchCommunitySelect", "onCancelled: " + databaseError.getMessage());
 
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(DispatchCommunitySelect.this, "child changed", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(DispatchCommunitySelect.this, "child removed", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onCancelled(DatabaseError e) {
             }
         });
+
+
     }
+
+    private void populateList() {
+        // note: this will also do the initial population of the list as well
+        // update the client-side model
+// update the UI
+        communityRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            String itemKey = snapshot.getKey().toString();
+                            Boolean isAlreadySelected = false;
+
+                            for (String chosenItem : chosenItems) {
+                                if(itemKey.equals(chosenItem)) {
+                                    isAlreadySelected = true;
+                                    break;
+                                }
+                            }
+
+                            // update the client-side model
+
+                            dispatchCommunities.add( 0, new DispatchCommunity(
+                                    snapshot.getKey().toString(),
+                                    snapshot.child("communityName").getValue().toString(),
+                                    Integer.parseInt(snapshot.child("foodDonationCapacity").getValue().toString()),
+                                    isAlreadySelected));
+
+                            // update the UI
+                            communitySelectAdapter.notifyItemInserted(0);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // TODO create tags for logging errors instead of hardcoding
+                        Log.e("DispatchCommunitySelect", "onCancelled: " + databaseError.getMessage());
+
+                    }
+
+
+        });
+    }
+
+
+
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
 }
