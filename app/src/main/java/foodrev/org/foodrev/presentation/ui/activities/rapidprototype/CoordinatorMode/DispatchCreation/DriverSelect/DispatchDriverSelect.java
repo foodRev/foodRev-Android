@@ -3,27 +3,31 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinato
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 
 public class DispatchDriverSelect extends AppCompatActivity {
+
+    // highlight pre-selected items
+    private ArrayList<String> chosenItems;
+    private ValueEventListener driverListener;
+
 
     // prior Intent
     Intent dispatchCreateIntent;
@@ -70,6 +74,8 @@ public class DispatchDriverSelect extends AppCompatActivity {
         // note 1: requires the rv to be setup
         // note 2: this will initialize the driver array
         setupFirebase();
+        getExistingList();
+        populateList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,38 +110,65 @@ public class DispatchDriverSelect extends AppCompatActivity {
 
         // driver Root
         driverRoot = firebaseDatabase.getReference("/DRIVERS");
+    }
 
-        // note: this will also do the initial population of the list as well
-        driverRoot.addChildEventListener(new ChildEventListener() {
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                // update the client-side model
-                dispatchDrivers.add( 0, new DispatchDriver(
-                        dataSnapshot.getKey().toString(),
-                        dataSnapshot.child("driverName").getValue().toString(),
-                        Integer.parseInt(dataSnapshot.child("vehicleFoodCapacity").getValue().toString()),
-                        false));
-
-                // update the UI
-                driverSelectAdapter.notifyItemInserted(0);
-
+    private void getExistingList() {
+        chosenItems = new ArrayList<>();
+        dispatchRoot.child(dispatchKey).child("DRIVERS").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    chosenItems.add(snapshot.getKey().toString());
+                }
             }
 
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(DispatchDriverSelect.this, "child changed", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(DispatchDriverSelect.this, "child removed", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onCancelled(DatabaseError e) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DispatchDriverSelect", "onCancelled: " + databaseError.getMessage());
             }
         });
 
+    }
+
+    private void populateList() {
+        // note: this will also do the initial population of the list as well
+        // update the client-side model
+// update the UI
+        driverRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    String itemKey = snapshot.getKey().toString();
+                    Boolean isAlreadySelected = false;
+
+                    for (String chosenItem : chosenItems) {
+                        if(itemKey.equals(chosenItem)) {
+                            isAlreadySelected = true;
+                            break;
+                        }
+                    }
+
+                    // update the client-side model
+
+                    dispatchDrivers.add(0, new DispatchDriver(
+                            snapshot.getKey().toString(),
+                            snapshot.child("driverName").getValue().toString(),
+                            Integer.parseInt(snapshot.child("vehicleFoodCapacity").getValue().toString()),
+                            isAlreadySelected));
+
+                    // update the UI
+                    driverSelectAdapter.notifyItemInserted(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO create tags for logging errors instead of hardcoding
+                Log.e("DispatchDriverSelect", "onCancelled: " + databaseError.getMessage());
+            }
+
+        });
     }
 
 }
