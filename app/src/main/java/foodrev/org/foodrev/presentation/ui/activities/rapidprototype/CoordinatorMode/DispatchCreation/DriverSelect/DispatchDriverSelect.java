@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
@@ -81,25 +83,35 @@ public class DispatchDriverSelect extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DispatchDriverSelect.this, "Driver update sent to cloud", Toast.LENGTH_SHORT).show();
-
-                for (DispatchDriver dispatchDriver : dispatchDrivers) {
-                    if (dispatchDriver.isSelected()) {
-                        dispatchRoot.child(dispatchKey)
-                                .child("DRIVERS")
-                                .child(dispatchDriver.getDriverUid())
-                                .child("vehicleFoodCapacity") //todo replace with unique id, which can then act as a pointer to other fields
-                                .setValue(dispatchDriver.getVehicleFoodCapacity());
-                        dispatchRoot.child(dispatchKey)
-                                .child("DRIVERS")
-                                .child(dispatchDriver.getDriverUid())
-                                .child("driverName") //todo replace with unique id, which can then act as a pointer to other fields
-                                .setValue(dispatchDriver.getDriverName());
-                    }
-                }
+                sendListUpdate();
             }
         });
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void sendListUpdate() {
+        Toast.makeText(DispatchDriverSelect.this, "Driver update sent to cloud", Toast.LENGTH_SHORT).show();
+
+        // list for individual drivers and characteristics
+        HashMap<String,Object> characteristicList;
+
+        // complete updated list to be pushed, this way only one update
+        Map<String,Object> listUpdate = new HashMap<>();
+
+        //
+        for (DispatchDriver dispatchDriver : dispatchDrivers) {
+            if (dispatchDriver.isSelected()) {
+                // init or re-init inner hashMap
+                characteristicList = new HashMap<>();
+                characteristicList.put("vehicleFoodCapacity",dispatchDriver.getVehicleFoodCapacity());
+                characteristicList.put("driverName",dispatchDriver.getDriverName());
+                listUpdate.put(dispatchDriver.getDriverUid(),characteristicList);
+            }
+        }
+
+        dispatchRoot.child(dispatchKey)
+                .child("DRIVERS")
+                .setValue(listUpdate);
     }
 
     private void setupFirebase() {
