@@ -158,7 +158,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         mView.showProgressDialog();
 
         AuthCredential credential = mGoogleAuthProviderWrapper.getCredential(acct.getIdToken(), null);
@@ -172,7 +172,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            //Log.w(TAG, "signInWithCredential", task.getException());
+                            Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
                         } else {
                             mView.goToMainActivity();

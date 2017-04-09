@@ -13,12 +13,13 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "foodrev.org.foodrev"
-        minSdkVersion 22
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        signingConfig signingConfigs.foodrev
     }
     buildTypes {
         release {
@@ -30,16 +31,16 @@ android {
             signingConfig signingConfigs.foodrev
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     // Testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Firebase Authentication
     // Google Sign In SDK (only required for Google Sign In)
     //    compile 'com.google.android.gms:play-services:10.2.1'
@@ -49,12 +50,12 @@ dependencies {
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.android.support:cardview-v7:25.3.0'
-    compile 'com.google.firebase:firebase-core:10.2.1'
-    compile 'com.google.firebase:firebase-auth:10.2.1'
-    compile 'com.google.firebase:firebase-appindexing:10.2.1'
-    compile 'com.google.firebase:firebase-database:10.2.1'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
-    compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-appindexing:10.0.1'
+    compile 'com.google.firebase:firebase-database:10.0.1'
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:1.3.0'
