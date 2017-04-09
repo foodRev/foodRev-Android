@@ -12,13 +12,16 @@ public class DonationCenterInfo extends DestinationInfo {
 
     public DonationCenterInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractorImpl.Callback callback) {
         super(firebaseDatabase, callback);
-        DatabaseReference ref = firebaseDatabase.getReference("donation_centers/");
+        DatabaseReference ref = firebaseDatabase.getReference("DONORS");
         ref.addValueEventListener(super.mListener);
     }
 
     @Override
     protected void updateData(DataSnapshot snapshot) {
         super.updateData(snapshot);
-        super.mCallback.onDonationCenterInfoUpdated(this);
+
+        if (snapshot.getValue() != null) {
+            super.mCallback.onDonationCenterInfoUpdated(this);
+        }
     }
 }

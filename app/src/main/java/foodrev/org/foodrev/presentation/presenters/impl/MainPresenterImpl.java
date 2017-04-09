@@ -40,10 +40,12 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     }
 
     private void checkAllPopulated() {
-        if(mCareInfoPopulated &&
-                mCommunityCenterInfoPopulated &&
-                mDonationCenterInfoPopulated &&
-                mDriverInfoPopulated) {
+        if(
+//                mCareInfoPopulated
+//                &&
+        mCommunityCenterInfoPopulated
+                && mDonationCenterInfoPopulated
+                && mDriverInfoPopulated) {
             mView.onAllPopulated();
         }
     }
