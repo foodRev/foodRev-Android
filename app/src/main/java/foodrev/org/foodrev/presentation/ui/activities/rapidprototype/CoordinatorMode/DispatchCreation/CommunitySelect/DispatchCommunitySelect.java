@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
@@ -79,26 +81,35 @@ public class DispatchCommunitySelect extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DispatchCommunitySelect.this, "Community update sent to cloud", Toast.LENGTH_SHORT).show();
-
-                for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
-                    if (dispatchCommunity.isSelected()) {
-                        //TODO replace with hashmap update strategy for all communities at once instead of one at a time
-                        dispatchRoot.child(dispatchKey)
-                                .child("COMMUNITIES")
-                                .child(dispatchCommunity.getCommunityUid())
-                                .child("foodDonationCapacity")
-                                .setValue(dispatchCommunity.getFoodDonationCapacity());
-                        dispatchRoot.child(dispatchKey)
-                                .child("COMMUNITIES")
-                                .child(dispatchCommunity.getCommunityUid())
-                                .child("communityName")
-                                .setValue(dispatchCommunity.getCommunityName());
-                    }
-                }
+                sendListUpdate();
             }
         });
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void sendListUpdate() {
+        Toast.makeText(DispatchCommunitySelect.this, "Community update sent to cloud", Toast.LENGTH_SHORT).show();
+
+        // list for individual drivers and characteristics
+        HashMap<String,Object> characteristicList;
+
+        // complete updated list to be pushed, this way only one update
+        Map<String,Object> listUpdate = new HashMap<>();
+
+        //
+        for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
+            if (dispatchCommunity.isSelected()) {
+                // init or re-init inner hashMap
+                characteristicList = new HashMap<>();
+                characteristicList.put("foodDonationCapacity",dispatchCommunity.getFoodDonationCapacity());
+                characteristicList.put("communityName",dispatchCommunity.getCommunityName());
+                listUpdate.put(dispatchCommunity.getCommunityUid(),characteristicList);
+            }
+        }
+
+        dispatchRoot.child(dispatchKey)
+                .child("COMMUNITIES")
+                .setValue(listUpdate);
     }
 
     private void setupFirebase() {
