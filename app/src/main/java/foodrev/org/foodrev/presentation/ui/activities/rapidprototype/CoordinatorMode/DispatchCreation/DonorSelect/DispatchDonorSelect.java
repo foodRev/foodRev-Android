@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
@@ -87,26 +89,35 @@ public class DispatchDonorSelect extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DispatchDonorSelect.this, "Donor update sent to cloud", Toast.LENGTH_SHORT).show();
-
-                for (DispatchDonor dispatchDonor : dispatchDonors) {
-                    if (dispatchDonor.isSelected()) {
-                        dispatchRoot.child(dispatchKey)
-                                .child("DONORS")
-                                .child(dispatchDonor.getDonorUid())
-                                .child("carsOfFood") //todo replace with unique id, which can then act as a pointer to other fields
-                                .setValue(dispatchDonor.getCarsOfFood());
-                        dispatchRoot.child(dispatchKey)
-                                .child("DONORS")
-                                .child(dispatchDonor.getDonorUid())
-                                .child("donorName") //todo replace with unique id, which can then act as a pointer to other fields
-                                .setValue(dispatchDonor.getDonorName());
-                    }
-                }
-
+                sendListUpdate();
             }
         });
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void sendListUpdate() {
+        Toast.makeText(DispatchDonorSelect.this, "Donor update sent to cloud", Toast.LENGTH_SHORT).show();
+
+        // list for individual drivers and characteristics
+        HashMap<String,Object> characteristicList;
+
+        // complete updated list to be pushed, this way only one update
+        Map<String,Object> listUpdate = new HashMap<>();
+
+        //
+        for (DispatchDonor dispatchDonor : dispatchDonors) {
+            if (dispatchDonor.isSelected()) {
+                // init or re-init inner hashMap
+                characteristicList = new HashMap<>();
+                characteristicList.put("carsOfFood",dispatchDonor.getCarsOfFood());
+                characteristicList.put("donorName",dispatchDonor.getDonorName());
+                listUpdate.put(dispatchDonor.getDonorUid(),characteristicList);
+            }
+        }
+
+        dispatchRoot.child(dispatchKey)
+                .child("DONORS")
+                .setValue(listUpdate);
     }
 
     private void setupFirebase() {
