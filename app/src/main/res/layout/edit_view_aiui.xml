@@ -12,7 +12,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:id="@+id/date_picker_button"
-        android:text="@string/pick_date"
+        android:text="pick_date"
         android:textAppearance="@android:style/TextAppearance.Widget.TextView"
         android:gravity="left|center_vertical"
         android:textSize="14sp"/>
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:id="@+id/time_picker_button"
-        android:text="@string/pick_time"
+        android:text="pick_time"
         android:layout_marginTop="16dp"
         android:textAppearance="@android:style/TextAppearance.Widget.TextView"
         android:gravity="left|center_vertical"

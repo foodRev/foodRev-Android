@@ -28,7 +28,7 @@ public class DriverInfo extends AbstractInfo implements Serializable {
     public DriverInfo(FirebaseDatabase firebaseDatabase, GetFirebaseInfoInteractor.Callback callback) {
         super(firebaseDatabase, callback);
         mDrivers = new ArrayList<>();
-        DatabaseReference ref = firebaseDatabase.getReference("driver_app/drivers");
+        DatabaseReference ref = firebaseDatabase.getReference("DRIVER_STATUS");
         mListener = new InfoUpdateListener(this);
         ref.addValueEventListener(mListener);
     }
@@ -39,6 +39,7 @@ public class DriverInfo extends AbstractInfo implements Serializable {
             Log.e("dbging", "in DriverInfo.updateData, the update is null.");
             return;
         }
+
         mLock.writeLock().lock();
         mDrivers.clear();
         for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
@@ -60,6 +61,7 @@ public class DriverInfo extends AbstractInfo implements Serializable {
         if (mUIObject != null) {
             mUIObject.Refresh();
         }
+
         if(mCallback != null) {
             mCallback.onDriverInfoUpdated(this);
         }

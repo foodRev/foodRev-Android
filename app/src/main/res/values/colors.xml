@@ -12,4 +12,24 @@
     <color name="grey_300">#E0E0E0</color>
 
     <color name="list_bg">#ECEFF1</color>
+
+
+    <color name="colorMessageBackground">#ffaabbff</color>
+    <color name="colorMessageBorder">#ff8899dd</color>
+
+    <!-- Deacon Blues -->
+    <color name="indigo">#3F51B5</color>
+    <color name="indigo_dark">#303F9F</color>
+    <color name="cyan">#00BCD4</color>
+    <!-- Green Earrings -->
+    <color name="green">#4CAF50</color>
+    <color name="green_dark">#388E3C</color>
+    <color name="amber">#FFC107</color>
+    <!-- Black Cow -->
+    <color name="almost_black">#212121</color>
+    <!--<color name="black">#000000</color>-->
+    <color name="mellow_brown">#D7CCC8</color>
+
+    <color name="sidebar">#AB9BA9</color>
+    <color name="red">#FF0000</color>
 </resources>

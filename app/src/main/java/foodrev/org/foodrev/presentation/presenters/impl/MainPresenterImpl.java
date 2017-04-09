@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import foodrev.org.foodrev.domain.interactors.SampleInteractor;
 import java.io.Serializable;
 
 import foodrev.org.foodrev.App;
@@ -39,10 +40,12 @@ public class MainPresenterImpl implements MainPresenter, GetFirebaseInfoInteract
     }
 
     private void checkAllPopulated() {
-        if(mCareInfoPopulated &&
-                mCommunityCenterInfoPopulated &&
-                mDonationCenterInfoPopulated &&
-                mDriverInfoPopulated) {
+        if(
+//                mCareInfoPopulated
+//                &&
+        mCommunityCenterInfoPopulated
+                && mDonationCenterInfoPopulated
+                && mDriverInfoPopulated) {
             mView.onAllPopulated();
         }
     }

@@ -38,9 +38,11 @@ captures/
 .idea/libraries/
 .idea/dictionaries
 .idea/misc.xml
+.idea/codeStyleSettings.xml
 
 # Keystore files
 *.jks
 
 # Firebase
 */google-services.json
+
