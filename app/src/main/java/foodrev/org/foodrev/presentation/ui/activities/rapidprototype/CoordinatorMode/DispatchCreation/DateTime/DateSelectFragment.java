@@ -17,11 +17,25 @@ public class DateSelectFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        //Use the current date as the default date in the date picker
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        int year;
+        int month;
+        int day;
+
+        TextView dispatchCalendarDate = (TextView) getActivity().findViewById(R.id.date_select_display);
+        String dispatchDate = dispatchCalendarDate.getText().toString();
+
+        if (dispatchDate.equals("Select Date")) {
+            //Use the current date as the default date in the date picker
+            final Calendar c = Calendar.getInstance();
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+            year = c.get(Calendar.YEAR);
+        } else {
+            month = Integer.parseInt(dispatchDate.split("-")[0]) - 1;
+            day = Integer.parseInt(dispatchDate.split("-")[1]);
+            year = Integer.parseInt(dispatchDate.split("-")[2]);
+        }
 
         //Create a new DatePickerDialog instance and return it
         /*

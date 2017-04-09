@@ -27,7 +27,7 @@
         android:id="@+id/date_select_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Select Date"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintTop_creator="1"
