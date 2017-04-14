@@ -19,7 +19,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.ui.activities.SignInActivity">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,10 +29,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.DetailItemActivity"
             android:theme="@style/CustomDialog"/>
         <!--
@@ -46,6 +50,7 @@
             android:value="@string/google_maps_key"/>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap"
             android:label="@string/title_activity_food_map"/>
         <!--
@@ -57,18 +62,22 @@
             android:value="@integer/google_play_services_version"/>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.IntroSlidesGeneric"
             android:label="@string/title_activity_intro_slides_generic"
             android:theme="@style/AppIntroTheme"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"
             android:label="@string/title_activity_coordinator_main"
             android:theme="@style/AppTheme"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.DriverMode.DriverModeActivity"
             android:label="@string/title_activity_driver"
             android:theme="@style/AppTheme"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
             android:label="@string/title_activity_dispatch_creation"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"
@@ -78,6 +87,7 @@
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity"/>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect"
             android:label="@string/title_activity_dispatch_date_time_select"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
@@ -87,6 +97,7 @@
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect"
             android:label="@string/title_activity_dispatch_driver_select"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
@@ -96,6 +107,7 @@
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect"
             android:label="@string/title_activity_dispatch_community_select"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
@@ -105,6 +117,7 @@
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect"
             android:label="@string/title_activity_dispatch_donor_select"
             android:parentActivityName=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"
@@ -113,11 +126,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DispatchCreationActivity"/>
         </activity>
-        <activity android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.ChannelSearchActivity"/>
-        <activity android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.CreateChannelActivity"/>
-        <activity android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageMainActivity"/>
-        <activity android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageSearchActivity"/>
-        <activity android:name=".presentation.ui.activities.rapidprototype.EntityAddTest.AddFirebaseEntity">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.ChannelSearchActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.CreateChannelActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageMainActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.messaging.ui.activities.MessageSearchActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.EntityAddTest.AddFirebaseEntity">
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverAssignmentActivity"
+            android:label="@string/title_activity_driver_assignment"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 
