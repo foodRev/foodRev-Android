@@ -13,7 +13,7 @@ public class DispatchCommunity {
     private String communityUid;
 
     private String communityName;
-    private int foodDonationCapacity;
+    private float foodDonationCapacity;
     private boolean isSelected = false;
 
     private double latitude;
@@ -33,7 +33,7 @@ public class DispatchCommunity {
     }
 
     // constructor
-    public DispatchCommunity(String communityUid, String communityName, int foodDonationCapacity, boolean isSelected) {
+    public DispatchCommunity(String communityUid, String communityName, float foodDonationCapacity, boolean isSelected) {
         this.communityUid = communityUid;
         this.communityName = communityName;
         this.foodDonationCapacity = foodDonationCapacity;
@@ -41,7 +41,7 @@ public class DispatchCommunity {
     }
 
     // add firebase entity constructor
-    public DispatchCommunity(String communityName, int foodDonationCapacity, double latitude, double longitude) {
+    public DispatchCommunity(String communityName, float foodDonationCapacity, double latitude, double longitude) {
         this.communityName = communityName;
         this.foodDonationCapacity = foodDonationCapacity;
         this.latitude = latitude;
@@ -67,11 +67,11 @@ public class DispatchCommunity {
         this.communityName = communityName;
     }
 
-    public int getFoodDonationCapacity() {
+    public float getFoodDonationCapacity() {
         return foodDonationCapacity;
     }
 
-    public void setFoodDonationCapacity(int foodDonationCapacity) {
+    public void setFoodDonationCapacity(float foodDonationCapacity) {
         this.foodDonationCapacity = foodDonationCapacity;
     }
 

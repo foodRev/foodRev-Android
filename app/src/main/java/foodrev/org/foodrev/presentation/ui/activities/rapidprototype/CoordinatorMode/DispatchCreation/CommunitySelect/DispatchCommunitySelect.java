@@ -170,7 +170,7 @@ public class DispatchCommunitySelect extends AppCompatActivity {
                             dispatchCommunities.add( 0, new DispatchCommunity(
                                     snapshot.getKey().toString(),
                                     snapshot.child("communityName").getValue().toString(),
-                                    Integer.parseInt(snapshot.child("foodDonationCapacity").getValue().toString()),
+                                    Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString()),
                                     isAlreadySelected));
 
                             // update the UI

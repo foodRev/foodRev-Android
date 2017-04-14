@@ -17,7 +17,7 @@ public class DispatchDriver {
     private ArrayList<String> driverInstructions;
 
     private String driverName;
-    private int vehicleFoodCapacity;
+    private float vehicleFoodCapacity;
     private boolean isSelected = false;
 
     public String getDriverUid() {
@@ -34,7 +34,7 @@ public class DispatchDriver {
         this.vehicleFoodCapacity = vehicleFoodCapacity;
     }
 
-    public DispatchDriver(String driverUid, String driverName, int vehicleFoodCapacity, boolean isSelected) {
+    public DispatchDriver(String driverUid, String driverName, float vehicleFoodCapacity, boolean isSelected) {
         this.driverUid = driverUid;
         this.driverName = driverName;
         this.vehicleFoodCapacity = vehicleFoodCapacity;
@@ -67,11 +67,11 @@ public class DispatchDriver {
         this.driverName = driverName;
     }
 
-    public int getVehicleFoodCapacity() {
+    public float getVehicleFoodCapacity() {
         return vehicleFoodCapacity;
     }
 
-    public void setVehicleFoodCapacity(int vehicleFoodCapacity) {
+    public void setVehicleFoodCapacity(float vehicleFoodCapacity) {
         this.vehicleFoodCapacity = vehicleFoodCapacity;
     }
 

@@ -39,7 +39,7 @@ public class DispatchDriverSelect extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     // Dispatch Root
     private DatabaseReference dispatchRoot; //driving/unloading/loading
-    // Donor at Root
+    // Driver root list
     private DatabaseReference driverRoot; //driving/unloading/loading
 
     // driver array
@@ -117,7 +117,7 @@ public class DispatchDriverSelect extends AppCompatActivity {
     private void setupFirebase() {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        // donor Root
+        // dispatch Root
         dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
 
         // driver Root

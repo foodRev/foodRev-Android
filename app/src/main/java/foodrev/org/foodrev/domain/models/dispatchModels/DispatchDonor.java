@@ -13,7 +13,7 @@ public class DispatchDonor {
 
     private String donorUid;
     private String donorName;
-    private int carsOfFood;
+    private float carsOfFood;
     private boolean isSelected = false;
 
 
@@ -26,14 +26,14 @@ public class DispatchDonor {
 
 
     // constructor
-    public DispatchDonor (String donorUid, String donorName, int carsOfFood, boolean isSelected) {
+    public DispatchDonor (String donorUid, String donorName, float carsOfFood, boolean isSelected) {
         this.donorUid = donorUid;
         this.donorName = donorName;
         this.carsOfFood = carsOfFood;
         this.isSelected = isSelected;
     }
 
-    public DispatchDonor(String donorName, int carsOfFood, double latitude, double longitude) {
+    public DispatchDonor(String donorName, float carsOfFood, double latitude, double longitude) {
         this.donorName = donorName;
         this.carsOfFood = carsOfFood;
         this.latitude = latitude;
@@ -59,11 +59,11 @@ public class DispatchDonor {
         this.donorName = donorName;
     }
 
-    public int getCarsOfFood() {
+    public float getCarsOfFood() {
         return carsOfFood;
     }
 
-    public void setCarsOfFood(int carsOfFood) {
+    public void setCarsOfFood(float carsOfFood) {
         this.carsOfFood = carsOfFood;
     }
 

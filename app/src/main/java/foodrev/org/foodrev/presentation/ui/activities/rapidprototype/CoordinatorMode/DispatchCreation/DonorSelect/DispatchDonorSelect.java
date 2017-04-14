@@ -175,7 +175,7 @@ public class DispatchDonorSelect extends AppCompatActivity {
                         dispatchDonors.add( 0, new DispatchDonor(
                                 snapshot.getKey().toString(),
                                 snapshot.child("donorName").getValue().toString(),
-                                Integer.parseInt(snapshot.child("carsOfFood").getValue().toString()),
+                                Float.parseFloat(snapshot.child("carsOfFood").getValue().toString()),
                                 isAlreadySelected));
 
                         // update the UI
