@@ -51,9 +51,7 @@
                  android:id="@+id/content_edit"/>
 
         <include layout="@layout/content_detail_item"
-                 android:id="@+id/content_detail"
-            android:layout_width="0dp"
-            android:layout_height="701dp" />
+                 android:id="@+id/content_detail"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
