@@ -204,19 +204,24 @@ public class DriverModeActivity extends AppCompatActivity
     }
 
     public void check(int pos, ArrayList<CheckBox> checkBoxes) {
+        CheckBox touchedBox = checkBoxes.get(pos);
+
         for (int i = 0; i < checkBoxes.size(); i++) {
+            CheckBox curBox = checkBoxes.get(i);
             if (i <= pos) {
-                if (checkBoxes.get(pos).isChecked()) {
-                    checkBoxes.get(i).setChecked(checkBoxes.get(pos).isChecked());
-                    checkBoxes.get(i).setText(checkBoxes.get(pos).getText());
+                if (touchedBox.isChecked()) {
+                    curBox.setChecked(touchedBox.isChecked());
+                    curBox.setText(touchedBox.getText());
                 }
             } else {
-                checkBoxes.get(i).setChecked(false);
-                checkBoxes.get(i).setText("");
-
-                checkBoxes.get(i).setEnabled(i == pos + 1 && checkBoxes.get(pos).isChecked());
-
+                if (curBox.isChecked()) {
+                    curBox.setChecked(false);
+                    curBox.setText("");
+                }
+                curBox.setEnabled(i == pos + 1 && touchedBox.isChecked());
             }
         }
+        
+        int stepsCompleted = touchedBox.isChecked() ? pos+1 : pos;
     }
 }
