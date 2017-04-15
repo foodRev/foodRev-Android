@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.DriverModePresenterImpl;
@@ -22,6 +24,7 @@ import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 
 
 public class DriverModeActivity extends AppCompatActivity
@@ -73,9 +76,15 @@ public class DriverModeActivity extends AppCompatActivity
     public void attachPresenter() {
         mPresenter = (DriverModePresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new DriverModePresenterImpl();
+            mPresenter = new DriverModePresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         }
         mPresenter.attachView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.resume();
     }
 
     @Override
