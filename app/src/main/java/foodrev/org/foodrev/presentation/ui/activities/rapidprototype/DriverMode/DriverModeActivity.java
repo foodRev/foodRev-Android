@@ -180,8 +180,8 @@ public class DriverModeActivity extends AppCompatActivity
     }
 
     @Override
-    public void retrieveDriverModeTasks(DriverTasks driverTasks) {
-        
+    public void populateDriverModeTasks(DriverTasks driverTasks) {
+
     }
 
     @Override
