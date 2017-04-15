@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
@@ -63,7 +65,25 @@ public class DriverModeActivity extends AppCompatActivity
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        String[] myDataset = new String[60];
+        ArrayList<DriverTask> myDataset = new ArrayList<>();
+
+        myDataset.add(new DriverTask("Drive", "Starbucks", ""));
+        for (int i = 1; i < 4; i++) {
+            DriverTask prevTask = myDataset.get(i-1);
+            if (prevTask.taskType.equals("Drive")) {
+                if (prevTask.donationDestination.isEmpty()) {
+                    myDataset.add(new DriverTask("Load", prevTask.donationSource, ""));
+                } else {
+                    myDataset.add(new DriverTask("Unload", "", prevTask.donationDestination));
+                }
+            } else {
+                if (prevTask.donationDestination.isEmpty()) {
+                    myDataset.add(new DriverTask("Drive", "", "Mercy"));
+                } else {
+                    myDataset.add(new DriverTask("Drive", "Starbucks", ""));
+                }
+            }
+        }
 
         //specify an adapter
         mAdapter = new DriverModeRecyclerViewAdapter(myDataset);
