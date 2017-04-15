@@ -13,7 +13,7 @@ public interface DriverModePresenter extends BasePresenter<DriverModePresenter.V
 //        void signOut();
         void goToSignInActivity();
 //            void goToDetailItemActivity();
-        void retrieveDriverModeTasks(DriverTasks driverTasks);
+        void populateDriverModeTasks(DriverTasks driverTasks);
     }
 
     void signOut();

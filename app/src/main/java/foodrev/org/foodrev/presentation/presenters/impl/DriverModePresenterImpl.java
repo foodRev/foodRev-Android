@@ -64,7 +64,7 @@ public class DriverModePresenterImpl implements DriverModePresenter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DriverTasks driverTasks = dataSnapshot.getValue(DriverTasks.class);
-                mView.retrieveDriverTasks(driverTasks);
+                mView.populateDriverModeTasks(driverTasks);
 
 
 
