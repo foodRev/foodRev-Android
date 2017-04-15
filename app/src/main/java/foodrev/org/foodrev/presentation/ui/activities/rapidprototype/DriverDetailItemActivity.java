@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +23,13 @@ public class DriverDetailItemActivity extends AppCompatActivity {
     NestedScrollView contentEdit;
 
     ImageView imageView;
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
+    TextView name;
+    TextView phone;
+    TextView email;
+
+    EditText nameEdit;
+    EditText phoneEdit;
+    EditText emailEdit;
 
     boolean mEditMode = false;
 
@@ -35,6 +40,16 @@ public class DriverDetailItemActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         contentDetail = (NestedScrollView) findViewById(R.id.content_detail);
         contentEdit = (NestedScrollView) findViewById(R.id.content_edit);
+
+        name = (TextView) findViewById(R.id.user_name);
+        phone = (TextView) findViewById(R.id.user_phone);
+        email = (TextView) findViewById(R.id.user_email);
+
+        nameEdit = (EditText) findViewById(R.id.user_name_edit);
+        phoneEdit = (EditText) findViewById(R.id.user_phone_edit);
+        emailEdit = (EditText) findViewById(R.id.user_email_edit);
+
+
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -47,7 +62,7 @@ public class DriverDetailItemActivity extends AppCompatActivity {
 
                 if (mEditMode) {
                     switchToViewDetailMode();
-                Toast.makeText(DriverDetailItemActivity.this, "Update database with new item", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverDetailItemActivity.this, "Update database with new item", Toast.LENGTH_SHORT).show();
                 } else {
                     switchToEditDetailMode();
                 }
@@ -71,6 +86,7 @@ public class DriverDetailItemActivity extends AppCompatActivity {
                 switchToEditDetailMode();
             }
         }
+
     }
 
     @Override
