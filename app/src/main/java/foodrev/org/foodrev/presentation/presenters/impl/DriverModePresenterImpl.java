@@ -68,7 +68,7 @@ public class DriverModePresenterImpl implements DriverModePresenter {
 
 
 
-                Log.d("onDataChange", mDriverTasks.sourceKey + mDriverTasks.destinationKey + mDriverTasks.progress);
+//                Log.d("onDataChange", mDriverTasks.sourceKey + mDriverTasks.destinationKey + mDriverTasks.progress);
 
             }
 
