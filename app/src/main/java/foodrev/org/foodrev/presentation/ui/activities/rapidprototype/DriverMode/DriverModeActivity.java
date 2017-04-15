@@ -23,6 +23,7 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
+import foodrev.org.foodrev.domain.infos.models.DriverTasks;
 import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.DriverModePresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
@@ -189,6 +190,11 @@ public class DriverModeActivity extends AppCompatActivity
         mPresenter.detachView();
         mPresenter.destroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void retrieveDriverModeTasks(DriverTasks driverTasks) {
+        
     }
 
     @Override

@@ -63,7 +63,10 @@ public class DriverModePresenterImpl implements DriverModePresenter {
         ValueEventListener taskListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mDriverTasks = dataSnapshot.getValue(DriverTasks.class);
+                DriverTasks driverTasks = dataSnapshot.getValue(DriverTasks.class);
+                mView.retrieveDriverTasks(driverTasks);
+
+
 
                 Log.d("onDataChange", mDriverTasks.sourceKey + mDriverTasks.destinationKey + mDriverTasks.progress);
 
