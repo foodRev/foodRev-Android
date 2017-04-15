@@ -29,6 +29,7 @@ import foodrev.org.foodrev.presentation.presenters.impl.DriverModePresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverDetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 import foodrev.org.foodrev.threading.MainThreadImpl;
 
@@ -168,7 +169,7 @@ public class DriverModeActivity extends AppCompatActivity
 
     //    @Override
     public void goToDetailItemActivity() {
-        startActivity(new Intent(this, DetailItemActivity.class));
+        startActivity(new Intent(this, DriverDetailItemActivity.class));
     }
     @Override
     public void showProgressDialog() {
