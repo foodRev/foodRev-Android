@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.presentation.presenters;
 
+import foodrev.org.foodrev.domain.infos.models.DriverTasks;
 import foodrev.org.foodrev.presentation.presenters.base.BasePresenter;
 import foodrev.org.foodrev.presentation.ui.BaseView;
 
@@ -10,8 +11,9 @@ import foodrev.org.foodrev.presentation.ui.BaseView;
 public interface DriverModePresenter extends BasePresenter<DriverModePresenter.View> {
     interface View extends BaseView {
 //        void signOut();
-            void goToSignInActivity();
+        void goToSignInActivity();
 //            void goToDetailItemActivity();
+        void retrieveDriverModeTasks(DriverTasks driverTasks);
     }
 
     void signOut();
