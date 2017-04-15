@@ -34,6 +34,9 @@
             android:name=".presentation.ui.activities.rapidprototype.DetailItemActivity"
             android:theme="@style/CustomDialog"/>
         <activity
+            android:name=".presentation.ui.activities.rapidprototype.DriverDetailItemActivity"
+            android:theme="@style/CustomDialog"/>
+        <activity
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchDetailItemActivity"
             android:theme="@style/CustomDialog"/>
         <!--
@@ -135,6 +138,7 @@
         <activity android:name=".presentation.ui.activities.rapidprototype.ai.AiUiSummary"
                   android:theme="@style/CustomDialog">
         </activity>
+
     </application>
 
 </manifest>
