@@ -47,7 +47,7 @@ public class DriverModePresenterImpl implements DriverModePresenter {
     @Override
     public void resume() {
 
-        // Get Driver ID associated with signed in user
+        // Get Driver ID associated with signed in useGetDriverTasksInteractor.Callback{GetDriverTasksInteractor.Callback{GetDriverTasksInteractor.Callback{r
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Log.d("DriverMode DriverKey:", uid);
