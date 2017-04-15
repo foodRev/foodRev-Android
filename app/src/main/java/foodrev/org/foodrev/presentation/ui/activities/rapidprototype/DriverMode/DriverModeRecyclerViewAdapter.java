@@ -13,8 +13,12 @@ import foodrev.org.foodrev.R;
  */
 
 public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverModeRecyclerViewAdapter.ViewHolder> {
-    private String[] mDataset;
-
+    private java.util.ArrayList<DriverTask> mDataset;
+//    private String mDriverName = "Phillip";
+    private String mTaskType;
+    private String mDonationSource;
+    private String mDonationDestination;
+    private int mStepNum = 0;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -26,7 +30,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
     }
 
     //provide suitable constructor, must change with dataset
-    public DriverModeRecyclerViewAdapter(String[] myDataset) {
+    public DriverModeRecyclerViewAdapter(java.util.ArrayList<DriverTask> myDataset) {
         mDataset = myDataset;
     }
 
@@ -50,14 +54,34 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
     //replace contents of a view (this is invoked by layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // get element from your dataset here
-        // replace contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+        mStepNum = position+1;
+
+        DriverTask task = mDataset.get(position);
+        mTaskType = task.taskType;
+        mDonationSource = task.donationSource;
+        mDonationDestination = task.donationDestination;
+
+        String taskString = String.format("Step %d: %s ", mStepNum, mTaskType);
+        switch (mTaskType) {
+            case "Drive":
+                taskString += String.format("to %s",
+                        mDonationSource.isEmpty() ? mDonationDestination : mDonationSource);
+                break;
+            case "Load":
+                taskString += String.format("from %s", mDonationSource);
+                break;
+            case "Unload":
+                taskString += String.format("to %s", mDonationDestination);
+                break;
+            default:
+        }
+
+        holder.mTextView.setText(taskString);
     }
 
     //returns size of dataset (invoked by layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

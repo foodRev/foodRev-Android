@@ -48,6 +48,7 @@ public class JSONAsyncRequest extends AsyncTask<String, Void, String> {
     private ArrayAdapter<String> adapter;
 
     private MyJsonAdapter mAdapter;
+
     public JSONAsyncRequest(Context context, RecyclerView mRecyclerView) {
         this.context = context;
         this.mRecyclerView = mRecyclerView;
@@ -316,6 +317,7 @@ public class JSONAsyncRequest extends AsyncTask<String, Void, String> {
          for (JsonElement entry : jArray) {
              planStepsList.add(entry.toString());
          }
+
          String[] myDataset = new String[planStepsList.size()];
 
          myDataset = planStepsList.toArray(myDataset);
@@ -329,21 +331,23 @@ public class JSONAsyncRequest extends AsyncTask<String, Void, String> {
 
     public String formatString(String unformattedLine){
         String formattedLine = "";
-        String wordArray[] = unformattedLine.replaceAll("\"", "").replaceAll(":","").split("\\s+");
-        Integer stepNum = Integer.parseInt(wordArray[0]);
-        String firstWord = wordArray[1];
 
+        String wordArray[] = ((unformattedLine.replaceAll("\"", "").split(":\\s+"))[1]).split("\\s+");
+        Integer stepNum = Integer.parseInt(((unformattedLine.replaceAll("\"", "").split(":\\s+"))[0]));
+        String firstWord = wordArray[0];
+
+        formattedLine += String.format("Step %d: ", stepNum);
 
         //categorize types of lines
         if (firstWord.equals("DRIVE")){
-            formattedLine += wordArray[2] + " " + wordArray[1] + "s from "
-                    + wordArray[4] + " to " + wordArray[5];
+            formattedLine += wordArray[1] + " " + wordArray[0] + "s from "
+                    + wordArray[3] + " to " + wordArray[4];
         }
         else if (firstWord.equals("LOAD")){
-            formattedLine += wordArray[2] + " " + wordArray[1] + "s from "  + wordArray[3];
+            formattedLine += wordArray[1] + " " + wordArray[0] + "s from "  + wordArray[2];
         }
         else if (firstWord.equals("UNLOAD")){
-            formattedLine += wordArray[2] + " " + wordArray[1] + "s from " + wordArray[3];
+            formattedLine += wordArray[1] + " " + wordArray[0] + "s to " + wordArray[2];
         }
 
         return formattedLine;
