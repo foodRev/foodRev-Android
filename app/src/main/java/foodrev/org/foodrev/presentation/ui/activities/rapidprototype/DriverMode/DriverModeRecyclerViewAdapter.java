@@ -4,7 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
 
@@ -13,25 +16,31 @@ import foodrev.org.foodrev.R;
  */
 
 public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverModeRecyclerViewAdapter.ViewHolder> {
-    private java.util.ArrayList<DriverTask> mDataset;
+    private ArrayList<DriverTask> mTaskList;
 //    private String mDriverName = "Phillip";
     private String mTaskType;
     private String mDonationSource;
     private String mDonationDestination;
-    private int mStepNum = 0;
+    private int mStepNum;
+
+    ArrayList<CheckBox> mCheckBoxes;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        TextView mTextView;
+        CheckBox checkBox;
 
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.driver_view);
+            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
         }
     }
 
     //provide suitable constructor, must change with dataset
-    public DriverModeRecyclerViewAdapter(java.util.ArrayList<DriverTask> myDataset) {
-        mDataset = myDataset;
+    public DriverModeRecyclerViewAdapter(ArrayList<DriverTask> TaskList) {
+        mTaskList = TaskList;
+
+        mCheckBoxes = new ArrayList<>();
     }
 
     //create new views (used by layout manager)
@@ -46,6 +55,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         //... TODO Above
 
         ViewHolder vh = new ViewHolder(v);
+
         return vh;
 
     }
@@ -53,15 +63,15 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
 
     //replace contents of a view (this is invoked by layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         mStepNum = position+1;
 
-        DriverTask task = mDataset.get(position);
+        DriverTask task = mTaskList.get(position);
         mTaskType = task.taskType;
         mDonationSource = task.donationSource;
         mDonationDestination = task.donationDestination;
 
-        String taskString = String.format("Step %d: %s ", mStepNum, mTaskType);
+        String taskString = String.format("Step %d: %s ", position + 1, mTaskType);
         switch (mTaskType) {
             case "Drive":
                 taskString += String.format("to %s",
@@ -77,11 +87,28 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         }
 
         holder.mTextView.setText(taskString);
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                checkBox.setText(checkBox.isChecked()? "Completed": "");
+
+//                checkBox.setEnabled(false);
+                DriverModeActivity activity = (DriverModeActivity) v.getContext();
+                activity.check(position, mCheckBoxes);
+
+            }
+        });
+
+        if (position > 0) {
+            holder.checkBox.setEnabled(false);
+        }
+        mCheckBoxes.add(holder.checkBox);
     }
 
     //returns size of dataset (invoked by layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return mTaskList.size();
     }
 }

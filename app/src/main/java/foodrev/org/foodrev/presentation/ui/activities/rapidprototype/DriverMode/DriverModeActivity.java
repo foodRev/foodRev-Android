@@ -11,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,7 @@ public class DriverModeActivity extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private DriverModePresenter mPresenter;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class DriverModeActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
     private void setupRecyclerView() {
@@ -65,28 +70,16 @@ public class DriverModeActivity extends AppCompatActivity
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        ArrayList<DriverTask> myDataset = new ArrayList<>();
 
-        myDataset.add(new DriverTask("Drive", "Starbucks", ""));
-        for (int i = 1; i < 4; i++) {
-            DriverTask prevTask = myDataset.get(i-1);
-            if (prevTask.taskType.equals("Drive")) {
-                if (prevTask.donationDestination.isEmpty()) {
-                    myDataset.add(new DriverTask("Load", prevTask.donationSource, ""));
-                } else {
-                    myDataset.add(new DriverTask("Unload", "", prevTask.donationDestination));
-                }
-            } else {
-                if (prevTask.donationDestination.isEmpty()) {
-                    myDataset.add(new DriverTask("Drive", "", "Mercy"));
-                } else {
-                    myDataset.add(new DriverTask("Drive", "Starbucks", ""));
-                }
-            }
-        }
+        ArrayList<DriverTask> TaskList = new ArrayList<>();
+
+        TaskList.add(new DriverTask("Drive", "Starbucks", ""));
+        TaskList.add(new DriverTask("Load", "Starbucks", ""));
+        TaskList.add(new DriverTask("Drive", "", "Mercy"));
+        TaskList.add(new DriverTask("Unload", "", "Mercy"));
 
         //specify an adapter
-        mAdapter = new DriverModeRecyclerViewAdapter(myDataset);
+        mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -192,5 +185,22 @@ public class DriverModeActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(AbstractModel item) {
 
+    }
+
+    public void check(int pos, ArrayList<CheckBox> checkBoxes) {
+        for (int i = 0; i < checkBoxes.size(); i++) {
+            if (i <= pos) {
+                if (checkBoxes.get(pos).isChecked()) {
+                    checkBoxes.get(i).setChecked(checkBoxes.get(pos).isChecked());
+                    checkBoxes.get(i).setText(checkBoxes.get(pos).getText());
+                }
+            } else {
+                checkBoxes.get(i).setChecked(false);
+                checkBoxes.get(i).setText("");
+
+                checkBoxes.get(i).setEnabled(i == pos + 1 && checkBoxes.get(pos).isChecked());
+
+            }
+        }
     }
 }
