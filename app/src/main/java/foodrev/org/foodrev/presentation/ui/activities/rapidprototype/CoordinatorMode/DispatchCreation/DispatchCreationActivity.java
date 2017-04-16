@@ -10,19 +10,14 @@ import android.view.View;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.models.Coordinator;
-import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.CommunitySelect.DispatchCommunitySelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DateTime.DispatchDateTimeSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect;
-
-import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.NEED_TO_PLAN;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.DonorCommunityPairSelect;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverAssignment.DriverAssignmentActivity;
 
 
 public class DispatchCreationActivity extends AppCompatActivity {
@@ -31,6 +26,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
     View selectTimeCard;
     View selectDriversCard;
     View selectCommunitiesCard;
+    View taskAssignmentCard;
 
     Intent coordinatorMainIntent;
     String dispatchKey;
@@ -65,6 +61,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectTimeCard = findViewById(R.id.dispatch_time_card);
         selectDriversCard = findViewById(R.id.dispatch_drivers_card);
         selectCommunitiesCard = findViewById(R.id.dispatch_communities_card);
+        taskAssignmentCard = findViewById(R.id.dispatch_task_assignment_card);
 
         //TODO refactor into single recycler view with intent modes for driver/donor/community
         selectDonorCard.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +95,16 @@ public class DispatchCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DispatchCreationActivity.this, DispatchCommunitySelect.class);
+                intent.putExtra("dispatch_key", dispatchKey);
+                startActivity(intent);
+            }
+        });
+
+        //TODO task Assignment
+        taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DispatchCreationActivity.this, DonorCommunityPairSelect.class);
                 intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }

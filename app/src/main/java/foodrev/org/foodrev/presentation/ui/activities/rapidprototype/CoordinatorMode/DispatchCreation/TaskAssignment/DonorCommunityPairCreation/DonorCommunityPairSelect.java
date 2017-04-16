@@ -81,7 +81,7 @@ public class DonorCommunityPairSelect extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendListUpdate();
+//                sendListUpdate();
             }
         });
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,11 +132,16 @@ public class DonorCommunityPairSelect extends AppCompatActivity {
                 //get existing list into the chosen items array
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                   dispatchDonors.add( 0, new DispatchDonor(
+                    DispatchDonor dispatchDonor = new DispatchDonor(
                             snapshot.getKey().toString(),
                             snapshot.child("donorName").getValue().toString(),
                             Float.parseFloat(snapshot.child("carsOfFood").getValue().toString()),
-                            false));
+                            false);
+
+                    // add dispatch key
+                    dispatchDonor.setDispatchKey(dispatchKey);
+
+                    dispatchDonors.add(0, dispatchDonor);
 
                     // update the UI
                     donorCommunityPairSelectAdapter.notifyItemInserted(0);

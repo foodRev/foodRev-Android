@@ -17,6 +17,9 @@ public class DispatchCommunity {
 
     private String communityName;
     private float foodDonationCapacity;
+
+
+    private float allocatedFood;
     private boolean isSelected = false;
 
     private double latitude;
@@ -108,5 +111,13 @@ public class DispatchCommunity {
 
     public void setDispatchkey(String dispatchkey) {
         this.dispatchkey = dispatchkey;
+    }
+
+    public float getAllocatedFood() {
+        return allocatedFood;
+    }
+
+    public void setAllocatedFood(float allocatedFood) {
+        this.allocatedFood = allocatedFood;
     }
 }

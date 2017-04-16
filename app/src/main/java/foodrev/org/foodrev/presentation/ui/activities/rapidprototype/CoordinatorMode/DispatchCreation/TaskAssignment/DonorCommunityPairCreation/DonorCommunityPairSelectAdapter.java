@@ -1,6 +1,7 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.CommunityAllocation.CommunityAllocationList;
 
 /**
  * Created by dastechlabs on 4/14/17.
@@ -98,7 +100,13 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
         donorCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(context, CommunityAllocationList.class);
+                intent.putExtra("dispatch_key", dispatchDonor.getDispatchKey());
+                intent.putExtra("donor_key", dispatchDonor.getDonorUid());
+                intent.putExtra("donor_name", dispatchDonor.getDonorName());
+                intent.putExtra("donor_total_food", dispatchDonor.getCarsOfFood());
+                intent.putExtra("donor_allocated_food", dispatchDonor.getAllocatedCarsOfFood());
+                context.startActivity(intent);
             }
         });
 

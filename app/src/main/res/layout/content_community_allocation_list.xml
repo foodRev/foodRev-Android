@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.CommunityAllocation.CommunityAllocationList"
+    tools:showIn="@layout/activity_community_allocation_list">
+
+    <TextView
+        android:id="@+id/donor_community_pair_donor_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Donor Name:"
+        app:layout_constraintBottom_toTopOf="@+id/donor_community_pair_total_food_label"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/donor_community_pair_donor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="donor name placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/donor_community_pair_total_food"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="13dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline10"/>
+
+    <TextView
+        android:id="@+id/donor_community_pair_total_food_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food Donation:"
+        app:layout_constraintLeft_toLeftOf="@+id/donor_community_pair_donor_name_label"
+        app:layout_constraintBottom_toTopOf="@+id/donor_community_pair_allocated_food_label"
+        app:layout_constraintTop_toBottomOf="@+id/donor_community_pair_donor_name_label"/>
+
+    <TextView
+        android:id="@+id/donor_community_pair_total_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="total food placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/donor_community_pair_allocated_food"
+        app:layout_constraintTop_toBottomOf="@+id/donor_community_pair_donor_name"
+        app:layout_constraintLeft_toLeftOf="@+id/donor_community_pair_donor_name"/>
+
+    <TextView
+        android:id="@+id/donor_community_pair_allocated_food_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allocated Food"
+        app:layout_constraintLeft_toLeftOf="@+id/donor_community_pair_total_food_label"
+        app:layout_constraintBottom_toTopOf="@+id/rvCommunitySelect"
+        app:layout_constraintTop_toBottomOf="@+id/donor_community_pair_total_food_label"/>
+
+    <TextView
+        android:id="@+id/donor_community_pair_allocated_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="allocated food placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/rvCommunitySelect"
+        app:layout_constraintTop_toBottomOf="@+id/donor_community_pair_total_food"
+        app:layout_constraintLeft_toLeftOf="@+id/donor_community_pair_total_food"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline8"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="102dp"
+        />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline10"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="127dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvCommunitySelect"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/list_bg"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp"
+        android:paddingTop="10dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:listitem="@layout/task_assignment_community_allocation_item"/>
+
+</android.support.constraint.ConstraintLayout>
