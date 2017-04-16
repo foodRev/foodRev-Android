@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,18 +27,20 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
     private int mStepNum;
 
     ArrayList<CheckBox> mCheckBoxes;
-    ArrayList<TextView> mTextViews;
+    ArrayList<RelativeLayout> mRelativeLayouts;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
         CheckBox mCheckBox;
         CardView mCardView;
+        RelativeLayout mRelativeLayout;
 
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.driver_view);
             mCheckBox = (CheckBox) v.findViewById(R.id.checkBox);
             mCardView = (CardView) v.findViewById(R.id.json_card_view);
+            mRelativeLayout = (RelativeLayout) v.findViewById(R.id.card_content);
         }
     }
 
@@ -46,7 +49,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         mTaskList = TaskList;
 
         mCheckBoxes = new ArrayList<>();
-        mTextViews = new ArrayList<>();
+        mRelativeLayouts = new ArrayList<>();
     }
 
     //create new views (used by layout manager)
@@ -98,17 +101,14 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
             public void onClick(View v) {
                 CheckBox checkBox = (CheckBox) v;
                 checkBox.setText(checkBox.isChecked()? "Completed": "");
-
-//                mCheckBox.setEnabled(false);
+                
                 DriverModeActivity activity = (DriverModeActivity) v.getContext();
                 activity.check(position, mCheckBoxes);
 
                 if (holder.mCheckBox.isChecked() && position < mCheckBoxes.size()-1) {
-                    holder.mTextView.setVisibility(View.GONE);
-                    mCheckBoxes.get(position).setVisibility(View.GONE);
-                    mCheckBoxes.get(position+1).setVisibility(View.VISIBLE);
+                    holder.mRelativeLayout.setVisibility(View.GONE);
 
-                    mTextViews.get(position+1).setVisibility(View.VISIBLE);
+                    mRelativeLayouts.get(position+1).setVisibility(View.VISIBLE);
                 }
 
             }
@@ -117,19 +117,11 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView textView = holder.mTextView;
-                CheckBox checkBox = holder.mCheckBox;
-
-                textView.setVisibility(textView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                checkBox.setVisibility(textView.getVisibility());
-
-                for (int i = 0; i < mTextViews.size(); i++) {
-                    if (textView.getVisibility() == View.VISIBLE && i != position) {
-                        TextView curTextView = mTextViews.get(i);
-                        CheckBox curCheckBox = mCheckBoxes.get(i);
-
-                        curTextView.setVisibility(View.GONE);
-                        curCheckBox.setVisibility(View.GONE);
+                holder.mRelativeLayout.setVisibility(holder.mRelativeLayout.getVisibility() == View.VISIBLE ? View.GONE : View
+                        .VISIBLE);
+                for (int i = 0; i < mRelativeLayouts.size(); i++) {
+                    if (holder.mRelativeLayout.getVisibility() == View.VISIBLE && i != position) {
+                        mRelativeLayouts.get(i).setVisibility(View.GONE);
                     }
                 }
             }
@@ -137,12 +129,11 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
 
         if (position > 0) {
             holder.mCheckBox.setEnabled(false);
-            holder.mCheckBox.setVisibility(View.GONE);
-            holder.mTextView.setVisibility(View.GONE);
+            holder.mRelativeLayout.setVisibility(View.GONE);
         }
 
         mCheckBoxes.add(holder.mCheckBox);
-        mTextViews.add(holder.mTextView);
+        mRelativeLayouts.add(holder.mRelativeLayout);
     }
 
     //returns size of dataset (invoked by layout manager)
