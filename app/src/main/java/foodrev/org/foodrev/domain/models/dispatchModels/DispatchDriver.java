@@ -14,6 +14,9 @@ public class DispatchDriver {
 
     private String driverUid;
 
+
+    private String dispatchKey;
+
     private ArrayList<String> driverInstructions;
 
     private String driverName;
@@ -84,5 +87,12 @@ public class DispatchDriver {
     }
 
 
+    public String getDispatchKey() {
+        return dispatchKey;
+    }
+
+    public void setDispatchKey(String dispatchKey) {
+        this.dispatchKey = dispatchKey;
+    }
 
 }

@@ -12,6 +12,9 @@ import java.util.Map;
 public class DispatchCommunity {
     private String communityUid;
 
+
+    private String dispatchkey;
+
     private String communityName;
     private float foodDonationCapacity;
     private boolean isSelected = false;
@@ -99,4 +102,11 @@ public class DispatchCommunity {
         this.longitude = longitude;
     }
 
+    public String getDispatchkey() {
+        return dispatchkey;
+    }
+
+    public void setDispatchkey(String dispatchkey) {
+        this.dispatchkey = dispatchkey;
+    }
 }

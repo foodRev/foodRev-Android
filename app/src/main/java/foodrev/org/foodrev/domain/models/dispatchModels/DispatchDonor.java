@@ -14,6 +14,11 @@ public class DispatchDonor {
     private String donorUid;
     private String donorName;
     private float carsOfFood;
+
+
+    private String dispatchKey;
+
+    private float allocatedCarsOfFood;
     private boolean isSelected = false;
 
 
@@ -97,5 +102,21 @@ public class DispatchDonor {
 
     public void setDonorUid(String donorUid) {
         this.donorUid = donorUid;
+    }
+
+    public float getAllocatedCarsOfFood() {
+        return allocatedCarsOfFood;
+    }
+
+    public void setAllocatedCarsOfFood(float allocatedCarsOfFood) {
+        this.allocatedCarsOfFood = allocatedCarsOfFood;
+    }
+
+    public String getDispatchKey() {
+        return dispatchKey;
+    }
+
+    public void setDispatchKey(String dispatchKey) {
+        this.dispatchKey = dispatchKey;
     }
 }
