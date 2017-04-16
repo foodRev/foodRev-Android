@@ -1,6 +1,8 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +26,18 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
     private int mStepNum;
 
     ArrayList<CheckBox> mCheckBoxes;
+    ArrayList<TextView> mTextViews;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
-        CheckBox checkBox;
+        CheckBox mCheckBox;
+        CardView mCardView;
 
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.driver_view);
-            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+            mCheckBox = (CheckBox) v.findViewById(R.id.checkBox);
+            mCardView = (CardView) v.findViewById(R.id.json_card_view);
         }
     }
 
@@ -41,6 +46,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         mTaskList = TaskList;
 
         mCheckBoxes = new ArrayList<>();
+        mTextViews = new ArrayList<>();
     }
 
     //create new views (used by layout manager)
@@ -63,7 +69,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
 
     //replace contents of a view (this is invoked by layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         mStepNum = position+1;
 
         DriverTask task = mTaskList.get(position);
@@ -87,23 +93,56 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         }
 
         holder.mTextView.setText(taskString);
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+        holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckBox checkBox = (CheckBox) v;
                 checkBox.setText(checkBox.isChecked()? "Completed": "");
 
-//                checkBox.setEnabled(false);
+//                mCheckBox.setEnabled(false);
                 DriverModeActivity activity = (DriverModeActivity) v.getContext();
                 activity.check(position, mCheckBoxes);
+
+                if (holder.mCheckBox.isChecked() && position < mCheckBoxes.size()-1) {
+                    holder.mTextView.setVisibility(View.GONE);
+                    mCheckBoxes.get(position).setVisibility(View.GONE);
+                    mCheckBoxes.get(position+1).setVisibility(View.VISIBLE);
+
+                    mTextViews.get(position+1).setVisibility(View.VISIBLE);
+                }
 
             }
         });
 
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView textView = holder.mTextView;
+                CheckBox checkBox = holder.mCheckBox;
+
+                textView.setVisibility(textView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                checkBox.setVisibility(textView.getVisibility());
+
+                for (int i = 0; i < mTextViews.size(); i++) {
+                    if (textView.getVisibility() == View.VISIBLE && i != position) {
+                        TextView curTextView = mTextViews.get(i);
+                        CheckBox curCheckBox = mCheckBoxes.get(i);
+
+                        curTextView.setVisibility(View.GONE);
+                        curCheckBox.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
         if (position > 0) {
-            holder.checkBox.setEnabled(false);
+            holder.mCheckBox.setEnabled(false);
+            holder.mCheckBox.setVisibility(View.GONE);
+            holder.mTextView.setVisibility(View.GONE);
         }
-        mCheckBoxes.add(holder.checkBox);
+
+        mCheckBoxes.add(holder.mCheckBox);
+        mTextViews.add(holder.mTextView);
     }
 
     //returns size of dataset (invoked by layout manager)

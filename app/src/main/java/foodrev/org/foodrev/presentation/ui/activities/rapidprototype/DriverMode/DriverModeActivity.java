@@ -200,7 +200,6 @@ public class DriverModeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(AbstractModel item) {
-
     }
 
     public void check(int pos, ArrayList<CheckBox> checkBoxes) {
@@ -221,7 +220,7 @@ public class DriverModeActivity extends AppCompatActivity
                 curBox.setEnabled(i == pos + 1 && touchedBox.isChecked());
             }
         }
-        
+
         int stepsCompleted = touchedBox.isChecked() ? pos+1 : pos;
     }
 }
