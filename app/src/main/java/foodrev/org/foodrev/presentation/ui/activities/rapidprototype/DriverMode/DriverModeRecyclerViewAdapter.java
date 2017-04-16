@@ -1,11 +1,14 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,6 +36,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
         TextView mTextView;
         CheckBox mCheckBox;
         CardView mCardView;
+        Button mDirectionsButton;
         RelativeLayout mRelativeLayout;
 
         public ViewHolder(View v) {
@@ -40,6 +44,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
             mTextView = (TextView) v.findViewById(R.id.driver_view);
             mCheckBox = (CheckBox) v.findViewById(R.id.checkBox);
             mCardView = (CardView) v.findViewById(R.id.json_card_view);
+            mDirectionsButton = (Button) v.findViewById(R.id.directions_button);
             mRelativeLayout = (RelativeLayout) v.findViewById(R.id.card_content);
         }
     }
@@ -85,6 +90,25 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
             case "Drive":
                 taskString += String.format("to %s",
                         mDonationSource.isEmpty() ? mDonationDestination : mDonationSource);
+
+                holder.mDirectionsButton.setVisibility(View.VISIBLE);
+
+                holder.mDirectionsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Uri gmmIntentUri;
+                        if (mDonationSource != null) {
+                            gmmIntentUri = Uri.parse("google.navigation:q=37.7955703, -122.3955095");
+                        } else {
+                            gmmIntentUri = Uri.parse("google.navigation:q=37.7800849, -122.4097458");
+                        }
+
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        v.getContext().startActivity(mapIntent);
+                    }
+                });
                 break;
             case "Load":
                 taskString += String.format("from %s", mDonationSource);
@@ -101,7 +125,7 @@ public class DriverModeRecyclerViewAdapter extends RecyclerView.Adapter<DriverMo
             public void onClick(View v) {
                 CheckBox checkBox = (CheckBox) v;
                 checkBox.setText(checkBox.isChecked()? "Completed": "");
-                
+
                 DriverModeActivity activity = (DriverModeActivity) v.getContext();
                 activity.check(position, mCheckBoxes);
 
