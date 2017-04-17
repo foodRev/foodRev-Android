@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.CommunityAllocation;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.CommunityAllocation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
@@ -49,6 +49,7 @@ public class CommunityAllocationList extends AppCompatActivity {
     private TextView donorTotalFoodView;
     private TextView donorAllocatedFoodView;
     private DatabaseReference donorCommunityPairRoot;
+    private HashMap<String, DispatchCommunity> priorCommunityDelegation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class CommunityAllocationList extends AppCompatActivity {
                 dispatchCommunity.setAllocatedFromListedDonor(allocatedFoodFromListedDonor);
 
                 /** TODO investigate effects of refactoring code to be aware of position
-                /*  this will allow us to notify only the item is changed only at the given position
+                 /*  this will allow us to notify only the item is changed only at the given position
                  */
                 communityAllocationListAdapter.notifyDataSetChanged();
             }
@@ -186,26 +187,36 @@ public class CommunityAllocationList extends AppCompatActivity {
         dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
 
         donorCommunityPairRoot = dispatchRoot
-        .child(dispatchKey)
-        .child("DONOR_COMMUNITY_PAIRS")
-        .getRef();
+                .child(dispatchKey)
+                .child("DONOR_COMMUNITY_PAIRS")
+                .getRef();
 
         // community Root
         communityRoot = firebaseDatabase.getReference("/COMMUNITIES");
     }
 
-    // TODO: consider factoring this out into an Abstract Select Class
-    private void getExistingList() {
+    private void populateValues(){
         dispatchRoot.child(dispatchKey).child("COMMUNITIES").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    dispatchCommunities.add( 0, new DispatchCommunity(
-                            snapshot.getKey().toString(),
+                    String communityUid;
+                    DispatchCommunity dispatchCommunity;
+
+                    communityUid = snapshot.getKey().toString();
+                    dispatchCommunity = new DispatchCommunity(
+                            communityUid,
                             snapshot.child("communityName").getValue().toString(),
                             Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString()),
-                            false));
+                            false);
+
+                    if(priorCommunityDelegation.containsKey(communityUid)) {
+                        dispatchCommunity.setAllocatedFood(priorCommunityDelegation.get(communityUid).getAllocatedFood());
+                        dispatchCommunity.setAllocatedFromListedDonor(priorCommunityDelegation.get(communityUid).getAllocatedFromListedDonor());
+                    }
+
+                    dispatchCommunities.add(0, dispatchCommunity);
 
                     // update the UI
                     communityAllocationListAdapter.notifyItemInserted(0);
@@ -219,6 +230,68 @@ public class CommunityAllocationList extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    // TODO: consider factoring this out into an Abstract Select Class
+    private void getExistingList() {
+
+        // store values in temp dispatch community object, indexed by communityKey
+        priorCommunityDelegation = new HashMap<>();
+
+        donorCommunityPairRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                  DispatchCommunity communityHolder;
+                  float allocationTotal;
+                  float allocationFromListedDonor;
+
+                  for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                      String communityKeyHalf = snapshot.getKey().toString().split(";")[1];
+                      String donorKeyHalf = snapshot.getKey().toString().split(";")[0];
+
+                      // check if maps to this community
+                      if (priorCommunityDelegation.containsKey(communityKeyHalf)) {
+                          // pass object by reference
+                          communityHolder = priorCommunityDelegation.get(communityKeyHalf);
+                          allocationFromListedDonor = Float.parseFloat(snapshot.child("foodAllocation").getValue().toString());
+                          //add this allocation to total
+                          allocationTotal = communityHolder.getAllocatedFood() + allocationFromListedDonor;
+                          communityHolder.setAllocatedFood(allocationTotal);
+
+                          // check if donor is the one being allocated for currently
+                          if (donorKeyHalf.equals(donorKey)) {
+                              communityHolder.setAllocatedFromListedDonor(allocationFromListedDonor);
+                          }
+                      } else {
+                          // add community to hashmap if not already in list
+
+                          communityHolder = new DispatchCommunity();
+
+                          allocationTotal = Float.parseFloat(snapshot.child("foodAllocation").getValue().toString());
+                          communityHolder.setAllocatedFood(allocationTotal);
+
+                          if (donorKeyHalf.equals(donorKey)) {
+                              allocationFromListedDonor = allocationTotal;
+                              communityHolder.setAllocatedFromListedDonor(allocationFromListedDonor);
+                          }
+                          priorCommunityDelegation.put(communityKeyHalf,communityHolder);
+                      }
+                  }
+                  populateValues();
+              }
+
+                  @Override
+                  public void onCancelled(DatabaseError databaseError) {
+                      // TODO create tags for logging errors instead of hardcoding
+                      Log.e("DispatchCommunitySelect", "onCancelled: " + databaseError.getMessage());
+                  }
+              }
+        );
+
+
     }
 
     @Override

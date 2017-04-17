@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.CommunityAllocation.CommunityAllocationList;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.CommunityAllocation.CommunityAllocationList;
 
 /**
  * Created by dastechlabs on 4/14/17.

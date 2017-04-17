@@ -42,6 +42,9 @@ public class DispatchCommunity {
         this.communityUid = communityUid;
     }
 
+    // default constructor
+    public DispatchCommunity() {}
+
     // constructor
     public DispatchCommunity(String communityUid, String communityName, float foodDonationCapacity, boolean isSelected) {
         this.communityUid = communityUid;
@@ -49,6 +52,7 @@ public class DispatchCommunity {
         this.foodDonationCapacity = foodDonationCapacity;
         this.isSelected = isSelected;
     }
+
 
     // add firebase entity constructor
     public DispatchCommunity(String communityName, float foodDonationCapacity, double latitude, double longitude) {
