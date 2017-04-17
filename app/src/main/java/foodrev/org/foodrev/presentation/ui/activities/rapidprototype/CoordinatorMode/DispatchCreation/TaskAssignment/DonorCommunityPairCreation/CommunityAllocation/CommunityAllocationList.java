@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
+import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 
 public class CommunityAllocationList extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class CommunityAllocationList extends AppCompatActivity {
     private TextView donorAllocatedFoodView;
     private DatabaseReference donorCommunityPairRoot;
     private HashMap<String, DispatchCommunity> priorCommunityDelegation;
+    private float totalFoodCurrentlyAllocatedFromDonor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +70,6 @@ public class CommunityAllocationList extends AppCompatActivity {
         donorTotalFood = priorIntent.getStringExtra("donor_total_food");
         donorAllocatedFood = priorIntent.getStringExtra("donor_allocated_food");
 
-        // populate values in text views
-        populateDonorInformationPanel();
 
         // init recyclerview
         RecyclerView rvDispatchCommunities = (RecyclerView) findViewById(R.id.rvCommunitySelect);
@@ -119,6 +119,9 @@ public class CommunityAllocationList extends AppCompatActivity {
                 allocatedFoodFromListedDonor++;
                 dispatchCommunity.setAllocatedFromListedDonor(allocatedFoodFromListedDonor);
 
+                totalFoodCurrentlyAllocatedFromDonor++;
+                donorAllocatedFoodView.setText(String.valueOf(totalFoodCurrentlyAllocatedFromDonor));
+
                 /** TODO investigate effects of refactoring code to be aware of position
                  /*  this will allow us to notify only the item is changed only at the given position
                  */
@@ -142,6 +145,11 @@ public class CommunityAllocationList extends AppCompatActivity {
                 allocatedFoodFromListedDonor = dispatchCommunity.getAllocatedFromListedDonor();
                 allocatedFoodFromListedDonor--;
                 dispatchCommunity.setAllocatedFromListedDonor(allocatedFoodFromListedDonor);
+
+                totalFoodCurrentlyAllocatedFromDonor--;
+                donorAllocatedFoodView.setText(String.valueOf(totalFoodCurrentlyAllocatedFromDonor));
+
+
                 /** TODO investigate effects of refactoring code to be aware of position
                  /*  this will allow us to notify only the item is changed only at the given position
                  */
@@ -178,7 +186,7 @@ public class CommunityAllocationList extends AppCompatActivity {
         donorTotalFoodView.setText(donorTotalFood);
 
         donorAllocatedFoodView = (TextView) findViewById(R.id.donor_community_pair_allocated_food);
-        donorAllocatedFoodView.setText(donorAllocatedFood);
+        donorAllocatedFoodView.setText(String.valueOf(totalFoodCurrentlyAllocatedFromDonor));
     }
 
     private void setupFirebase() {
@@ -264,6 +272,9 @@ public class CommunityAllocationList extends AppCompatActivity {
                           // check if donor is the one being allocated for currently
                           if (donorKeyHalf.equals(donorKey)) {
                               communityHolder.setAllocatedFromListedDonor(allocationFromListedDonor);
+
+                              //increment donor allocation
+                              totalFoodCurrentlyAllocatedFromDonor += allocationFromListedDonor;
                           }
                       } else {
                           // add community to hashmap if not already in list
@@ -276,11 +287,15 @@ public class CommunityAllocationList extends AppCompatActivity {
                           if (donorKeyHalf.equals(donorKey)) {
                               allocationFromListedDonor = allocationTotal;
                               communityHolder.setAllocatedFromListedDonor(allocationFromListedDonor);
+
+                              //increment donor allocation
+                              totalFoodCurrentlyAllocatedFromDonor += allocationFromListedDonor;
                           }
                           priorCommunityDelegation.put(communityKeyHalf,communityHolder);
                       }
                   }
                   populateValues();
+                  populateDonorInformationPanel();
               }
 
                   @Override

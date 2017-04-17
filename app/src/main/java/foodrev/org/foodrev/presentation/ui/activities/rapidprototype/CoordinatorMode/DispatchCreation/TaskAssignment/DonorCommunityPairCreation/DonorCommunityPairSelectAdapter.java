@@ -104,8 +104,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("dispatch_key", dispatchDonor.getDispatchKey());
                 intent.putExtra("donor_key", dispatchDonor.getDonorUid());
                 intent.putExtra("donor_name", dispatchDonor.getDonorName());
-                intent.putExtra("donor_total_food", dispatchDonor.getCarsOfFood());
-                intent.putExtra("donor_allocated_food", dispatchDonor.getAllocatedCarsOfFood());
+                intent.putExtra("donor_total_food", String.valueOf(dispatchDonor.getCarsOfFood()));
                 context.startActivity(intent);
             }
         });

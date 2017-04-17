@@ -17,7 +17,6 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinator
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.DonorCommunityPairSelect;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverAssignment.DriverAssignmentActivity;
 
 
 public class DispatchCreationActivity extends AppCompatActivity {
