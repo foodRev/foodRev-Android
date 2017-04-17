@@ -20,6 +20,10 @@ public class DispatchCommunity {
 
 
     private float allocatedFood;
+
+
+    private float allocatedFromListedDonor;
+
     private boolean isSelected = false;
 
     private double latitude;
@@ -119,5 +123,13 @@ public class DispatchCommunity {
 
     public void setAllocatedFood(float allocatedFood) {
         this.allocatedFood = allocatedFood;
+    }
+
+    public float getAllocatedFromListedDonor() {
+        return allocatedFromListedDonor;
+    }
+
+    public void setAllocatedFromListedDonor(float allocatedFromListedDonor) {
+        this.allocatedFromListedDonor = allocatedFromListedDonor;
     }
 }

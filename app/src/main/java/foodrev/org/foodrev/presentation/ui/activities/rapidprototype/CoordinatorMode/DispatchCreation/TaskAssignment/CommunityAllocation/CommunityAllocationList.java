@@ -48,6 +48,7 @@ public class CommunityAllocationList extends AppCompatActivity {
     private TextView donorNameView;
     private TextView donorTotalFoodView;
     private TextView donorAllocatedFoodView;
+    private DatabaseReference donorCommunityPairRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ public class CommunityAllocationList extends AppCompatActivity {
         setContentView(R.layout.activity_community_allocation_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // TODO re-implement via serializable or parcelable
 
@@ -101,17 +101,27 @@ public class CommunityAllocationList extends AppCompatActivity {
             }
         });
     }
+
     private void incrementCommunityAllocationCount() {
         for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
             if(dispatchCommunity.isSelected()) {
-                float allocatedFood;
+                float allocatedFoodTotal;
+                float allocatedFoodFromListedDonor;
 
-                allocatedFood = dispatchCommunity.getAllocatedFood();
+                // increment food allocation for this dispatch
+                allocatedFoodTotal = dispatchCommunity.getAllocatedFood();
+                allocatedFoodTotal++;
+                dispatchCommunity.setAllocatedFood(allocatedFoodTotal);
 
-                allocatedFood++;
+                // increment food allocated from the given donor
+                allocatedFoodFromListedDonor = dispatchCommunity.getAllocatedFromListedDonor();
+                allocatedFoodFromListedDonor++;
+                dispatchCommunity.setAllocatedFromListedDonor(allocatedFoodFromListedDonor);
 
-                dispatchCommunity.setAllocatedFood(allocatedFood);
-                Toast.makeText(this, dispatchCommunity.getCommunityName() + " increased to " + String.valueOf(allocatedFood) , Toast.LENGTH_SHORT).show();
+                /** TODO investigate effects of refactoring code to be aware of position
+                /*  this will allow us to notify only the item is changed only at the given position
+                 */
+                communityAllocationListAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -119,14 +129,42 @@ public class CommunityAllocationList extends AppCompatActivity {
     private void decrementCommunityAllocationCount() {
         for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
             if(dispatchCommunity.isSelected()) {
-                float allocatedFood;
+                float allocatedFoodTotal;
+                float allocatedFoodFromListedDonor;
 
-                allocatedFood = dispatchCommunity.getAllocatedFood();
+                // increment food allocation for this dispatch
+                allocatedFoodTotal = dispatchCommunity.getAllocatedFood();
+                allocatedFoodTotal--;
+                dispatchCommunity.setAllocatedFood(allocatedFoodTotal);
 
-                allocatedFood--;
+                // increment food allocated from the given donor
+                allocatedFoodFromListedDonor = dispatchCommunity.getAllocatedFromListedDonor();
+                allocatedFoodFromListedDonor--;
+                dispatchCommunity.setAllocatedFromListedDonor(allocatedFoodFromListedDonor);
+                /** TODO investigate effects of refactoring code to be aware of position
+                 /*  this will allow us to notify only the item is changed only at the given position
+                 */
+                communityAllocationListAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 
-                dispatchCommunity.setAllocatedFood(allocatedFood);
-                Toast.makeText(this, dispatchCommunity.getCommunityName() + " decreased to " + String.valueOf(allocatedFood) , Toast.LENGTH_SHORT).show();
+    private void updateAllocationPairs() {
+        for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
+            if (dispatchCommunity.getAllocatedFromListedDonor() > 0) {
+                donorCommunityPairRoot
+                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child("donorName").setValue(donorName);
+                donorCommunityPairRoot
+                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child("communityName").setValue(dispatchCommunity.getCommunityName());
+                donorCommunityPairRoot
+                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child("foodAllocation").setValue(dispatchCommunity.getAllocatedFromListedDonor());
+            } else {
+                donorCommunityPairRoot
+                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .setValue(null);
             }
         }
     }
@@ -144,8 +182,13 @@ public class CommunityAllocationList extends AppCompatActivity {
 
     private void setupFirebase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        // community Root
+        // dispatch Root
         dispatchRoot = firebaseDatabase.getReference("/DISPATCHES");
+
+        donorCommunityPairRoot = dispatchRoot
+        .child(dispatchKey)
+        .child("DONOR_COMMUNITY_PAIRS")
+        .getRef();
 
         // community Root
         communityRoot = firebaseDatabase.getReference("/COMMUNITIES");
@@ -154,7 +197,6 @@ public class CommunityAllocationList extends AppCompatActivity {
     // TODO: consider factoring this out into an Abstract Select Class
     private void getExistingList() {
         dispatchRoot.child(dispatchKey).child("COMMUNITIES").addListenerForSingleValueEvent(new ValueEventListener() {
-
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -177,8 +219,12 @@ public class CommunityAllocationList extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        updateAllocationPairs();
+        super.onBackPressed();
     }
 
     @Override

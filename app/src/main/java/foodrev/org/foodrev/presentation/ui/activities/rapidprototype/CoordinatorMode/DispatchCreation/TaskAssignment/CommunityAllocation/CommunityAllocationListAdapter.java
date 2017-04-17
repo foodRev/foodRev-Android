@@ -23,29 +23,32 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 public class CommunityAllocationListAdapter extends
         RecyclerView.Adapter<CommunityAllocationListAdapter.ViewHolder>{
 
-private ArrayList<DispatchCommunity> dispatchCommunities;
-private Context context;
+    private ArrayList<DispatchCommunity> dispatchCommunities;
+    private Context context;
 
     // for radio button (only one highlight at a time)
 
 
-// define viewHolder which connects xml with its attributes
-public static class ViewHolder extends RecyclerView.ViewHolder {
-    public ImageView communityIcon;
-    public TextView communityNameTextView;
-    public TextView communityDonationFoodCapacity;
-    public CardView communityCardView;
+    // define viewHolder which connects xml with its attributes
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView communityIcon;
+        public TextView communityNameTextView;
+        public TextView communityDonationFoodCapacity;
+        public TextView communityDonationTotalAllocated;
+        public TextView communityDonationAllocatedFromListedDonor;
+        public CardView communityCardView;
 
-    public ViewHolder(View communityItemView) {
-        super(communityItemView);
+        public ViewHolder(View communityItemView) {
+            super(communityItemView);
 
-        communityIcon = (ImageView) communityItemView.findViewById(R.id.community_select_icon);
-        communityNameTextView = (TextView) communityItemView.findViewById(R.id.community_select_name);
-        communityDonationFoodCapacity = (TextView) communityItemView.findViewById(R.id.community_select_donation_food_capacity);
-        communityCardView = (CardView) communityItemView.findViewById(R.id.dispatch_community_select_card_view);
+            communityIcon = (ImageView) communityItemView.findViewById(R.id.community_select_icon);
+            communityNameTextView = (TextView) communityItemView.findViewById(R.id.community_select_name);
+            communityDonationFoodCapacity = (TextView) communityItemView.findViewById(R.id.community_select_donation_food_capacity);
+            communityDonationTotalAllocated = (TextView) communityItemView.findViewById(R.id.community_select_donation_allocated_total);
+            communityDonationAllocatedFromListedDonor = (TextView) communityItemView.findViewById(R.id.community_select_donation_allocated_specific_donor);
+            communityCardView = (CardView) communityItemView.findViewById(R.id.dispatch_community_select_card_view);
+        }
     }
-}
-
 
     // set local array from input objects
     public CommunityAllocationListAdapter(Context context, ArrayList<DispatchCommunity> dispatchCommunities){
@@ -79,17 +82,34 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView communityNameView = viewHolder.communityNameTextView;
         communityNameView.setText(dispatchCommunity.getCommunityName());
 
-        // set community food donation capacity
+        // set community max food donation capacity
         TextView communityDonationFoodCapacity = viewHolder.communityDonationFoodCapacity;
         communityDonationFoodCapacity.setText(String.valueOf(dispatchCommunity.getFoodDonationCapacity()));
+
+        // set community current food allocation total
+        TextView communityDonationTotalAllocation = viewHolder.communityDonationTotalAllocated;
+        communityDonationTotalAllocation.setText(String.valueOf(dispatchCommunity.getAllocatedFood()));
+
+        // set community current food allocation within donor screen
+        TextView communityDonationFromGivenDonor = viewHolder.communityDonationAllocatedFromListedDonor;
+        communityDonationFromGivenDonor.setText(String.valueOf(dispatchCommunity.getAllocatedFromListedDonor()));
 
         // set icon view
         // TODO feature for custom icon per community center for those who provide
         ImageView communityIcon = viewHolder.communityIcon;
         communityIcon.setImageResource(R.drawable.ic_community_destination);
 
-        // set card onClickListener
+
+        // necessary for selection detect and setting onClickListener
         final CardView communityCardView = viewHolder.communityCardView;
+
+        if (dispatchCommunity.isSelected()) {
+            communityCardView.setCardBackgroundColor(Color.CYAN);
+        } else {
+            communityCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
+        }
+
+        // set card onClickListener
         if (dispatchCommunity.isSelected()) {
             communityCardView.setCardBackgroundColor(Color.CYAN);
         } else {
@@ -112,16 +132,11 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        if (dispatchCommunity.isSelected()) {
-            communityCardView.setCardBackgroundColor(Color.CYAN);
-        } else {
-            communityCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardview_light_background));
-        }
     }
 
     private void clearAllSelections() {
         for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
-                dispatchCommunity.setSelected(false);
+            dispatchCommunity.setSelected(false);
         }
     }
 
