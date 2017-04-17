@@ -67,6 +67,7 @@
     <string name="title_activity_driver_assignment">DriverAssignmentActivity</string>
     <string name="title_activity_donor_community_pair_select">DonorCommunityPairSelect</string>
     <string name="title_activity_community_allocation_list">CommunityAllocationList</string>
+    <string name="title_activity_donor_community_pair_list">DonorCommunityPairList</string>
 
 
 </resources>

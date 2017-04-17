@@ -143,7 +143,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverAssignment.DriverAssignmentActivity"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverDelegation.DriverAssignment.DriverAssignmentActivity"
             android:label="@string/title_activity_driver_assignment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -155,9 +155,14 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.CommunityAllocation.CommunityAllocationList"
-            android:screenOrientation="portrait"
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.CommunityAllocation.CommunityAllocationList"
             android:label="@string/title_activity_community_allocation_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverDelegation.DonorCommunityPairList.DonorCommunityPairList"
+            android:label="@string/title_activity_donor_community_pair_list"
             android:theme="@style/AppTheme">
         </activity>
     </application>
