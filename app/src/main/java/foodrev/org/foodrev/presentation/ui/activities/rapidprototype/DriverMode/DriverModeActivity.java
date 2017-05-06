@@ -3,7 +3,6 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverMode
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,16 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.executor.MainThread;
 import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
 import foodrev.org.foodrev.domain.infos.models.DriverTasks;
@@ -28,7 +30,6 @@ import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.DriverModePresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverDetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
 import foodrev.org.foodrev.threading.MainThreadImpl;
@@ -45,6 +46,9 @@ public class DriverModeActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private DriverModePresenter mPresenter;
     private CheckBox checkBox;
+
+    FirebaseDatabase mRootRe = FirebaseDatabase.getInstance();
+    DatabaseReference mRootRef = mRootRe.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +75,31 @@ public class DriverModeActivity extends AppCompatActivity
     private void setupRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.driver_mode_recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        String text = "fast";
 
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<DriverTask> TaskList = new ArrayList<>();
+        final ArrayList<DriverTask> TaskList = new ArrayList<>();
+        mRootRef.child("TASKS").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
 
-        TaskList.add(new DriverTask("Drive", "Starbucks", ""));
-        TaskList.add(new DriverTask("Load", "Starbucks", ""));
-        TaskList.add(new DriverTask("Drive", "", "Mercy"));
-        TaskList.add(new DriverTask("Unload", "", "Mercy"));
+                    String taskType = child.child("tasktype").getValue().toString();
+                    String donationSource = child.child("source").getValue().toString();
+                    String donationDestination = child.child("destination").getValue().toString();
+
+                    TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //specify an adapter
         mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
