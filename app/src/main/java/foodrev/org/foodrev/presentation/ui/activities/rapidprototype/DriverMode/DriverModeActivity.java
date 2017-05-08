@@ -47,8 +47,9 @@ public class DriverModeActivity extends AppCompatActivity
     private DriverModePresenter mPresenter;
     private CheckBox checkBox;
 
-    FirebaseDatabase mRootRe = FirebaseDatabase.getInstance();
-    DatabaseReference mRootRef = mRootRe.getReference();
+    FirebaseDatabase mRootRef = FirebaseDatabase.getInstance();
+    DatabaseReference mBaseRef = mRootRef.getReference();
+    DatabaseReference mTaskRef = mBaseRef.child("TASKS");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,27 +73,53 @@ public class DriverModeActivity extends AppCompatActivity
         checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
+    public interface OnGetDataListener {
+        public void onStart();
+        public void onSuccess(DataSnapshot data);
+        public void onFailed(DatabaseError databaseError);
+    }
+
     private void setupRecyclerView() {
+
         mRecyclerView = (RecyclerView) findViewById(R.id.driver_mode_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        String text = "fast";
 
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         final ArrayList<DriverTask> TaskList = new ArrayList<>();
-        mRootRef.child("TASKS").addValueEventListener(new ValueEventListener() {
+        mTaskRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    for(DataSnapshot child : dataSnapshot.getChildren()) {
+                        String taskType = child.child("tasktype").getValue().toString();
+                        String donationSource = child.child("source").getValue().toString();
+                        String donationDestination = child.child("destination").getValue().toString();
+                        TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
+                    }
+                mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+
+        });
+
+        mTaskRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TaskList.clear();
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
                     String taskType = child.child("tasktype").getValue().toString();
                     String donationSource = child.child("source").getValue().toString();
                     String donationDestination = child.child("destination").getValue().toString();
-
                     TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
                 }
+                mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
@@ -102,8 +129,7 @@ public class DriverModeActivity extends AppCompatActivity
         });
 
         //specify an adapter
-        mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
-        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     public void attachPresenter() {
