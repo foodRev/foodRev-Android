@@ -6,4 +6,31 @@
     android:layout_height="match_parent"
     tools:context="foodrev.org.foodrev.presentation.ui.activities.UserTypeActivity">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="292dp"
+        android:layout_height="32dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="186dp"
+        tools:text="@string/user_type" />
+
+    <Button
+        android:id="@+id/coordinatorButton"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
+        android:text="Coordinator"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="304dp" />
+
+    <Button
+        android:id="@+id/DriverButton"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
+        android:text="Driver"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="382dp" />
+
 </android.support.constraint.ConstraintLayout>
