@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -73,12 +74,6 @@ public class DriverModeActivity extends AppCompatActivity
         checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
-    public interface OnGetDataListener {
-        public void onStart();
-        public void onSuccess(DataSnapshot data);
-        public void onFailed(DatabaseError databaseError);
-    }
-
     private void setupRecyclerView() {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.driver_mode_recycler_view);
@@ -89,33 +84,17 @@ public class DriverModeActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         final ArrayList<DriverTask> TaskList = new ArrayList<>();
-        mTaskRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                    for(DataSnapshot child : dataSnapshot.getChildren()) {
-                        String taskType = child.child("tasktype").getValue().toString();
-                        String donationSource = child.child("source").getValue().toString();
-                        String donationDestination = child.child("destination").getValue().toString();
-                        TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
-                    }
-                mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-
-        });
-
+        //possibly refactor for cleaner database retrieval instead of hardcoding parent name.
+        //Access and retrieve data from Firebase database
         mTaskRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 TaskList.clear();
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    String taskType = child.child("tasktype").getValue().toString();
-                    String donationSource = child.child("source").getValue().toString();
-                    String donationDestination = child.child("destination").getValue().toString();
+                for(DataSnapshot task : dataSnapshot.getChildren()) {
+                    String taskType = task.child("tasktype").getValue().toString();
+                    String donationSource = task.child("source").getValue().toString();
+                    String donationDestination = task.child("destination").getValue().toString();
                     TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
                 }
                 mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
@@ -124,11 +103,9 @@ public class DriverModeActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
             }
         });
-
-        //specify an adapter
 
     }
 
