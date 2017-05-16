@@ -182,7 +182,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                             mView.displaySignInError();
                         } else {
 //                            retrieveAppInfoWithInteractor();
-                            mView.goToMainActivity();
+                            mView.goToIntroSlides();
                         }
                     }
                 });
