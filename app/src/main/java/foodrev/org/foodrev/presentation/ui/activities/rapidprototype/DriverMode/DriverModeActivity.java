@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +53,10 @@ public class DriverModeActivity extends AppCompatActivity
     FirebaseDatabase mRootRef = FirebaseDatabase.getInstance();
     DatabaseReference mBaseRef = mRootRef.getReference();
     DatabaseReference mTaskRef = mBaseRef.child("TASKS");
+    DatabaseReference mTempRef = mTaskRef.child("-anofinodnoanODNov");
+
+
+    final ArrayList<DriverTask> TaskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +89,21 @@ public class DriverModeActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final ArrayList<DriverTask> TaskList = new ArrayList<>();
 
-        //possibly refactor for cleaner database retrieval instead of hardcoding parent name.
         //Access and retrieve data from Firebase database
-        mTaskRef.addValueEventListener(new ValueEventListener() {
+        //TEMPORARY SOLUTION TO REACH PAST KEY
+        mTempRef.child("list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 TaskList.clear();
                 for(DataSnapshot task : dataSnapshot.getChildren()) {
+                    //DriverTask driverTask = task.getValue(DriverTask.class);
+                    String key = task.getKey();
                     String taskType = task.child("tasktype").getValue().toString();
                     String donationSource = task.child("source").getValue().toString();
                     String donationDestination = task.child("destination").getValue().toString();
-                    TaskList.add(new DriverTask(taskType, donationSource, donationDestination));
+                    String progress = task.child("progress").getValue().toString();
+                    TaskList.add(new DriverTask(key, taskType, donationSource, donationDestination, progress));
                 }
                 mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
                 mRecyclerView.setAdapter(mAdapter);
@@ -107,6 +115,54 @@ public class DriverModeActivity extends AppCompatActivity
             }
         });
 
+        //mTaskListRef.addChildEventListener(new QuotesChildEventListener());
+
+    }
+
+    class QuotesChildEventListener implements ChildEventListener{
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            //System.out.println("onChildeAdded");
+            DriverTask driverTask = dataSnapshot.getValue(DriverTask.class);
+            driverTask.setKey(dataSnapshot.getKey());
+            //System.out.println("Driver Task Key:" + driverTask.getKey());
+            String taskType = driverTask.getTaskType();
+            String donationSource = driverTask.getDonationSource();
+            String donationDestination = driverTask.getDonationDestination();
+            String progress = driverTask.getProgress();
+            //System.out.println("taskType:" + driverTask.getTaskType());
+            //System.out.println("donationSource:" + driverTask.getDonationSource());
+            //System.out.println("donationDestination:" + donationDestination);
+            //System.out.println("progress:" + progress);
+            //TaskList.add(new DriverTask(taskType,donationSource,donationDestination,progress));
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            System.out.println("code changed");
+            String key = dataSnapshot.getKey();
+            DriverTask updateDriverTask = dataSnapshot.getValue(DriverTask.class);
+            for (DriverTask dt : TaskList){
+                if (dt.getKey().equals(key)){
+                    dt.setValues(updateDriverTask);
+                }
+            }
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
     }
 
     public void attachPresenter() {
@@ -238,7 +294,10 @@ public class DriverModeActivity extends AppCompatActivity
                     curBox.setChecked(false);
                     curBox.setText("");
                 }
+                //TEMPORARY SOLUTION FOR CHECKBOXES
                 curBox.setEnabled(i == pos + 1 && touchedBox.isChecked());
+                String key = TaskList.get(pos).getKey();
+                mTempRef.child("list").child(key).child("progress").setValue("Completed");
             }
         }
 
