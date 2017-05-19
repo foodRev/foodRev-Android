@@ -3,8 +3,10 @@ package foodrev.org.foodrev.presentation.ui.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.presentation.presenters.UserTypePresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.UserTypePresenterImpl;
@@ -15,6 +17,7 @@ public class UserTypeActivity extends AppCompatActivity implements UserTypePrese
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Darin", FirebaseAuth.getInstance().getCurrentUser().getUid());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_type);
         attachPresenter();
@@ -71,6 +74,6 @@ public class UserTypeActivity extends AppCompatActivity implements UserTypePrese
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
