@@ -1,5 +1,15 @@
 package foodrev.org.foodrev.presentation.presenters.impl;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
+
+import foodrev.org.foodrev.domain.models.Coordinator;
 import foodrev.org.foodrev.presentation.presenters.UserTypePresenter;
 
 /**
@@ -16,9 +26,44 @@ public class UserTypePresenterImpl implements UserTypePresenter {
 
     @Override
     public void coordinatorSelected() {
-        // Do some checking to see if the authenticated user is able to be coordinator
+        // TODO: do checking with an associated user hash instead
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("COORDINATORS");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot coordinator : dataSnapshot.getChildren()) {
+                    TempCoordinator tc = coordinator.getValue(TempCoordinator.class);
+                    if (uid.equals(tc.getCoordinatorOauth())) {
+                        mView.goToCoordinatorMode();
+                    }
+                }
+                mView.showError("Not a coordinator");
+            }
 
-        mView.goToCoordinatorMode();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mView.showError(databaseError.getMessage());
+            }
+        });
+    }
+
+    public static class TempCoordinator {
+        private String coordinatorName;
+        private String coordinatorOauth;
+
+        public TempCoordinator() {
+
+        }
+
+        public String getCoordinatorName() {
+            return this.coordinatorName;
+        }
+
+        public String getCoordinatorOauth() {
+            return this.coordinatorOauth;
+        }
+
     }
 
     @Override
