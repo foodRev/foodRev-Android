@@ -25,6 +25,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
     View selectTimeCard;
     View selectDriversCard;
     View selectCommunitiesCard;
+    View DonorCommunityPairCreatorCard;
     View taskAssignmentCard;
 
     Intent coordinatorMainIntent;
@@ -60,7 +61,8 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectTimeCard = findViewById(R.id.dispatch_time_card);
         selectDriversCard = findViewById(R.id.dispatch_drivers_card);
         selectCommunitiesCard = findViewById(R.id.dispatch_communities_card);
-        taskAssignmentCard = findViewById(R.id.dispatch_task_assignment_card);
+        DonorCommunityPairCreatorCard = findViewById(R.id.dispatch_task_assignment_card);
+//        taskAssignmentCard = findViewById(R.id.dispatch_task_assignment_card);
 
         //TODO refactor into single recycler view with intent modes for driver/donor/community
         selectDonorCard.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +102,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         });
 
         //TODO task Assignment
-        taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
+        DonorCommunityPairCreatorCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DispatchCreationActivity.this, DonorCommunityPairSelect.class);
@@ -108,6 +110,16 @@ public class DispatchCreationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+//        //TODO task Assignment
+//        taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DispatchCreationActivity.this, DonorCommunityPairSelect.class);
+//                intent.putExtra("dispatch_key", dispatchKey);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void setupFirebase() {
