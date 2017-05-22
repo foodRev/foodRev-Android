@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/ic_round_add_button"
+            android:background="@android:drawable/alert_dark_frame"
             android:layout_marginTop="15dp"/>
 
     </RelativeLayout>
