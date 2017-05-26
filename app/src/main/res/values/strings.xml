@@ -68,6 +68,7 @@
     <string name="title_activity_donor_community_pair_select">DonorCommunityPairSelect</string>
     <string name="title_activity_community_allocation_list">CommunityAllocationList</string>
     <string name="title_activity_donor_community_pair_list">DonorCommunityPairList</string>
+    <string name="title_activity_route_list">RouteList</string>
 
 
 </resources>
