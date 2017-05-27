@@ -17,6 +17,7 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinator
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DonorSelect.DispatchDonorSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.DonorCommunityPairSelect;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverDelegation.RouteList;
 
 
 public class DispatchCreationActivity extends AppCompatActivity {
@@ -62,7 +63,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         selectDriversCard = findViewById(R.id.dispatch_drivers_card);
         selectCommunitiesCard = findViewById(R.id.dispatch_communities_card);
         DonorCommunityPairCreatorCard = findViewById(R.id.dispatch_task_assignment_card);
-//        taskAssignmentCard = findViewById(R.id.dispatch_task_assignment_card);
+        taskAssignmentCard = findViewById(R.id.route_assignment_card);
 
         //TODO refactor into single recycler view with intent modes for driver/donor/community
         selectDonorCard.setOnClickListener(new View.OnClickListener() {
@@ -111,15 +112,15 @@ public class DispatchCreationActivity extends AppCompatActivity {
             }
         });
 
-//        //TODO task Assignment
-//        taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(DispatchCreationActivity.this, DonorCommunityPairSelect.class);
-//                intent.putExtra("dispatch_key", dispatchKey);
-//                startActivity(intent);
-//            }
-//        });
+        //TODO task Assignment
+        taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DispatchCreationActivity.this, RouteList.class);
+                intent.putExtra("dispatch_key", dispatchKey);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupFirebase() {

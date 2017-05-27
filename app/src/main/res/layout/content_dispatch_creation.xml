@@ -201,7 +201,7 @@
         <android.support.v7.widget.CardView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/task_list_entry_card"
+            android:id="@+id/route_assignment_card"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/cardview_default_elevation"

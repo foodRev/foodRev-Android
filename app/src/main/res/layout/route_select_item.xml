@@ -46,16 +46,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/route_select_donation_food_capacity_label"
+                    android:id="@+id/route_cars_required_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="@dimen/text_margin"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:text="Donation Capacity: "
+                    android:text="Cars Required: "
                     />
                 <TextView
-                    android:id="@+id/route_select_donation_food_capacity"
+                    android:id="@+id/route_cars_required"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -67,41 +67,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/route_select_donation_allocated_total_label"
+                    android:id="@+id/route_cars_additional_needed_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="@dimen/text_margin"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:text="Allocation Total: "
+                    android:text="Additional Cars Needed: "
                     />
                 <TextView
-                    android:id="@+id/route_select_donation_allocated_total"
+                    android:id="@+id/route_cars_additional_needed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="___"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/route_select_donation_allocated_specific_donor_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/text_margin"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:text="Allocated from above Donor: "
-                    />
-                <TextView
-                    android:id="@+id/route_select_donation_allocated_specific_donor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="@dimen/text_margin"
                     android:text="___"
                     android:textAppearance="?attr/textAppearanceListItem"/>
             </LinearLayout>
