@@ -60,6 +60,7 @@ public abstract class AbstractRecyclerViewAdapter<T> extends RecyclerView.Adapte
     }
 
 
+
     // inflates layout from xml and returns the view holder
     @Override
     public AbstractRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,12 +88,12 @@ public abstract class AbstractRecyclerViewAdapter<T> extends RecyclerView.Adapte
         TextView textView1 = viewHolder.textView1;
         TextView textView2 = viewHolder.textView2;
         TextView textView3 = viewHolder.textView3;
-        TextView[] textViews = new TextView[3];
+        TextView[] textViews = {textView1, textView2, textView3};
 
         TextView textView1Label = viewHolder.textView1Label;
         TextView textView2Label = viewHolder.textView2Label;
         TextView textView3Label = viewHolder.textView3Label;
-        TextView[] textViewLabels = new TextView[3];
+        TextView[] textViewLabels = {textView1Label, textView2Label, textView3Label};
 
         setTextViews(mListItem, textViews, textViewLabels);
 
