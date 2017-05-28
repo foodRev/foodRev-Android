@@ -16,7 +16,7 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchRoute;
 import foodrev.org.foodrev.domain.models.dispatchModels.DonorToCommunityPair;
 
 /**
- * Created by dastechlabs on 5/24/17.
+ * Created by foodRev on 5/24/17.
  */
 
 public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.ViewHolder> {
