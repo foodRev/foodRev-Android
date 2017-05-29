@@ -21,15 +21,10 @@ public class DispatchDriver {
 
     private String driverName;
     private float vehicleFoodCapacity;
+    private int totalTripsAssignedInDispatch;
+    private int tripsAssignedForThisRoute;
+
     private boolean isSelected = false;
-
-    public String getDriverUid() {
-        return driverUid;
-    }
-
-    public void setDriverUid(String driverUid) {
-        this.driverUid = driverUid;
-    }
 
     // constructor
     public DispatchDriver(String driverName, int vehicleFoodCapacity) {
@@ -95,4 +90,27 @@ public class DispatchDriver {
         this.dispatchKey = dispatchKey;
     }
 
+    public String getDriverUid() {
+        return driverUid;
+    }
+
+    public void setDriverUid(String driverUid) {
+        this.driverUid = driverUid;
+    }
+
+    public int getTotalTripsAssignedInDispatch() {
+        return totalTripsAssignedInDispatch;
+    }
+
+    public void setTotalTripsAssignedInDispatch(int totalTripsAssignedInDispatch) {
+        this.totalTripsAssignedInDispatch = totalTripsAssignedInDispatch;
+    }
+
+    public int getTripsAssignedForThisRoute() {
+        return tripsAssignedForThisRoute;
+    }
+
+    public void setTripsAssignedForThisRoute(int tripsAssignedForThisRoute) {
+        this.tripsAssignedForThisRoute = tripsAssignedForThisRoute;
+    }
 }
