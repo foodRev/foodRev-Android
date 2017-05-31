@@ -71,6 +71,8 @@
     <string name="title_activity_route_list">RouteList</string>
     <string name="title_activity_driver_route_assignment">DriverRouteAssignment</string>
     <string name="title_activity_abstract_assignment">AbstractAssignmentActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_driver_mapping">Map</string>
 
 
 </resources>

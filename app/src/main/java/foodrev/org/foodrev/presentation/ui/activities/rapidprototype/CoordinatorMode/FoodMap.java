@@ -110,7 +110,10 @@ public class FoodMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        myLatLng = new LatLng(37.7768052, -122.4171676);
+        myLatLng = new LatLng(37.8087246, -122.4993607);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 //        if (firebaseUser != null) {
 //            myMarkerOptions = new MarkerOptions()

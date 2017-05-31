@@ -56,7 +56,6 @@ public class RouteList extends AppCompatActivity {
         dispatchCreateIntent = getIntent();
         dispatchKey = dispatchCreateIntent.getStringExtra("dispatch_key");
 
-
         // init recyclerview
         RecyclerView rvDispatchRoutes = (RecyclerView) findViewById(R.id.rvRouteSelect);
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDonorBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCoordinator;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
@@ -95,7 +96,7 @@ public class AddFirebaseEntity extends AppCompatActivity {
     }
     private void addNewDonor() {
         String donorKey = donorRoot.push().getKey();
-        DispatchDonor newDonor = new DispatchDonor("Donor M", 8, 37.7955703,-122.3955095);
+        DispatchDonor newDonor = new DispatchDonorBuilder().setDonorName("Donor M").setCarsOfFood(8).setLatitude(37.7955703).setLongitude(-122.3955095).createDispatchDonor();
         Map<String,Object> donorValues = newDonor.toMap();
 
         Map<String,Object> postDonor = new HashMap<>();

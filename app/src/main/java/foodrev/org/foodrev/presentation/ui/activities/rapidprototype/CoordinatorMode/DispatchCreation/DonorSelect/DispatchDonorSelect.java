@@ -3,7 +3,6 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinato
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,11 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.domain.models.dispatchModels.Dispatch;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDonorBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
-
-import static foodrev.org.foodrev.domain.models.dispatchModels.Dispatch.DispatchStatus.NEED_TO_PLAN;
-import static java.security.AccessController.getContext;
 
 public class DispatchDonorSelect extends AppCompatActivity {
 
@@ -111,6 +106,8 @@ public class DispatchDonorSelect extends AppCompatActivity {
                 characteristicList = new HashMap<>();
                 characteristicList.put("carsOfFood",dispatchDonor.getCarsOfFood());
                 characteristicList.put("donorName",dispatchDonor.getDonorName());
+                characteristicList.put("latitude",dispatchDonor.getLatitude());
+                characteristicList.put("longitude",dispatchDonor.getLongitude());
                 listUpdate.put(dispatchDonor.getDonorUid(),characteristicList);
             }
         }
@@ -172,11 +169,14 @@ public class DispatchDonorSelect extends AppCompatActivity {
 
                         // update the client-side model
 
-                        dispatchDonors.add( 0, new DispatchDonor(
-                                snapshot.getKey().toString(),
-                                snapshot.child("donorName").getValue().toString(),
-                                Float.parseFloat(snapshot.child("carsOfFood").getValue().toString()),
-                                isAlreadySelected));
+                        dispatchDonors.add( 0, new DispatchDonorBuilder()
+                                .setDonorUid(snapshot.getKey().toString())
+                                .setDonorName(snapshot.child("donorName").getValue().toString())
+                                .setCarsOfFood(Float.parseFloat(snapshot.child("carsOfFood").getValue().toString()))
+                                .setLatitude(Float.parseFloat(snapshot.child("latitude").getValue().toString()))
+                                .setLongitude(Float.parseFloat(snapshot.child("longitude").getValue().toString()))
+                                .setIsSelected(isAlreadySelected)
+                                .createDispatchDonor());
 
                         // update the UI
                         donorSelectAdapter.notifyItemInserted(0);

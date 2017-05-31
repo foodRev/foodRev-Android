@@ -1,5 +1,6 @@
 package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.AbstractAndroidEntities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,12 +12,23 @@ import foodrev.org.foodrev.R;
 
 public class AbstractAssignmentActivity extends AppCompatActivity {
 
+    // prior Intent
+    Intent dispatchCreateIntent;
+    String dispatchKey;
+
+    // Firebase rootObjects
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_abstract_assignment);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // get dispatch key
+        dispatchCreateIntent = getIntent();
+
+        // init1
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

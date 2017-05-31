@@ -31,10 +31,21 @@ public class DispatchDonor {
 
 
     // constructor
-    public DispatchDonor (String donorUid, String donorName, float carsOfFood, boolean isSelected) {
+
+    public DispatchDonor(String donorUid, String donorName, float carsOfFood, double latitude, double longitude) {
         this.donorUid = donorUid;
         this.donorName = donorName;
         this.carsOfFood = carsOfFood;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public DispatchDonor (String donorUid, String donorName, float carsOfFood, double latitude, double longitude, boolean isSelected) {
+        this.donorUid = donorUid;
+        this.donorName = donorName;
+        this.carsOfFood = carsOfFood;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.isSelected = isSelected;
     }
 

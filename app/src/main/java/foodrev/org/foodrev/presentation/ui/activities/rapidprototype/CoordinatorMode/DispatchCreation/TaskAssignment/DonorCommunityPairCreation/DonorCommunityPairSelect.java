@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDonorBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 
 
@@ -132,11 +133,7 @@ public class DonorCommunityPairSelect extends AppCompatActivity {
                 //get existing list into the chosen items array
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                    DispatchDonor dispatchDonor = new DispatchDonor(
-                            snapshot.getKey().toString(),
-                            snapshot.child("donorName").getValue().toString(),
-                            Float.parseFloat(snapshot.child("carsOfFood").getValue().toString()),
-                            false);
+                    DispatchDonor dispatchDonor = new DispatchDonorBuilder().setDonorUid(snapshot.getKey().toString()).setDonorName(snapshot.child("donorName").getValue().toString()).setCarsOfFood(Float.parseFloat(snapshot.child("carsOfFood").getValue().toString())).setIsSelected(false).createDispatchDonor();
 
                     // add dispatch key
                     dispatchDonor.setDispatchKey(dispatchKey);

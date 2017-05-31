@@ -18,6 +18,7 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinator
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.DriverSelect.DispatchDriverSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DonorCommunityPairCreation.DonorCommunityPairSelect;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverDelegation.RouteList;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.DriverMapping;
 
 
 public class DispatchCreationActivity extends AppCompatActivity {
@@ -116,7 +117,7 @@ public class DispatchCreationActivity extends AppCompatActivity {
         taskAssignmentCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DispatchCreationActivity.this, RouteList.class);
+                Intent intent = new Intent(DispatchCreationActivity.this, DriverMapping.class);
                 intent.putExtra("dispatch_key", dispatchKey);
                 startActivity(intent);
             }

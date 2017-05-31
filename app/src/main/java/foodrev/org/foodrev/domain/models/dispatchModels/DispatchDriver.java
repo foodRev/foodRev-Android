@@ -102,15 +102,15 @@ public class DispatchDriver {
         return totalTripsAssignedInDispatch;
     }
 
-    public void setTotalTripsAssignedInDispatch(int totalTripsAssignedInDispatch) {
-        this.totalTripsAssignedInDispatch = totalTripsAssignedInDispatch;
-    }
-
     public int getTripsAssignedForThisRoute() {
         return tripsAssignedForThisRoute;
     }
 
     public void setTripsAssignedForThisRoute(int tripsAssignedForThisRoute) {
         this.tripsAssignedForThisRoute = tripsAssignedForThisRoute;
+    }
+
+    public void setTotalTripsAssignedInDispatch(int totalTripsAssignedInDispatch) {
+        this.totalTripsAssignedInDispatch = totalTripsAssignedInDispatch;
     }
 }

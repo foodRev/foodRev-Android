@@ -180,6 +180,10 @@
             android:label="@string/title_activity_abstract_assignment"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.DriverMapping"
+            android:label="@string/title_activity_driver_mapping">
+        </activity>
     </application>
 
 </manifest>
