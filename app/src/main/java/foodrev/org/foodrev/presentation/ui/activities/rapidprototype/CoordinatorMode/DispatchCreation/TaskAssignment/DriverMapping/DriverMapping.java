@@ -31,8 +31,8 @@ public class DriverMapping extends FragmentActivity
     private Intent dispatchCreateIntent;
     private String dispatchKey;
 
-    HashMap<String,DispatchDonor> donorUidMap;
-    HashMap<String, Marker> iconDonorUidMap;
+    HashMap<String,DispatchDonor> donorUidMap = new HashMap<>();
+    HashMap<String, Marker> iconDonorUidMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,6 @@ public class DriverMapping extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
     }
 
 
@@ -85,8 +82,6 @@ public class DriverMapping extends FragmentActivity
         model.setupDispatchRootReference();
         model.getDonors().observe(this, dispatchDonors -> {
 
-            donorUidMap = new HashMap<>();
-            iconDonorUidMap = new HashMap<>();
 
             Marker mapMarker;
 
