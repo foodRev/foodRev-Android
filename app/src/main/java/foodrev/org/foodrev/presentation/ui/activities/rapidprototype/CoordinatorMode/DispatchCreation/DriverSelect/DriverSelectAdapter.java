@@ -71,7 +71,7 @@ public class DriverSelectAdapter extends
 
         // set driver name
         TextView driverNameView = viewHolder.driverNameTextView;
-        driverNameView.setText(dispatchDriver.getDriverName());
+        driverNameView.setText(dispatchDriver.getName());
 
         // set driver car capacity (relative to an empty sedan trunk capacity)
         TextView driverCapacityView = viewHolder.driverStandardTrunkCapacityOfFood;

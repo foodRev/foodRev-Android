@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -12,14 +13,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
+import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 
 public class DriverMapping extends FragmentActivity
         implements OnMapReadyCallback, LifecycleRegistryOwner {
@@ -34,6 +39,12 @@ public class DriverMapping extends FragmentActivity
 
     HashMap<String,DispatchDonor> donorUidMap = new HashMap<>();
     HashMap<String, Marker> iconDonorUidMap = new HashMap<>();
+
+    HashMap<String,DispatchCommunity> communityUidMap = new HashMap<>();
+    HashMap<String, Marker> iconCommunityUidMap = new HashMap<>();
+
+    HashMap<String,DispatchDriver> driverUidMap = new HashMap<>();
+    HashMap<String, Marker> iconDriverUidMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,19 +82,48 @@ public class DriverMapping extends FragmentActivity
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
 
-        addDonorIcons();
+        addIcons();
 
     }
 
     // add donor icons
-    private void addDonorIcons() {
+    private void addIcons() {
 
         model = ViewModelProviders.of(this).get(MapViewModel.class);
         model.setDispatchKey(dispatchKey);
         model.setupDispatchRootReference();
+
+        model.getCommunities().observe(this, dispatchCommunities -> {
+            Marker mapMarker;
+
+            LatLng communityLatLng = null;
+            String communityUid;
+
+            for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
+
+                // get uid
+                communityUid = dispatchCommunity.getUid().toString();
+
+                // TODO still not just moving the marker : /
+                if(!communityUidMap.containsKey(communityUid)) {
+                    communityUidMap.put(communityUid, dispatchCommunity);
+                    iconCommunityUidMap.put(communityUid, addMarker(communityLatLng, dispatchCommunity));
+
+                    Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
+                } else {
+                    communityUidMap.put(communityUid, dispatchCommunity);
+                    mapMarker = iconCommunityUidMap.get(communityUid);
+
+                    mapMarker = updateMarker(communityLatLng, mapMarker, dispatchCommunity);
+
+                    iconCommunityUidMap.put(communityUid, mapMarker);
+                    Toast.makeText(this, "moved marker for", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         model.getDonors().observe(this, dispatchDonors -> {
-
-
             Marker mapMarker;
 
             LatLng donorLatLng = null;
@@ -92,7 +132,7 @@ public class DriverMapping extends FragmentActivity
             for (DispatchDonor dispatchDonor : dispatchDonors) {
 
                 // get uid
-                donorUid = dispatchDonor.getDonorUid().toString();
+                donorUid = dispatchDonor.getUid().toString();
 
                 // TODO still not just moving the marker : /
                 if(!donorUidMap.containsKey(donorUid)) {
@@ -114,34 +154,37 @@ public class DriverMapping extends FragmentActivity
         });
     }
 
-    private Marker addMarker(LatLng donorLatLng, DispatchDonor dispatchDonor) {
+    private Marker addMarker(LatLng objectLatLng, MappableObject mappableObject) {
         // set LatLng
-        donorLatLng = new LatLng(
-                dispatchDonor.getLatitude(),
-                dispatchDonor.getLongitude()
+        objectLatLng = new LatLng(
+                mappableObject.getLatitude(),
+                mappableObject.getLongitude()
         );
 
         return mMap.addMarker(
                 new MarkerOptions()
-                        .position(donorLatLng)
-                        .title(dispatchDonor.getDonorName())
+                        .position(objectLatLng)
+                        .title(mappableObject.getName())
+                        .icon(BitmapDescriptorFactory.fromResource(mappableObject.getIconId()))
         );
     }
 
-    private Marker updateMarker(LatLng donorLatLng, Marker mapMarker, DispatchDonor dispatchDonor) {
+    private Marker updateMarker(LatLng objectLatLng, Marker mapMarker, MappableObject mappableObject) {
         // set LatLng
-        donorLatLng = new LatLng(
-                dispatchDonor.getLatitude(),
-                dispatchDonor.getLongitude()
+        objectLatLng = new LatLng(
+                mappableObject.getLatitude(),
+                mappableObject.getLongitude()
         );
 
-        mapMarker.setPosition(donorLatLng);
-        mapMarker.setTitle(dispatchDonor.getDonorName());
-        // remove
+        mapMarker.setPosition(objectLatLng);
+        mapMarker.setTitle(mappableObject.getName());
+
         if (mapMarker.isInfoWindowShown()) {
+            // hide the info window
             mapMarker.setVisible(false);
             mapMarker.setVisible(true);
 
+            // show the new info
             mapMarker.showInfoWindow();
         }
 

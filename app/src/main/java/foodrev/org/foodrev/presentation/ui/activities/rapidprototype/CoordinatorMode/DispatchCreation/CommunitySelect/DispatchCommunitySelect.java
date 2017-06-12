@@ -3,7 +3,6 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinato
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,22 +10,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
-
-import static foodrev.org.foodrev.R.id.fab;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchCommunityBuilder;
 
 public class DispatchCommunitySelect extends AppCompatActivity {
 
@@ -102,8 +98,10 @@ public class DispatchCommunitySelect extends AppCompatActivity {
                 // init or re-init inner hashMap
                 characteristicList = new HashMap<>();
                 characteristicList.put("foodDonationCapacity",dispatchCommunity.getFoodDonationCapacity());
-                characteristicList.put("communityName",dispatchCommunity.getCommunityName());
-                listUpdate.put(dispatchCommunity.getCommunityUid(),characteristicList);
+                characteristicList.put("communityName",dispatchCommunity.getName());
+                characteristicList.put("latitude",dispatchCommunity.getLatitude());
+                characteristicList.put("longitude",dispatchCommunity.getLongitude());
+                listUpdate.put(dispatchCommunity.getUid(),characteristicList);
             }
         }
 
@@ -167,11 +165,14 @@ public class DispatchCommunitySelect extends AppCompatActivity {
 
                             // update the client-side model
 
-                            dispatchCommunities.add( 0, new DispatchCommunity(
-                                    snapshot.getKey().toString(),
-                                    snapshot.child("communityName").getValue().toString(),
-                                    Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString()),
-                                    isAlreadySelected));
+                            dispatchCommunities.add( 0, new DispatchCommunityBuilder()
+                                    .setUid(snapshot.getKey().toString())
+                                    .setName(snapshot.child("communityName").getValue().toString())
+                                    .setFoodDonationCapacity(Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString()))
+                                    .setLatitude(Float.parseFloat(snapshot.child("latitude").getValue().toString()))
+                                    .setLongitude(Float.parseFloat(snapshot.child("longitude").getValue().toString()))
+                                    .setIsSelected(isAlreadySelected)
+                                    .createDispatchCommunity());
 
                             // update the UI
                             communitySelectAdapter.notifyItemInserted(0);

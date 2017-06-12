@@ -23,6 +23,7 @@ import java.util.Map;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDriverBuilder;
 
 public class DispatchDriverSelect extends AppCompatActivity {
 
@@ -104,8 +105,9 @@ public class DispatchDriverSelect extends AppCompatActivity {
                 // init or re-init inner hashMap
                 characteristicList = new HashMap<>();
                 characteristicList.put("vehicleFoodCapacity",dispatchDriver.getVehicleFoodCapacity());
-                characteristicList.put("driverName",dispatchDriver.getDriverName());
-                listUpdate.put(dispatchDriver.getDriverUid(),characteristicList);
+                characteristicList.put("currentAmountOfFoodCarrying",0);
+                characteristicList.put("driverName",dispatchDriver.getName());
+                listUpdate.put(dispatchDriver.getUid(),characteristicList);
             }
         }
 
@@ -163,11 +165,12 @@ public class DispatchDriverSelect extends AppCompatActivity {
 
                     // update the client-side model
 
-                    dispatchDrivers.add(0, new DispatchDriver(
-                            snapshot.getKey().toString(),
-                            snapshot.child("driverName").getValue().toString(),
-                            Integer.parseInt(snapshot.child("vehicleFoodCapacity").getValue().toString()),
-                            isAlreadySelected));
+                    dispatchDrivers.add(0, new DispatchDriverBuilder()
+                            .setUid(snapshot.getKey().toString())
+                            .setName(snapshot.child("driverName").getValue().toString())
+                            .setVehicleFoodCapacity(Float.parseFloat(snapshot.child("vehicleFoodCapacity").getValue().toString()))
+                            .setIsSelected(isAlreadySelected)
+                            .createDispatchDriver());
 
                     // update the UI
                     driverSelectAdapter.notifyItemInserted(0);

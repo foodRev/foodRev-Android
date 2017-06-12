@@ -5,22 +5,22 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
+import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.MappableObject;
+
 /**
  * Created by dastechlabs on 3/18/17.
  */
 
-public class DispatchCommunity {
-    private String communityUid;
-
+public class DispatchCommunity implements MappableObject {
+    private String uid;
+    private String name;
 
     private String dispatchkey;
 
-    private String communityName;
     private float foodDonationCapacity;
 
-
     private float allocatedFood;
-
 
     private float allocatedFromListedDonor;
 
@@ -29,34 +29,57 @@ public class DispatchCommunity {
     private double latitude;
     private double longitude;
 
+    public int getIconId() {
+        return iconId;
+    }
+
+    private int iconId = R.drawable.ic_community_destination;
     //TODO
     //address
     //poc
     //etc
 
-    public String getCommunityUid() {
-        return communityUid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setCommunityUid(String communityUid) {
-        this.communityUid = communityUid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     // default constructor
     public DispatchCommunity() {}
 
     // constructor
-    public DispatchCommunity(String communityUid, String communityName, float foodDonationCapacity, boolean isSelected) {
-        this.communityUid = communityUid;
-        this.communityName = communityName;
+    public DispatchCommunity(String uid, String name, float foodDonationCapacity, boolean isSelected) {
+        this.uid = uid;
+        this.name = name;
         this.foodDonationCapacity = foodDonationCapacity;
+        this.isSelected = isSelected;
+    }
+
+    public DispatchCommunity(String uid, String name, float foodDonationCapacity, double latitude, double longitude, boolean isSelected) {
+        this.uid = uid;
+        this.name = name;
+        this.foodDonationCapacity = foodDonationCapacity;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.isSelected = isSelected;
     }
 
 
     // add firebase entity constructor
-    public DispatchCommunity(String communityName, float foodDonationCapacity, double latitude, double longitude) {
-        this.communityName = communityName;
+    public DispatchCommunity(String name, float foodDonationCapacity, double latitude, double longitude) {
+        this.name = name;
+        this.foodDonationCapacity = foodDonationCapacity;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    // add constructor for map view
+    public DispatchCommunity(String uid, String name, float foodDonationCapacity, double latitude, double longitude) {
+        this.uid = uid;
+        this.name = name;
         this.foodDonationCapacity = foodDonationCapacity;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -65,7 +88,7 @@ public class DispatchCommunity {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String,Object> result = new HashMap<>();
-        result.put("communityName",this.getCommunityName());
+        result.put("name",this.getName());
         result.put("foodDonationCapacity",this.getFoodDonationCapacity());
         result.put("latitude",this.getLatitude());
         result.put("longitude",this.getLongitude());
@@ -73,12 +96,12 @@ public class DispatchCommunity {
     }
 
     // getters and setters
-    public String getCommunityName() {
-        return communityName;
+    public String getName() {
+        return name;
     }
 
-    public void setCommunityName(String communityName) {
-        this.communityName = communityName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getFoodDonationCapacity() {

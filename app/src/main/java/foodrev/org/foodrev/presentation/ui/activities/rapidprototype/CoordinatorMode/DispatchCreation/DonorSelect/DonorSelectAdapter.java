@@ -2,7 +2,6 @@ package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinato
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -75,7 +74,7 @@ public class DonorSelectAdapter extends
 
         // set donor name
         TextView donorNameView = viewHolder.donorNameTextView;
-        donorNameView.setText(dispatchDonor.getDonorName());
+        donorNameView.setText(dispatchDonor.getName());
 
         // set donor donation amount
         TextView donorDonationAmountView = viewHolder.donorCarsOfFood;

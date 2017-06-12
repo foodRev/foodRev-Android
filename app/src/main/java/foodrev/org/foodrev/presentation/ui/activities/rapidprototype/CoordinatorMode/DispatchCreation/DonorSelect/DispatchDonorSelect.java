@@ -29,9 +29,6 @@ public class DispatchDonorSelect extends AppCompatActivity {
 
     // for pre-selection highlight
     private ArrayList<String> chosenItems;
-    private ValueEventListener communityListener;
-
-
 
     // prior Intent
     Intent dispatchCreateIntent;
@@ -105,10 +102,10 @@ public class DispatchDonorSelect extends AppCompatActivity {
                 // init or re-init inner hashMap
                 characteristicList = new HashMap<>();
                 characteristicList.put("carsOfFood",dispatchDonor.getCarsOfFood());
-                characteristicList.put("donorName",dispatchDonor.getDonorName());
+                characteristicList.put("donorName",dispatchDonor.getName());
                 characteristicList.put("latitude",dispatchDonor.getLatitude());
                 characteristicList.put("longitude",dispatchDonor.getLongitude());
-                listUpdate.put(dispatchDonor.getDonorUid(),characteristicList);
+                listUpdate.put(dispatchDonor.getUid(),characteristicList);
             }
         }
 

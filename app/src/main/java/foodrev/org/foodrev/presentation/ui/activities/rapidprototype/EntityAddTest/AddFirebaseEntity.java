@@ -14,9 +14,11 @@ import java.util.Map;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDonorBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchCommunityBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCoordinator;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDriverBuilder;
 
 public class AddFirebaseEntity extends AppCompatActivity {
 
@@ -86,7 +88,7 @@ public class AddFirebaseEntity extends AppCompatActivity {
 
     private void addNewDriver() {
         String driverKey = driverRoot.push().getKey();
-        DispatchDriver newDriver = new DispatchDriver("Kauna Lei", 1);
+        DispatchDriver newDriver = new DispatchDriverBuilder().setName("Kauna Lei").setVehicleFoodCapacity(1).createDispatchDriver();
         Map<String,Object> driverValues = newDriver.toMap();
 
         Map<String,Object> postDriver = new HashMap<>();
@@ -106,7 +108,7 @@ public class AddFirebaseEntity extends AppCompatActivity {
     }
     private void addNewCommunity() {
         String communityKey = communityRoot.push().getKey();
-        DispatchCommunity newCommunity = new DispatchCommunity("ECS Alder", 8, 37.7800849,-122.4097458);
+        DispatchCommunity newCommunity = new DispatchCommunityBuilder().setName("ECS Alder").setFoodDonationCapacity(8).setLatitude(37.7800849).setLongitude(-122.4097458).createDispatchCommunity();
         Map<String,Object> communityValues = newCommunity.toMap();
 
         Map<String,Object> postCommunity = new HashMap<>();

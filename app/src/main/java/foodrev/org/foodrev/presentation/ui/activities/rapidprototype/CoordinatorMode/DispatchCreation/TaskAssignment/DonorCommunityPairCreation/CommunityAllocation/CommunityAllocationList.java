@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
-import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
+import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchCommunityBuilder;
 
 public class CommunityAllocationList extends AppCompatActivity {
 
@@ -162,17 +162,17 @@ public class CommunityAllocationList extends AppCompatActivity {
         for (DispatchCommunity dispatchCommunity : dispatchCommunities) {
             if (dispatchCommunity.getAllocatedFromListedDonor() > 0) {
                 donorCommunityPairRoot
-                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child(donorKey + ";" + dispatchCommunity.getUid())
                         .child("donorName").setValue(donorName);
                 donorCommunityPairRoot
-                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
-                        .child("communityName").setValue(dispatchCommunity.getCommunityName());
+                        .child(donorKey + ";" + dispatchCommunity.getUid())
+                        .child("communityName").setValue(dispatchCommunity.getName());
                 donorCommunityPairRoot
-                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child(donorKey + ";" + dispatchCommunity.getUid())
                         .child("foodAllocation").setValue(dispatchCommunity.getAllocatedFromListedDonor());
             } else {
                 donorCommunityPairRoot
-                        .child(donorKey + ";" + dispatchCommunity.getCommunityUid())
+                        .child(donorKey + ";" + dispatchCommunity.getUid())
                         .setValue(null);
             }
         }
@@ -213,11 +213,7 @@ public class CommunityAllocationList extends AppCompatActivity {
                     DispatchCommunity dispatchCommunity;
 
                     communityUid = snapshot.getKey().toString();
-                    dispatchCommunity = new DispatchCommunity(
-                            communityUid,
-                            snapshot.child("communityName").getValue().toString(),
-                            Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString()),
-                            false);
+                    dispatchCommunity = new DispatchCommunityBuilder().setUid(communityUid).setName(snapshot.child("communityName").getValue().toString()).setFoodDonationCapacity(Float.parseFloat(snapshot.child("foodDonationCapacity").getValue().toString())).setIsSelected(false).createDispatchCommunity();
 
                     if(priorCommunityDelegation.containsKey(communityUid)) {
                         dispatchCommunity.setAllocatedFood(priorCommunityDelegation.get(communityUid).getAllocatedFood());
@@ -279,7 +275,7 @@ public class CommunityAllocationList extends AppCompatActivity {
                       } else {
                           // add community to hashmap if not already in list
 
-                          communityHolder = new DispatchCommunity();
+                          communityHolder = new DispatchCommunityBuilder().createDispatchCommunity();
 
                           allocationTotal = Float.parseFloat(snapshot.child("foodAllocation").getValue().toString());
                           communityHolder.setAllocatedFood(allocationTotal);

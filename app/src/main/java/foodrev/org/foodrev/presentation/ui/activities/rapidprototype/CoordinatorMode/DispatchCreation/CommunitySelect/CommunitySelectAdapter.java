@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
@@ -76,7 +74,7 @@ public class CommunitySelectAdapter extends
 
         // set community name
         TextView communityNameView = viewHolder.communityNameTextView;
-        communityNameView.setText(dispatchCommunity.getCommunityName());
+        communityNameView.setText(dispatchCommunity.getName());
 
         // set community food donation capacity
         TextView communityDonationFoodCapacity = viewHolder.communityDonationFoodCapacity;

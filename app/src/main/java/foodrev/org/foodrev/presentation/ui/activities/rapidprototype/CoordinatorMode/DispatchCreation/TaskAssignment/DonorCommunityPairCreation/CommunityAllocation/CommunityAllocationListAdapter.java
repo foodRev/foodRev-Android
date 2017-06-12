@@ -80,7 +80,7 @@ public class CommunityAllocationListAdapter extends
 
         // set community name
         TextView communityNameView = viewHolder.communityNameTextView;
-        communityNameView.setText(dispatchCommunity.getCommunityName());
+        communityNameView.setText(dispatchCommunity.getName());
 
         // set community max food donation capacity
         TextView communityDonationFoodCapacity = viewHolder.communityDonationFoodCapacity;

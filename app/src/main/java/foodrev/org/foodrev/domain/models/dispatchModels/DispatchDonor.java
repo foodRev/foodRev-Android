@@ -5,14 +5,17 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
+import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.MappableObject;
+
 /**
  * Created by dastechlabs on 3/18/17.
  */
 
-public class DispatchDonor {
+public class DispatchDonor implements MappableObject {
 
-    private String donorUid;
-    private String donorName;
+    private String uid;
+    private String name;
     private float carsOfFood;
 
 
@@ -29,28 +32,33 @@ public class DispatchDonor {
     //poc
     //etc
 
+    public int getIconId() {
+        return iconId;
+    }
+
+    private int iconId = R.drawable.ic_donor;
 
     // constructor
 
-    public DispatchDonor(String donorUid, String donorName, float carsOfFood, double latitude, double longitude) {
-        this.donorUid = donorUid;
-        this.donorName = donorName;
+    public DispatchDonor(String uid, String name, float carsOfFood, double latitude, double longitude) {
+        this.uid = uid;
+        this.name = name;
         this.carsOfFood = carsOfFood;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public DispatchDonor (String donorUid, String donorName, float carsOfFood, double latitude, double longitude, boolean isSelected) {
-        this.donorUid = donorUid;
-        this.donorName = donorName;
+    public DispatchDonor (String uid, String name, float carsOfFood, double latitude, double longitude, boolean isSelected) {
+        this.uid = uid;
+        this.name = name;
         this.carsOfFood = carsOfFood;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isSelected = isSelected;
     }
 
-    public DispatchDonor(String donorName, float carsOfFood, double latitude, double longitude) {
-        this.donorName = donorName;
+    public DispatchDonor(String name, float carsOfFood, double latitude, double longitude) {
+        this.name = name;
         this.carsOfFood = carsOfFood;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -59,7 +67,7 @@ public class DispatchDonor {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String,Object> result = new HashMap<>();
-        result.put("donorName",this.getDonorName());
+        result.put("name",this.getName());
         result.put("carsOfFood",this.getCarsOfFood());
         result.put("latitude",this.getLatitude());
         result.put("longitude",this.getLongitude());
@@ -67,12 +75,12 @@ public class DispatchDonor {
     }
 
     // getters and setters
-    public String getDonorName() {
-        return donorName;
+    public String getName() {
+        return name;
     }
 
-    public void setDonorName(String donorName) {
-        this.donorName = donorName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getCarsOfFood() {
@@ -107,12 +115,12 @@ public class DispatchDonor {
         this.longitude = longitude;
     }
 
-    public String getDonorUid() {
-        return donorUid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setDonorUid(String donorUid) {
-        this.donorUid = donorUid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public float getAllocatedCarsOfFood() {

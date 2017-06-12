@@ -3,20 +3,20 @@ package foodrev.org.foodrev.domain.models.dispatchModels.Builders;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 
 public class DispatchDonorBuilder {
-    private String donorUid;
-    private String donorName;
+    private String uid;
+    private String name;
     private float carsOfFood;
     private double latitude;
     private double longitude;
     private boolean isSelected;
 
-    public DispatchDonorBuilder setDonorUid(String donorUid) {
-        this.donorUid = donorUid;
+    public DispatchDonorBuilder setDonorUid(String uid) {
+        this.uid = uid;
         return this;
     }
 
-    public DispatchDonorBuilder setDonorName(String donorName) {
-        this.donorName = donorName;
+    public DispatchDonorBuilder setDonorName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -41,10 +41,10 @@ public class DispatchDonorBuilder {
     }
 
     public DispatchDonor createDispatchDonor() {
-        return new DispatchDonor(donorUid, donorName, carsOfFood, latitude, longitude, isSelected);
+        return new DispatchDonor(uid, name, carsOfFood, latitude, longitude, isSelected);
     }
 
     public DispatchDonor createDispatchDonorWithLatLng() {
-        return new DispatchDonor(donorUid, donorName, carsOfFood, latitude, longitude);
+        return new DispatchDonor(uid, name, carsOfFood, latitude, longitude);
     }
 }

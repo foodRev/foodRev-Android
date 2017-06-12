@@ -77,7 +77,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 
         // set donor name
         TextView donorNameView = viewHolder.donorNameTextView;
-        donorNameView.setText(dispatchDonor.getDonorName());
+        donorNameView.setText(dispatchDonor.getName());
 
         // set total amount
         TextView donorDonationAmountView = viewHolder.donorTotalCarsOfFood;
@@ -102,8 +102,8 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent intent = new Intent(context, CommunityAllocationList.class);
                 intent.putExtra("dispatch_key", dispatchDonor.getDispatchKey());
-                intent.putExtra("donor_key", dispatchDonor.getDonorUid());
-                intent.putExtra("donor_name", dispatchDonor.getDonorName());
+                intent.putExtra("donor_key", dispatchDonor.getUid());
+                intent.putExtra("donor_name", dispatchDonor.getName());
                 intent.putExtra("donor_total_food", String.valueOf(dispatchDonor.getCarsOfFood()));
                 context.startActivity(intent);
             }

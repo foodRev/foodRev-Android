@@ -103,8 +103,8 @@ public class DonorCommunityPairSelect extends AppCompatActivity {
                 // init or re-init inner hashMap
                 characteristicList = new HashMap<>();
                 characteristicList.put("carsOfFood",dispatchDonor.getCarsOfFood());
-                characteristicList.put("donorName",dispatchDonor.getDonorName());
-                listUpdate.put(dispatchDonor.getDonorUid(),characteristicList);
+                characteristicList.put("donorName",dispatchDonor.getName());
+                listUpdate.put(dispatchDonor.getUid(),characteristicList);
             }
         }
 

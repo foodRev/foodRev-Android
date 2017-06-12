@@ -27,7 +27,7 @@ public class DriverRouteAssignmentAdapter extends AbstractRecyclerViewAdapter<Di
     @Override
     public void setTextViews(DispatchDriver mListItem, TextView[] textViews, TextView[] textViewLabels) {
         // set title to be driver name
-        textViews[0].setText(mListItem.getDriverName());
+        textViews[0].setText(mListItem.getName());
 
         // set second field to number of trips assigned
         textViews[1].setText(String.valueOf(mListItem.getTotalTripsAssignedInDispatch()));
