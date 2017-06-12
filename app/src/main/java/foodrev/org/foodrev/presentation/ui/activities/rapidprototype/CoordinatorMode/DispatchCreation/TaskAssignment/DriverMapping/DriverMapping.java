@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -98,7 +99,7 @@ public class DriverMapping extends FragmentActivity
                     donorUidMap.put(donorUid, dispatchDonor);
                     iconDonorUidMap.put(donorUid, addMarker(donorLatLng, dispatchDonor));
 
-                    addMarker(donorLatLng, dispatchDonor);
+                    Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
                 } else {
                     donorUidMap.put(donorUid,dispatchDonor);
                     mapMarker = iconDonorUidMap.get(donorUid);
@@ -106,6 +107,7 @@ public class DriverMapping extends FragmentActivity
                     mapMarker = updateMarker(donorLatLng, mapMarker, dispatchDonor);
 
                     iconDonorUidMap.put(donorUid, mapMarker);
+                    Toast.makeText(this, "moved marker for", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -134,6 +136,14 @@ public class DriverMapping extends FragmentActivity
         );
 
         mapMarker.setPosition(donorLatLng);
+        mapMarker.setTitle(dispatchDonor.getDonorName());
+        // remove
+        if (mapMarker.isInfoWindowShown()) {
+            mapMarker.setVisible(false);
+            mapMarker.setVisible(true);
+
+            mapMarker.showInfoWindow();
+        }
 
         return mapMarker;
     }
