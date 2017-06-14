@@ -61,7 +61,6 @@ public class DriverMapping extends FragmentActivity
         mapFragment.getMapAsync(this);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -83,7 +82,6 @@ public class DriverMapping extends FragmentActivity
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
 
         addIcons();
-
     }
 
     // add donor icons
@@ -93,6 +91,47 @@ public class DriverMapping extends FragmentActivity
         model.setDispatchKey(dispatchKey);
         model.setupDispatchRootReference();
 
+        // TODO: refactor to one generalized method for observing
+        // halfway there, just need to use MappableObjects within the View Model
+        observeCommunities();
+        observeDonors();
+        observeDrivers();
+
+    }
+
+    private void observeDrivers() {
+        model.getDrivers().observe(this, dispatchDrivers -> {
+            Marker mapMarker;
+
+            LatLng driverLatLng = null;
+            String driverUid;
+
+            for (DispatchDriver dispatchDriver : dispatchDrivers) {
+
+                // get uid
+                driverUid = dispatchDriver.getUid().toString();
+
+                // TODO still not just moving the marker : /
+                if(!driverUidMap.containsKey(driverUid)) {
+                    driverUidMap.put(driverUid, dispatchDriver);
+                    iconDriverUidMap.put(driverUid, addMarker(driverLatLng, dispatchDriver));
+
+                    Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
+                } else {
+                    driverUidMap.put(driverUid, dispatchDriver);
+                    mapMarker = iconDriverUidMap.get(driverUid);
+
+                    mapMarker = updateMarker(driverLatLng, mapMarker, dispatchDriver);
+
+                    iconDriverUidMap.put(driverUid, mapMarker);
+                    Toast.makeText(this, "moved marker for", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void observeCommunities() {
         model.getCommunities().observe(this, dispatchCommunities -> {
             Marker mapMarker;
 
@@ -119,9 +158,12 @@ public class DriverMapping extends FragmentActivity
                     iconCommunityUidMap.put(communityUid, mapMarker);
                     Toast.makeText(this, "moved marker for", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+
+    }
+
+    private void observeDonors() {
 
         model.getDonors().observe(this, dispatchDonors -> {
             Marker mapMarker;
@@ -149,7 +191,6 @@ public class DriverMapping extends FragmentActivity
                     iconDonorUidMap.put(donorUid, mapMarker);
                     Toast.makeText(this, "moved marker for", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

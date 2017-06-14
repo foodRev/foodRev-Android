@@ -47,10 +47,12 @@ public class DispatchDriver implements MappableObject {
         this.vehicleFoodCapacity = vehicleFoodCapacity;
     }
 
-    public DispatchDriver(String uid, String name, float vehicleFoodCapacity, boolean isSelected) {
+    public DispatchDriver(String uid, String name, float vehicleFoodCapacity, double latitude, double longitude, boolean isSelected) {
         this.uid = uid;
         this.name = name;
         this.vehicleFoodCapacity = vehicleFoodCapacity;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.isSelected = isSelected;
     }
 

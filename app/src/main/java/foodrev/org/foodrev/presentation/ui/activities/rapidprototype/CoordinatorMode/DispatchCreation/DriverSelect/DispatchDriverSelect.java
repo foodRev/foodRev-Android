@@ -81,12 +81,7 @@ public class DispatchDriverSelect extends AppCompatActivity {
         populateList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendListUpdate();
-            }
-        });
+        fab.setOnClickListener(view -> sendListUpdate());
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -107,6 +102,8 @@ public class DispatchDriverSelect extends AppCompatActivity {
                 characteristicList.put("vehicleFoodCapacity",dispatchDriver.getVehicleFoodCapacity());
                 characteristicList.put("currentAmountOfFoodCarrying",0);
                 characteristicList.put("driverName",dispatchDriver.getName());
+                characteristicList.put("latitude",dispatchDriver.getLatitude());
+                characteristicList.put("longitude",dispatchDriver.getLongitude());
                 listUpdate.put(dispatchDriver.getUid(),characteristicList);
             }
         }
@@ -169,6 +166,8 @@ public class DispatchDriverSelect extends AppCompatActivity {
                             .setUid(snapshot.getKey().toString())
                             .setName(snapshot.child("driverName").getValue().toString())
                             .setVehicleFoodCapacity(Float.parseFloat(snapshot.child("vehicleFoodCapacity").getValue().toString()))
+                            .setLatitude(Float.parseFloat(snapshot.child("latitude").getValue().toString()))
+                            .setLongitude(Float.parseFloat(snapshot.child("longitude").getValue().toString()))
                             .setIsSelected(isAlreadySelected)
                             .createDispatchDriver());
 

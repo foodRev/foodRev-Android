@@ -47,7 +47,7 @@ public class DispatchDriverBuilder {
     }
 
     public DispatchDriver createDispatchDriver() {
-        return new DispatchDriver(uid, name, vehicleFoodCapacity, isSelected);
+        return new DispatchDriver(uid, name, vehicleFoodCapacity, latitude, longitude, isSelected);
     }
 
     public DispatchDriver createDispatchDriverWithLatLng() {
