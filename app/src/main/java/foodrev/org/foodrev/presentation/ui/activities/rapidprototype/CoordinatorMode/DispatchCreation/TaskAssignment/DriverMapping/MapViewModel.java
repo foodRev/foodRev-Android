@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDonorBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
@@ -20,16 +22,22 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDriverBuilder;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by foodRev on 5/29/17.
  */
 
 public class MapViewModel extends ViewModel {
 
+    // for holding listeners
+    HashMap<String, ValueEventListener> driverListeners = new HashMap<>();
+
     // necessary to figure out which dispatch
     private String dispatchKey;
 
     // Firebase References
+    private DatabaseReference rootReference;
     private DatabaseReference dispatchRootReference;
 
     // Live Data Donors
@@ -37,8 +45,9 @@ public class MapViewModel extends ViewModel {
     private ArrayList<DispatchDonor> dispatchDonorsArray = new ArrayList<>();
 
     // Live Data Drivers
-    private MutableLiveData<ArrayList<DispatchDriver>> dispatchDrivers;
-    private ArrayList<DispatchDriver> dispatchDriversArray = new ArrayList<>();
+    private MutableLiveData<HashMap<String,DispatchDriver>> dispatchDrivers;
+    private HashMap<String,DispatchDriver> hashMapDispatchDrivers = new HashMap<>();
+    private ArrayList<String> dispatchDriverIds = new ArrayList<>();
 
     // Live Data Communities
     private MutableLiveData<ArrayList<DispatchCommunity>> dispatchCommunities;
@@ -53,7 +62,7 @@ public class MapViewModel extends ViewModel {
         return dispatchDonors;
     }
     // live monitoring of drivers
-    public LiveData<ArrayList<DispatchDriver>> getDrivers() {
+    public LiveData<HashMap<String,DispatchDriver>> getDrivers() {
         if(dispatchDrivers == null) {
             dispatchDrivers = new MutableLiveData<>();
             loadDispatchDrivers();
@@ -121,55 +130,127 @@ public class MapViewModel extends ViewModel {
     }
 
 
+    private void removeDriverListener(String driverHashId) {
+
+        // remove the listeners here
+        rootReference.removeEventListener(driverListeners.get(driverHashId));
+        driverListeners.remove(driverHashId);
+
+    }
+
+    private void addDriverListener(String driverHashId) {
+
+        // TODO: refactor to add a new listener for each driver
+        ValueEventListener valueEventListener = rootReference.child("DRIVERS").child(driverHashId).addValueEventListener(new ValueEventListener() {
+                         @Override
+                         public void onDataChange(DataSnapshot dataSnapshot) {
+                             // database related uid
+                             String driverUid;
+
+                             // driver name
+                             String driverName;
+
+                             // TODO: add food capacity
+                             // food donation amount measured in "cars of food"
+                             float vehicleFoodCapacity;
+                             float currentAmountOfFoodCarrying;
+
+                             // gps
+                             double latitude;
+                             double longitude;
+
+                             driverName = dataSnapshot.child("driverName").getValue().toString();
+                             latitude = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
+                             longitude = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
+
+                             // put this object into the array with the hash
+                             if (hashMapDispatchDrivers.containsKey(driverHashId)) {
+
+                                 DispatchDriver dispatchDriver = hashMapDispatchDrivers.get(driverHashId);
+                                 dispatchDriver.setName(driverName);
+                                 dispatchDriver.setLatitude(latitude);
+                                 dispatchDriver.setLongitude(longitude);
+
+                                 // TODO: experiment if this is necessary, as we should be affecting via reference
+                                 hashMapDispatchDrivers.put(driverHashId,dispatchDriver);
+                                 dispatchDrivers.setValue(hashMapDispatchDrivers);
+
+                                 } else {
+
+                                 // add dispatch driver to hashmap
+                                 hashMapDispatchDrivers.put(driverHashId, new DispatchDriverBuilder()
+                                         .setUid(driverHashId)
+                                         .setName(driverName)
+                                         .setLatitude(latitude)
+                                         .setLongitude(longitude)
+                                         .createDispatchDriverWithLatLng());
+                                 dispatchDrivers.setValue(hashMapDispatchDrivers);
+                                 Log.d(TAG, "hashmap: " + hashMapDispatchDrivers.toString());
+                             }
+
+                         }
+
+                         @Override
+                         public void onCancelled(DatabaseError databaseError) {
+
+                         }
+                     }
+        );
+        // save the value event listeners in a hashtable with the driverHashId as key
+        driverListeners.put(driverHashId, valueEventListener);
+
+        Log.d(TAG, "addDriverListener: " + driverListeners.toString());
+    }
+
     private void loadDispatchDrivers() {
 
-        dispatchRootReference.child("DRIVERS").addValueEventListener(new ValueEventListener() {
+
+        //TODO: keep a list of existing driver hashes, use this only to monitor the addition
+        //TODO: and removal of driver hash ids to this list
+        dispatchRootReference.child("DRIVERS").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // reset
-                dispatchDriversArray.clear();
-                dispatchDrivers.setValue(dispatchDriversArray);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                // database related uid
-                String driverUid;
+                    String snapshotKey = dataSnapshot.getKey().toString();
+                    if (!hashMapDispatchDrivers.containsKey(snapshotKey)) {
+                        addDriverListener(snapshotKey); //this also does the job of adding key to list
+                    }
+            }
 
-                // donor human readable name
-                String driverName;
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                // food donation amount measured in "cars of food"
-                float vehicleFoodCapacity;
-                float currentAmountOfFoodCarrying;
+            }
 
-                // gps
-                double latitude;
-                double longitude;
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                //loop to hashmap, verify that each key is still in list
+                //else remove the key
 
-                    driverUid = snapshot.getKey().toString();
-                    driverName = snapshot.child("driverName").getValue().toString();
-                    vehicleFoodCapacity = Float.parseFloat(snapshot.child("vehicleFoodCapacity").getValue().toString());
-                    latitude = Double.parseDouble(snapshot.child("latitude").getValue().toString());
-                    longitude = Double.parseDouble(snapshot.child("longitude").getValue().toString());
+                String snapshotKey = null;
 
-                    // add dispatch driver to arraylist
-                    dispatchDriversArray.add(0, new DispatchDriverBuilder()
-                            .setUid(driverUid)
-                            .setName(driverName)
-                            .setVehicleFoodCapacity(vehicleFoodCapacity)
-//                            .setCurrentAmountOfFoodCarrying(currentAmountOfFoodCarrying)
-                            .setLatitude(latitude)
-                            .setLongitude(longitude)
-                            .createDispatchDriverWithLatLng());
+                snapshotKey = dataSnapshot.getKey().toString();
+
+                if(hashMapDispatchDrivers.containsKey(snapshotKey)) {
+
+                        //remove listener
+                        removeDriverListener(snapshotKey); //this also does the job of adding key to list
+                        //remove from hashmap
+                        hashMapDispatchDrivers.remove(snapshotKey);
+                        //update dispatch drivers
+                        dispatchDrivers.setValue(hashMapDispatchDrivers);
                 }
+            }
 
-                // update liveData
-                dispatchDrivers.setValue(dispatchDriversArray);
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("MapViewModel", "onCancelled: " + databaseError.toString());
+
             }
         });
     }
@@ -235,8 +316,8 @@ public class MapViewModel extends ViewModel {
         this.dispatchKey = dispatchKey;
     }
 
-    public void setupDispatchRootReference() {
+    public void setupReferences() {
+        rootReference = FirebaseDatabase.getInstance().getReference("/");
         dispatchRootReference = FirebaseDatabase.getInstance().getReference("/DISPATCHES/" + dispatchKey);
     }
-
 }

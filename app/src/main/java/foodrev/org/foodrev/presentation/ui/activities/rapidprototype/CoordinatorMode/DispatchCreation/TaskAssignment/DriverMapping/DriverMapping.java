@@ -89,13 +89,13 @@ public class DriverMapping extends FragmentActivity
 
         model = ViewModelProviders.of(this).get(MapViewModel.class);
         model.setDispatchKey(dispatchKey);
-        model.setupDispatchRootReference();
+        model.setupReferences();
 
         // TODO: refactor to one generalized method for observing
         // halfway there, just need to use MappableObjects within the View Model
+        observeDrivers();
         observeCommunities();
         observeDonors();
-        observeDrivers();
 
     }
 
@@ -106,18 +106,46 @@ public class DriverMapping extends FragmentActivity
             LatLng driverLatLng = null;
             String driverUid;
 
-            for (DispatchDriver dispatchDriver : dispatchDrivers) {
+            DispatchDriver dispatchDriver;
+
+
+            //remove stale markers
+
+                    for (String iconUid : driverUidMap.keySet()) {
+                        if(!dispatchDrivers.containsKey(iconUid)) {
+
+                            // remove from driver Uid Map
+                            driverUidMap.remove(iconUid);
+
+                            // remove icon
+                            mapMarker = iconDriverUidMap.get(iconUid);
+                            mapMarker.remove();
+
+                            // remove from icon hashmap
+                            iconDriverUidMap.remove(iconUid);
+                        }
+                    }
+                
+            //add new markers, and update existing markers
+            for (Map.Entry<String, DispatchDriver> stringDispatchDriverEntry : dispatchDrivers.entrySet()) {
+                stringDispatchDriverEntry.getKey();
 
                 // get uid
-                driverUid = dispatchDriver.getUid().toString();
+                driverUid = stringDispatchDriverEntry.getKey();
+                dispatchDriver = stringDispatchDriverEntry.getValue();
+                //driverUid = dispatchDriver.getUid().toString();
 
-                // TODO still not just moving the marker : /
+                // place marker for first time if not in list
                 if(!driverUidMap.containsKey(driverUid)) {
                     driverUidMap.put(driverUid, dispatchDriver);
                     iconDriverUidMap.put(driverUid, addMarker(driverLatLng, dispatchDriver));
 
                     Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
+
+
+                    // update marker if possible
                 } else {
+
                     driverUidMap.put(driverUid, dispatchDriver);
                     mapMarker = iconDriverUidMap.get(driverUid);
 
@@ -143,7 +171,6 @@ public class DriverMapping extends FragmentActivity
                 // get uid
                 communityUid = dispatchCommunity.getUid().toString();
 
-                // TODO still not just moving the marker : /
                 if(!communityUidMap.containsKey(communityUid)) {
                     communityUidMap.put(communityUid, dispatchCommunity);
                     iconCommunityUidMap.put(communityUid, addMarker(communityLatLng, dispatchCommunity));
