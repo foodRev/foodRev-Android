@@ -32,8 +32,8 @@ public class UserTypePresenterImpl implements UserTypePresenter {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot coordinator : dataSnapshot.getChildren()) {
-                    TempCoordinator tc = coordinator.getValue(TempCoordinator.class);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    TempCoordinator tc = ds.getValue(TempCoordinator.class);
                     if (uid.equals(tc.getCoordinatorOauth())) {
                         mView.goToCoordinatorMode();
                     }
