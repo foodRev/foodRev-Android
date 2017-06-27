@@ -5,6 +5,17 @@ package foodrev.org.foodrev.domain.models;
  */
 
 public class Coordinator extends PointOfContact {
+//    private String firstName;
+//    private String lastName;
+//    private String email;
+//    private String sms;
+//    private String phoneNumber;
+//    private boolean isAvailable;
+//    private int preferredMethodOfContact;
+
+    public Coordinator() {
+
+    }
 
     public Coordinator(String firstName,
                        String lastName,
@@ -22,4 +33,38 @@ public class Coordinator extends PointOfContact {
         this.preferredMethodOfContact = preferredMethodOfContact;
     }
 
+//    @Override
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    @Override
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    @Override
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    @Override
+//    public String getSms() {
+//        return sms;
+//    }
+//
+//    @Override
+//    public String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//
+//    @Override
+//    public boolean isAvailable() {
+//        return isAvailable;
+//    }
+//
+//    @Override
+//    public int getPreferredMethodOfContact() {
+//        return preferredMethodOfContact;
+//    }
 }

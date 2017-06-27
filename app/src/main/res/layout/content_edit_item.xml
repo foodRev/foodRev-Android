@@ -14,19 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
+            android:id="@+id/user_name_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:hint="hello"/>
+            android:hint="user"/>
         <EditText
+            android:id="@+id/user_phone_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:hint="world"/>
+            android:hint="phone"/>
         <EditText
+            android:id="@+id/user_email_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:hint="!"/>
+            android:hint="email"/>
 </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

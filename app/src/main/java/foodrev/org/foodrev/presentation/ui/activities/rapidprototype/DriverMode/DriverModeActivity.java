@@ -11,17 +11,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
+
+import java.util.ArrayList;
 
 import foodrev.org.foodrev.R;
+import foodrev.org.foodrev.domain.executor.MainThread;
+import foodrev.org.foodrev.domain.executor.impl.ThreadExecutor;
 import foodrev.org.foodrev.domain.infos.models.AbstractModel;
+import foodrev.org.foodrev.domain.infos.models.DriverTasks;
 import foodrev.org.foodrev.presentation.presenters.DriverModePresenter;
 import foodrev.org.foodrev.presentation.presenters.impl.DriverModePresenterImpl;
 import foodrev.org.foodrev.presentation.ui.activities.SignInActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.FoodMap;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DetailItemActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.DriverDetailItemActivity;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.ItemFragment;
+import foodrev.org.foodrev.threading.MainThreadImpl;
 
 
 public class DriverModeActivity extends AppCompatActivity
@@ -34,6 +44,7 @@ public class DriverModeActivity extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private DriverModePresenter mPresenter;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,7 @@ public class DriverModeActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
     private void setupRecyclerView() {
@@ -63,19 +75,31 @@ public class DriverModeActivity extends AppCompatActivity
         //using linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        String[] myDataset = new String[60];
+
+        ArrayList<DriverTask> TaskList = new ArrayList<>();
+
+        TaskList.add(new DriverTask("Drive", "Starbucks", ""));
+        TaskList.add(new DriverTask("Load", "Starbucks", ""));
+        TaskList.add(new DriverTask("Drive", "", "Mercy"));
+        TaskList.add(new DriverTask("Unload", "", "Mercy"));
 
         //specify an adapter
-        mAdapter = new DriverModeRecyclerViewAdapter(myDataset);
+        mAdapter = new DriverModeRecyclerViewAdapter(TaskList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void attachPresenter() {
         mPresenter = (DriverModePresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
-            mPresenter = new DriverModePresenterImpl();
+            mPresenter = new DriverModePresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         }
         mPresenter.attachView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.resume();
     }
 
     @Override
@@ -145,7 +169,7 @@ public class DriverModeActivity extends AppCompatActivity
 
     //    @Override
     public void goToDetailItemActivity() {
-        startActivity(new Intent(this, DetailItemActivity.class));
+        startActivity(new Intent(this, DriverDetailItemActivity.class));
     }
     @Override
     public void showProgressDialog() {
@@ -170,7 +194,33 @@ public class DriverModeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(AbstractModel item) {
+    public void populateDriverModeTasks(DriverTasks driverTasks) {
 
+    }
+
+    @Override
+    public void onListFragmentInteraction(AbstractModel item) {
+    }
+
+    public void check(int pos, ArrayList<CheckBox> checkBoxes) {
+        CheckBox touchedBox = checkBoxes.get(pos);
+
+        for (int i = 0; i < checkBoxes.size(); i++) {
+            CheckBox curBox = checkBoxes.get(i);
+            if (i <= pos) {
+                if (touchedBox.isChecked()) {
+                    curBox.setChecked(touchedBox.isChecked());
+                    curBox.setText(touchedBox.getText());
+                }
+            } else {
+                if (curBox.isChecked()) {
+                    curBox.setChecked(false);
+                    curBox.setText("");
+                }
+                curBox.setEnabled(i == pos + 1 && touchedBox.isChecked());
+            }
+        }
+
+        int stepsCompleted = touchedBox.isChecked() ? pos+1 : pos;
     }
 }
