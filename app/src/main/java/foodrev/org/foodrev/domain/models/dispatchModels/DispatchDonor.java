@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foodrev.org.foodrev.R;
-import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.MappableObject;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.Interfaces.MappableObject;
 
 /**
  * Created by dastechlabs on 3/18/17.

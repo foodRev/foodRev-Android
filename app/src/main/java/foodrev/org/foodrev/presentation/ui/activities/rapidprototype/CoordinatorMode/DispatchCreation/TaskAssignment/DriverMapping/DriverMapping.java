@@ -28,6 +28,7 @@ import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.Interfaces.MappableObject;
 
 public class DriverMapping extends FragmentActivity
         implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, LifecycleRegistryOwner {
