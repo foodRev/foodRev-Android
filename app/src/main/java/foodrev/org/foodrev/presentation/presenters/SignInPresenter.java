@@ -14,11 +14,14 @@ public interface SignInPresenter extends BasePresenter<SignInPresenter.View>,
     interface View extends BaseView {
         void startGoogleSignIn(GoogleApiClient googleApiClient);
         void displaySignInError();
+        void goToUserTypeActivity();
         void goToIntroSlides();
+        boolean hasSeenIntroSlides();
         //TODO: remove
         void showRetrievedData(String string);
     }
 
     void signIn();
     void onSignInResult(GoogleSignInResult result);
+//    void hasSeenIntroSlides();
 }

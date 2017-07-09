@@ -18,6 +18,7 @@ package foodrev.org.foodrev.presentation.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,8 @@ import foodrev.org.foodrev.presentation.presenters.impl.SignInPresenterImpl;
 
 public class SignInActivity extends AppCompatActivity implements SignInPresenter.View, View.OnClickListener {
 
-
+    private SharedPreferences mPreferences;
+    private static final String INTRO_SLIDES_PREF = "hasSeenIntroSlides";
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private SignInPresenter mPresenter;
@@ -54,8 +56,8 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         mDefaultWebClientId = getString(R.string.default_web_client_id);
         attachPresenter();
         setupUi();
-
     }
+
     public void attachPresenter() {
         mPresenter = (SignInPresenterImpl) getLastCustomNonConfigurationInstance();
         if (mPresenter == null) {
@@ -162,9 +164,24 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
     }
 
     @Override
+    public boolean hasSeenIntroSlides() {
+        mPreferences = getPreferences(MODE_PRIVATE);
+        return mPreferences.getBoolean(INTRO_SLIDES_PREF, false);
+    }
+
+    @Override
+    public void goToUserTypeActivity() {
+        startActivity(new Intent(this, UserTypeActivity.class));
+        finish();
+    }
+
+    @Override
     public void goToIntroSlides() {
+        // Set hasSeenIntroSlides to true and go to slides
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(INTRO_SLIDES_PREF, true);
+        editor.commit();
         startActivity(new Intent(this, IntroSlidesGeneric.class));
-        //TODO create shared preferences for skipping intros if seen
         finish();
     }
 

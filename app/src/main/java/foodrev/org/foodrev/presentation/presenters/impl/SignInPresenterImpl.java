@@ -181,37 +181,20 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
                             //Log.w(TAG, "signInWithCredential", task.getException());
                             mView.displaySignInError();
                         } else {
-//                            retrieveAppInfoWithInteractor();
-                            mView.goToIntroSlides();
+                            goToNextActivity();
                         }
                     }
                 });
     }
 
-//    private void retrieveAppInfoWithInteractor() {
-//        FirebaseDatabaseWrapper wrapper = new FirebaseDatabaseWrapper();
-//        GetFirebaseInfoInteractorImpl getFirebaseInfoInteractor =
-//                new GetFirebaseInfoInteractorImpl(mExecutor,
-//                                                    mMainThread,
-//                                                    this,
-//                                                    wrapper.getInstance());
-//        getFirebaseInfoInteractor.execute();
-//    }
+    private void goToNextActivity() {
+        if(mView.hasSeenIntroSlides()) {
+            mView.goToUserTypeActivity();
+        } else {
+            mView.goToIntroSlides();
+        }
+    }
 
-//    @Override
-//    public void onDataReceived(PopulateInfos populateInfos) {
-//        String driverOne = populateInfos.getCareInfo().getCare(0).getCareTitle();
-//
-//        // Stop loading and switch activities
-//        // Pass data to mainActivity for recyclerView propagation
-//
-//        mView.showRetrievedData(driverOne);
-//    }
-
-//    @Override
-//    public void onDataReceiveFailed() {
-//        // Display some kind of error
-//    }
     @Override
     public void resume() {
         SignInInteractorImpl interactor = new SignInInteractorImpl(mExecutor, mMainThread, this);
