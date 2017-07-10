@@ -141,6 +141,7 @@ public class SignInPresenterImpl implements SignInPresenter, SignInInteractor.Ca
         } else {
             // Google Sign In failed, update UI appropriately
             mView.hideProgressDialog();
+            Log.e(TAG, "onSignInResult: error ");
         }
     }
 

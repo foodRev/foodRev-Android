@@ -101,7 +101,7 @@ public class SignInActivityTest {
                         withParent(allOf(withId(R.id.view_pager_container),
                                 withParent(withId(R.id.drawer_layout)))),
                         isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(2, click()));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -125,15 +125,6 @@ public class SignInActivityTest {
             e.printStackTrace();
         }
 
-        ViewInteraction recyclerView2 = onView(
-                allOf(withId(R.id.rvDonorSelect), isDisplayed()));
-        recyclerView2.perform(actionOnItemAtPosition(1, click()));
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 }

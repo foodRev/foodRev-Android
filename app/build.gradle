@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        foodrev {
+        config {
             keyAlias 'foodrev'
             keyPassword 'foodrev'
-            storeFile file('../foodrevkeys.jks')
+            storeFile file('/home/dastechlabs/Desktop/foodRev/foodRev-Android/foodrevkeys.jks')
             storePassword 'foodrev'
         }
     }
@@ -19,16 +19,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.foodrev
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.foodrev
         }
         debug {
-            signingConfig signingConfigs.foodrev
+            signingConfig signingConfigs.config
+            debuggable false
         }
     }
     productFlavors {
@@ -37,12 +37,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     // Dagger 2 needs the following as well
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
-
 }
 
 dependencies {
@@ -86,14 +84,11 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
 
-
-
     // Dagger 2 Dependencies
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     compile 'com.google.dagger:dagger-android:2.10'
     compile 'com.google.dagger:dagger-android-support:2.10'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.10'
-
 }
 apply plugin: 'com.google.gms.google-services'
