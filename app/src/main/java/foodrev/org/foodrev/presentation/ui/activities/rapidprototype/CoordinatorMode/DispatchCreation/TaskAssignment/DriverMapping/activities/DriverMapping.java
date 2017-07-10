@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.activities;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
@@ -29,6 +29,7 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.Interfaces.MappableObject;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.viewmodels.MapViewModel;
 
 public class DriverMapping extends FragmentActivity
         implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, LifecycleRegistryOwner {
@@ -99,7 +100,6 @@ public class DriverMapping extends FragmentActivity
 
         model = ViewModelProviders.of(this).get(MapViewModel.class);
         model.setDispatchKey(dispatchKey);
-        model.setupReferences();
 
         // TODO: refactor to one generalized method for observing
         // halfway there, just need to use MappableObjects within the View Model
@@ -108,8 +108,6 @@ public class DriverMapping extends FragmentActivity
         observeDonors();
 
     }
-
-
 
     // Route Line Setup
     private void addRouteLine() {

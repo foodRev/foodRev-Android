@@ -1,4 +1,4 @@
-package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping;
+package foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.viewmodels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -20,24 +20,18 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchCommunityBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
-import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchDriverBuilder;
-
-import static android.content.ContentValues.TAG;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchDriverLiveData;
 
 /**
- * Created by foodRev on 5/29/17.
+ * Created by Gregory Kielian on 5/29/17.
  */
 
 public class MapViewModel extends ViewModel {
-
-    // for holding listeners
-    HashMap<String, ValueEventListener> driverListeners = new HashMap<>();
 
     // necessary to figure out which dispatch
     private String dispatchKey;
 
     // Firebase References
-    private DatabaseReference rootReference;
     private DatabaseReference dispatchRootReference;
 
     // Live Data Donors
@@ -45,13 +39,12 @@ public class MapViewModel extends ViewModel {
     private ArrayList<DispatchDonor> dispatchDonorsArray = new ArrayList<>();
 
     // Live Data Drivers
-    private MutableLiveData<HashMap<String,DispatchDriver>> dispatchDrivers;
-    private HashMap<String,DispatchDriver> hashMapDispatchDrivers = new HashMap<>();
-    private ArrayList<String> dispatchDriverIds = new ArrayList<>();
+    private DispatchDriverLiveData dispatchDriverLiveData;
 
     // Live Data Communities
     private MutableLiveData<ArrayList<DispatchCommunity>> dispatchCommunities;
     private ArrayList<DispatchCommunity> dispatchCommunitiesArray = new ArrayList<>();
+
 
     // live monitoring of donors
     public LiveData<ArrayList<DispatchDonor>> getDonors() {
@@ -61,14 +54,12 @@ public class MapViewModel extends ViewModel {
         }
         return dispatchDonors;
     }
+
     // live monitoring of drivers
     public LiveData<HashMap<String,DispatchDriver>> getDrivers() {
-        if(dispatchDrivers == null) {
-            dispatchDrivers = new MutableLiveData<>();
-            loadDispatchDrivers();
-        }
-        return dispatchDrivers;
+        return dispatchDriverLiveData.getDispatchDrivers();
     }
+
     // live monitoring of donors
     public LiveData<ArrayList<DispatchCommunity>> getCommunities() {
         if(dispatchCommunities == null) {
@@ -127,132 +118,7 @@ public class MapViewModel extends ViewModel {
                 Log.e("MapViewModel", "onCancelled: " + databaseError.toString());
             }
         });
-    }
 
-
-    private void removeDriverListener(String driverHashId) {
-
-        // remove the listeners here
-        rootReference.removeEventListener(driverListeners.get(driverHashId));
-        driverListeners.remove(driverHashId);
-
-    }
-
-    private void addDriverListener(String driverHashId) {
-
-        // TODO: refactor to add a new listener for each driver
-        ValueEventListener valueEventListener = rootReference.child("DRIVERS").child(driverHashId).addValueEventListener(new ValueEventListener() {
-                         @Override
-                         public void onDataChange(DataSnapshot dataSnapshot) {
-                             // database related uid
-                             String driverUid;
-
-                             // driver name
-                             String driverName;
-
-                             // TODO: add food capacity
-                             // food donation amount measured in "cars of food"
-                             float vehicleFoodCapacity;
-                             float currentAmountOfFoodCarrying;
-
-                             // gps
-                             double latitude;
-                             double longitude;
-
-                             driverName = dataSnapshot.child("driverName").getValue().toString();
-                             latitude = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
-                             longitude = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
-
-                             // put this object into the array with the hash
-                             if (hashMapDispatchDrivers.containsKey(driverHashId)) {
-
-                                 DispatchDriver dispatchDriver = hashMapDispatchDrivers.get(driverHashId);
-                                 dispatchDriver.setName(driverName);
-                                 dispatchDriver.setLatitude(latitude);
-                                 dispatchDriver.setLongitude(longitude);
-
-                                 // TODO: experiment if this is necessary, as we should be affecting via reference
-                                 hashMapDispatchDrivers.put(driverHashId,dispatchDriver);
-                                 dispatchDrivers.setValue(hashMapDispatchDrivers);
-
-                                 } else {
-
-                                 // add dispatch driver to hashmap
-                                 hashMapDispatchDrivers.put(driverHashId, new DispatchDriverBuilder()
-                                         .setUid(driverHashId)
-                                         .setName(driverName)
-                                         .setLatitude(latitude)
-                                         .setLongitude(longitude)
-                                         .createDispatchDriverWithLatLng());
-                                 dispatchDrivers.setValue(hashMapDispatchDrivers);
-                                 Log.d(TAG, "hashmap: " + hashMapDispatchDrivers.toString());
-                             }
-
-                         }
-
-                         @Override
-                         public void onCancelled(DatabaseError databaseError) {
-
-                         }
-                     }
-        );
-        // save the value event listeners in a hashtable with the driverHashId as key
-        driverListeners.put(driverHashId, valueEventListener);
-
-        Log.d(TAG, "addDriverListener: " + driverListeners.toString());
-    }
-
-    private void loadDispatchDrivers() {
-
-
-        //TODO: keep a list of existing driver hashes, use this only to monitor the addition
-        //TODO: and removal of driver hash ids to this list
-        dispatchRootReference.child("DRIVERS").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    String snapshotKey = dataSnapshot.getKey().toString();
-                    if (!hashMapDispatchDrivers.containsKey(snapshotKey)) {
-                        addDriverListener(snapshotKey); //this also does the job of adding key to list
-                    }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                //loop to hashmap, verify that each key is still in list
-                //else remove the key
-
-                String snapshotKey = null;
-
-                snapshotKey = dataSnapshot.getKey().toString();
-
-                if(hashMapDispatchDrivers.containsKey(snapshotKey)) {
-
-                        //remove listener
-                        removeDriverListener(snapshotKey); //this also does the job of adding key to list
-                        //remove from hashmap
-                        hashMapDispatchDrivers.remove(snapshotKey);
-                        //update dispatch drivers
-                        dispatchDrivers.setValue(hashMapDispatchDrivers);
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
 
@@ -314,10 +180,15 @@ public class MapViewModel extends ViewModel {
 
     public void setDispatchKey(String dispatchKey) {
         this.dispatchKey = dispatchKey;
+        setupViewModelDeps();
+        setupViewModelReferences();
     }
 
-    public void setupReferences() {
-        rootReference = FirebaseDatabase.getInstance().getReference("/");
+    public void setupViewModelReferences() {
         dispatchRootReference = FirebaseDatabase.getInstance().getReference("/DISPATCHES/" + dispatchKey);
+    }
+
+    public void setupViewModelDeps() {
+        dispatchDriverLiveData = new DispatchDriverLiveData(dispatchKey);
     }
 }
