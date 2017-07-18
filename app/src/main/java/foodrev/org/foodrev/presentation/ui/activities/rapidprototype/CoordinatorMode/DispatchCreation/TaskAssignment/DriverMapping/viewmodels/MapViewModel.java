@@ -20,6 +20,8 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.Builders.DispatchCommunityBuilder;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchCommunityLiveData;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchDonorLiveData;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchDriverLiveData;
 
 /**
@@ -35,6 +37,10 @@ public class MapViewModel extends ViewModel {
     private DatabaseReference dispatchRootReference;
 
     // Live Data Donors
+   // TODO refactor to:
+    private DispatchDonorLiveData dispatchDonorLiveData;
+
+    // TODO Delete
     private MutableLiveData<ArrayList<DispatchDonor>> dispatchDonors;
     private ArrayList<DispatchDonor> dispatchDonorsArray = new ArrayList<>();
 
@@ -42,6 +48,10 @@ public class MapViewModel extends ViewModel {
     private DispatchDriverLiveData dispatchDriverLiveData;
 
     // Live Data Communities
+    // TODO refactor to
+    private DispatchCommunityLiveData dispatchCommunityLiveData;
+
+    // TODO Delete
     private MutableLiveData<ArrayList<DispatchCommunity>> dispatchCommunities;
     private ArrayList<DispatchCommunity> dispatchCommunitiesArray = new ArrayList<>();
 
@@ -190,5 +200,7 @@ public class MapViewModel extends ViewModel {
 
     public void setupViewModelDeps() {
         dispatchDriverLiveData = new DispatchDriverLiveData(dispatchKey);
+        dispatchDonorLiveData = new DispatchDonorLiveData(dispatchKey, "DONORS");
+        dispatchCommunityLiveData = new DispatchCommunityLiveData(dispatchKey, "COMMUNITIES");
     }
 }
