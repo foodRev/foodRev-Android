@@ -8,6 +8,7 @@ import agency.tango.materialintroscreen.MaterialIntroActivity;
 import agency.tango.materialintroscreen.SlideFragmentBuilder;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.presentation.ui.activities.MainActivity;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.CoordinatorMainActivity;
 
 public class IntroSlidesGeneric extends MaterialIntroActivity {
 
@@ -45,7 +46,7 @@ public class IntroSlidesGeneric extends MaterialIntroActivity {
     //override the finish method in order to determine where the user goes after intro slides
     @Override
     public void finish() {
-        Intent i = new Intent(IntroSlidesGeneric.this, MainActivity.class);
+        Intent i = new Intent(IntroSlidesGeneric.this, CoordinatorMainActivity.class);
         startActivity(i);
         super.finish();
     }

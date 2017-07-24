@@ -194,6 +194,10 @@ public class CoordinatorMainActivity extends AppCompatActivity
                 intent = new Intent(this, FoodMap.class);
                 startActivity(intent);
                 break;
+            case(R.id.nav_gps_tracking):
+                intent = new Intent(this, GpsTrackingCoordinator.class);
+                startActivity(intent);
+                break;
             case(R.id.nav_sign_out):
                 mPresenter.signOut();
                 break;

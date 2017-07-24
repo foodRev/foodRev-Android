@@ -184,6 +184,12 @@
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.activities.DriverMapping"
             android:label="@string/title_activity_driver_mapping">
         </activity>
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.GpsTrackingCoordinator"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_gps_tracking_coordinator"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
