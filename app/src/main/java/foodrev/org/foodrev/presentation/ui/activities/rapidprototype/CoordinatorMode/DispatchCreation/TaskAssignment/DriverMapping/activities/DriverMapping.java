@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -128,8 +130,20 @@ public class DriverMapping extends FragmentActivity
         // get latlng
         waypoint = marker.getPosition();
 
-        // add to list
-        waypoints.add(waypoint);
+        Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.lastIndexOf(waypoint)));
+        Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.size()));
+
+        int lastOccurance = waypoints.lastIndexOf(waypoint);
+        int lastIndexofArray = waypoints.size() - 1;
+
+        // check if reclicking on the last pressed
+        if(lastOccurance >= 0 && lastOccurance == lastIndexofArray) {
+            // remove from list
+            waypoints.remove(lastIndexofArray);
+        } else {
+            // add to list
+            waypoints.add(waypoint);
+        }
         routeLine.setPoints(waypoints);
         return true;
     }
