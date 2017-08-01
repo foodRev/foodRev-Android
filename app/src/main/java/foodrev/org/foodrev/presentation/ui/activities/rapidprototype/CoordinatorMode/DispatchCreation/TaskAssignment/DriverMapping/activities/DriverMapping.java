@@ -6,8 +6,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
@@ -38,7 +43,10 @@ public class DriverMapping extends FragmentActivity
 
     LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
-    //Polyline
+    // Floating action button
+    private FloatingActionButton upload_task_fab;
+
+    // Polyline
     private Polyline routeLine;
     private LatLng waypoint;
     private List<LatLng> waypoints = new ArrayList<>();
@@ -95,6 +103,21 @@ public class DriverMapping extends FragmentActivity
 
         addIcons();
         addRouteLine();
+        setupButtons();
+    }
+
+    private void setupButtons() {
+       upload_task_fab = (FloatingActionButton) findViewById(R.id.upload_task_list);
+
+       upload_task_fab.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               Toast.makeText(DriverMapping.this, "uploaded", Toast.LENGTH_SHORT).show();
+           }
+       });
+
+
     }
 
     // add map icons
