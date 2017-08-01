@@ -128,23 +128,25 @@ public class DriverMapping extends FragmentActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         // get latlng
-        waypoint = marker.getPosition();
+        if(marker.getTag().toString() != "DRIVER") {
+            waypoint = marker.getPosition();
 
-        Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.lastIndexOf(waypoint)));
-        Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.size()));
+            Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.lastIndexOf(waypoint)));
+            Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.size()));
 
-        int lastOccurance = waypoints.lastIndexOf(waypoint);
-        int lastIndexofArray = waypoints.size() - 1;
+            int lastOccurance = waypoints.lastIndexOf(waypoint);
+            int lastIndexofArray = waypoints.size() - 1;
 
-        // check if reclicking on the last pressed
-        if(lastOccurance >= 0 && lastOccurance == lastIndexofArray) {
-            // remove from list
-            waypoints.remove(lastIndexofArray);
-        } else {
-            // add to list
-            waypoints.add(waypoint);
+            // check if reclicking on the last pressed
+            if (lastOccurance >= 0 && lastOccurance == lastIndexofArray) {
+                // remove from list
+                waypoints.remove(lastIndexofArray);
+            } else {
+                // add to list
+                waypoints.add(waypoint);
+            }
+            routeLine.setPoints(waypoints);
         }
-        routeLine.setPoints(waypoints);
         return true;
     }
 
@@ -189,6 +191,7 @@ public class DriverMapping extends FragmentActivity
                 if(!driverUidMap.containsKey(driverUid)) {
                     driverUidMap.put(driverUid, dispatchDriver);
                     mapMarker = addMarker(driverLatLng, dispatchDriver);
+                    mapMarker.setTag("DRIVER");
                     iconDriverUidMap.put(driverUid, mapMarker);
 
 
@@ -227,7 +230,9 @@ public class DriverMapping extends FragmentActivity
 
                 if(!communityUidMap.containsKey(communityUid)) {
                     communityUidMap.put(communityUid, dispatchCommunity);
-                    iconCommunityUidMap.put(communityUid, addMarker(communityLatLng, dispatchCommunity));
+                    mapMarker = addMarker(communityLatLng, dispatchCommunity);
+                    mapMarker.setTag("COMMUNITY");
+                    iconCommunityUidMap.put(communityUid, mapMarker);
 
                     //Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
                 } else {
@@ -257,10 +262,11 @@ public class DriverMapping extends FragmentActivity
                 // get uid
                 donorUid = dispatchDonor.getUid().toString();
 
-                // TODO still not just moving the marker : /
                 if(!donorUidMap.containsKey(donorUid)) {
                     donorUidMap.put(donorUid, dispatchDonor);
-                    iconDonorUidMap.put(donorUid, addMarker(donorLatLng, dispatchDonor));
+                    mapMarker = addMarker(donorLatLng, dispatchDonor);
+                    mapMarker.setTag("DONOR");
+                    iconDonorUidMap.put(donorUid, mapMarker);
 
                     //Toast.makeText(this, "placed marker for first time", Toast.LENGTH_SHORT).show();
                 } else {
