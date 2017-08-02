@@ -28,14 +28,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDonor;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.Interfaces.MappableObject;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DriverTaskList;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DriverTaskListBuilder;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.TaskItem;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.TaskItemBuilder;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.viewmodels.MapViewModel;
 
 public class DriverMapping extends FragmentActivity
@@ -48,6 +49,15 @@ public class DriverMapping extends FragmentActivity
 
     // Polyline
     private Polyline routeLine;
+
+    // TODO use this to replace waypoints
+    private DriverTaskListBuilder driverTaskListBuilder;
+    private TaskItemBuilder taskItemBuilder;
+    private DriverTaskList driverTaskList;
+    private List<TaskItem> taskItemList = new ArrayList<>();
+    private TaskItem taskItem;
+
+    // TODO replace with DriverTask
     private LatLng waypoint;
     private List<LatLng> waypoints = new ArrayList<>();
 
@@ -74,6 +84,11 @@ public class DriverMapping extends FragmentActivity
         // get dispatch key
         dispatchCreateIntent = getIntent();
         dispatchKey = dispatchCreateIntent.getStringExtra("dispatch_key");
+
+        // setup builders
+        driverTaskListBuilder = new DriverTaskListBuilder();
+        driverTaskList = driverTaskListBuilder.createDriverTaskList();
+        taskItemBuilder = new TaskItemBuilder();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -113,11 +128,15 @@ public class DriverMapping extends FragmentActivity
            @Override
            public void onClick(View v) {
 
+               // TODO
+               driverTaskList.setDispatchId(dispatchKey);
+               driverTaskList.setDriverHashId("-Kglr_sYcYReA0352RTx");
+               driverTaskList.setTaskItemList(taskItemList);
+
+               model.updateDriverTaskList(driverTaskList);
                Toast.makeText(DriverMapping.this, "uploaded", Toast.LENGTH_SHORT).show();
            }
        });
-
-
     }
 
     // add map icons
@@ -152,22 +171,27 @@ public class DriverMapping extends FragmentActivity
     public boolean onMarkerClick(Marker marker) {
         // get latlng
         if(marker.getTag().toString() != "DRIVER") {
-            waypoint = marker.getPosition();
 
-            Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.lastIndexOf(waypoint)));
-            Log.d("test", "onMarkerClick: " + String.valueOf(waypoints.size()));
-
-            int lastOccurance = waypoints.lastIndexOf(waypoint);
-            int lastIndexofArray = waypoints.size() - 1;
-
-            // check if reclicking on the last pressed
-            if (lastOccurance >= 0 && lastOccurance == lastIndexofArray) {
-                // remove from list
-                waypoints.remove(lastIndexofArray);
-            } else {
-                // add to list
-                waypoints.add(waypoint);
+            if(marker.getTag().toString() == "DONOR") {
+                taskItem = taskItemBuilder.setAmountToLoad(30f)
+                        .setLocationName("A DONOR")
+                        .setLocationType(TaskItem.LocationType.DONOR)
+                        .setTaskType(TaskItem.TaskType.LOAD)
+                        .setLocationLatLng(marker.getPosition())
+                        .createTaskItem();
+            } else if (marker.getTag().toString() == "COMMUNITY") {
+                taskItem = taskItemBuilder.setAmountToLoad(30f)
+                        .setLocationName("A COMMUNITY")
+                        .setLocationType(TaskItem.LocationType.COMMUNITY)
+                        .setTaskType(TaskItem.TaskType.UNLOAD)
+                        .setLocationLatLng(marker.getPosition())
+                        .createTaskItem();
             }
+
+            taskItemList.add(taskItem);
+
+            waypoint = marker.getPosition();
+            waypoints.add(waypoint);
             routeLine.setPoints(waypoints);
         }
         return true;

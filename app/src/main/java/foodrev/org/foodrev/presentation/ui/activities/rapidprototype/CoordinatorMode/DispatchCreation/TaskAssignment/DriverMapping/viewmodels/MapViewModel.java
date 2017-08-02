@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +22,7 @@ import foodrev.org.foodrev.domain.models.dispatchModels.DispatchDriver;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchCommunityLiveData;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchDonorLiveData;
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DispatchDriverLiveData;
+import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.livedata.DriverTaskList;
 
 /**
  * Created by Gregory Kielian on 5/29/17.
@@ -202,5 +202,12 @@ public class MapViewModel extends ViewModel {
         dispatchDriverLiveData = new DispatchDriverLiveData(dispatchKey);
         dispatchDonorLiveData = new DispatchDonorLiveData(dispatchKey, "DONORS");
         dispatchCommunityLiveData = new DispatchCommunityLiveData(dispatchKey, "COMMUNITIES");
+    }
+
+    public void updateDriverTaskList(DriverTaskList driverTaskList) {
+        dispatchRootReference.child("DRIVERS")
+                .child(driverTaskList.getDriverHashId())
+                .child("TASK_LIST")
+                .setValue(driverTaskList.getTaskItemList());
     }
 }
