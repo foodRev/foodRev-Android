@@ -46,6 +46,8 @@ public class DriverMapping extends FragmentActivity
 
     // Floating action button
     private FloatingActionButton upload_task_fab;
+    private FloatingActionButton previous_driver_fab;
+    private FloatingActionButton next_driver_fab;
 
     // Polyline
     private Polyline routeLine;
@@ -123,18 +125,36 @@ public class DriverMapping extends FragmentActivity
 
     private void setupButtons() {
        upload_task_fab = (FloatingActionButton) findViewById(R.id.upload_task_list);
+       previous_driver_fab = (FloatingActionButton) findViewById(R.id.previous_driver);
+       next_driver_fab = (FloatingActionButton) findViewById(R.id.next_driver);
 
-       upload_task_fab.setOnClickListener(new View.OnClickListener() {
+        upload_task_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // TODO
+                driverTaskList.setDispatchId(dispatchKey);
+                driverTaskList.setDriverHashId("-Kglr_sYcYReA0352RTx");
+                driverTaskList.setTaskItemList(taskItemList);
+
+                model.updateDriverTaskList(driverTaskList);
+                Toast.makeText(DriverMapping.this, "uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+        previous_driver_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // TODO
+                Toast.makeText(DriverMapping.this, "previous driver", Toast.LENGTH_SHORT).show();
+            }
+        });
+       next_driver_fab.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
 
                // TODO
-               driverTaskList.setDispatchId(dispatchKey);
-               driverTaskList.setDriverHashId("-Kglr_sYcYReA0352RTx");
-               driverTaskList.setTaskItemList(taskItemList);
-
-               model.updateDriverTaskList(driverTaskList);
-               Toast.makeText(DriverMapping.this, "uploaded", Toast.LENGTH_SHORT).show();
+               Toast.makeText(DriverMapping.this, "next driver", Toast.LENGTH_SHORT).show();
            }
        });
     }
