@@ -8,8 +8,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import foodrev.org.foodrev.R;
 import foodrev.org.foodrev.domain.models.dispatchModels.DispatchCommunity;
@@ -68,20 +69,27 @@ public class DriverMapping extends FragmentActivity
     private Intent dispatchCreateIntent;
     private String dispatchKey;
 
-    HashMap<String,DispatchDonor> donorUidMap = new HashMap<>();
-    HashMap<String, Marker> iconDonorUidMap = new HashMap<>();
+    private HashMap<String,DispatchDonor> donorUidMap = new HashMap<>();
+    private HashMap<String, Marker> iconDonorUidMap = new HashMap<>();
 
-    HashMap<String,DispatchCommunity> communityUidMap = new HashMap<>();
-    HashMap<String, Marker> iconCommunityUidMap = new HashMap<>();
+    private HashMap<String,DispatchCommunity> communityUidMap = new HashMap<>();
+    private HashMap<String, Marker> iconCommunityUidMap = new HashMap<>();
 
-    HashMap<String,DispatchDriver> driverUidMap = new HashMap<>();
-    HashMap<String, Marker> iconDriverUidMap = new HashMap<>();
+    private TreeMap<String,DispatchDriver> driverUidMap = new TreeMap<>();
+    private HashMap<String, Marker> iconDriverUidMap = new HashMap<>();
+
+    // current textview
+    private String currentTextViewHash = null;
+
+
     private PolylineOptions polylineOptions;
+    private TextView driverNameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_mapping);
+        driverNameTV = (TextView) findViewById(R.id.map_view_driver_name);
 
         // get dispatch key
         dispatchCreateIntent = getIntent();
@@ -122,6 +130,7 @@ public class DriverMapping extends FragmentActivity
         addRouteLine();
         setupButtons();
     }
+
 
     private void setupButtons() {
        upload_task_fab = (FloatingActionButton) findViewById(R.id.upload_task_list);
@@ -167,10 +176,10 @@ public class DriverMapping extends FragmentActivity
 
         // TODO: refactor to one generalized method for observing
         // halfway there, just need to use MappableObjects within the View Model
+        observeTextView();
         observeDrivers();
         observeCommunities();
         observeDonors();
-
     }
 
     // Route Line Setup
@@ -219,6 +228,15 @@ public class DriverMapping extends FragmentActivity
 
     // End Route Line setup methods
 
+
+    private void observeTextView() {
+        model.getCurrentDriverHash().observe(this, currentLiveDriverHash -> {
+            if(currentLiveDriverHash != null && !driverUidMap.isEmpty()) {
+                driverNameTV.setText(driverUidMap.get(currentLiveDriverHash).getName());
+            }
+        });
+    }
+
     // Start Observation methods
     private void observeDrivers() {
         model.getDrivers().observe(this, dispatchDrivers -> {
@@ -242,6 +260,7 @@ public class DriverMapping extends FragmentActivity
 
                     // remove from icon hashmap
                     iconDriverUidMap.remove(iconUid);
+
                 }
             }
                 
@@ -279,7 +298,13 @@ public class DriverMapping extends FragmentActivity
                     //Toast.makeText(this, "moved marker for " + dispatchDriver.getName(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+            if (!driverUidMap.isEmpty() && currentTextViewHash == null) {
+                currentTextViewHash = driverUidMap.firstKey();
+                model.setCurrentDriverHash(currentTextViewHash);
+            }
         });
+
 
     }
 

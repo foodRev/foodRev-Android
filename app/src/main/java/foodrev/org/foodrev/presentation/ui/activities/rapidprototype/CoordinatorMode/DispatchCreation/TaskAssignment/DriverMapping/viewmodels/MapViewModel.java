@@ -33,6 +33,24 @@ public class MapViewModel extends ViewModel {
     // necessary to figure out which dispatch
     private String dispatchKey;
 
+    // current view hash
+    private String currentDriverHash = null;
+    private MutableLiveData<String> currentLiveDriverHash;
+
+    // live monitoring of donors
+    public MutableLiveData<String> getCurrentDriverHash() {
+        if(currentLiveDriverHash == null) {
+            currentLiveDriverHash = new MutableLiveData<>();
+            currentLiveDriverHash.setValue(currentDriverHash);
+        }
+        return currentLiveDriverHash;
+    }
+
+    public void setCurrentDriverHash(String driverHash) {
+        currentDriverHash = driverHash;
+        currentLiveDriverHash.setValue(currentDriverHash);
+    }
+
     // Firebase References
     private DatabaseReference dispatchRootReference;
 
