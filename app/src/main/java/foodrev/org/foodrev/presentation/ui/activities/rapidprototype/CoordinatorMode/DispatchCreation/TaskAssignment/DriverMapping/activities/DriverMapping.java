@@ -143,7 +143,7 @@ public class DriverMapping extends FragmentActivity
 
                 // TODO
                 driverTaskList.setDispatchId(dispatchKey);
-                driverTaskList.setDriverHashId("-Kglr_sYcYReA0352RTx");
+                driverTaskList.setDriverHashId(currentTextViewHash);
                 driverTaskList.setTaskItemList(taskItemList);
 
                 model.updateDriverTaskList(driverTaskList);
@@ -155,6 +155,14 @@ public class DriverMapping extends FragmentActivity
             public void onClick(View v) {
 
                 // TODO
+                if(driverUidMap.isEmpty()) {
+                    Toast.makeText(DriverMapping.this, "no dispatch drivers", Toast.LENGTH_SHORT).show();
+                } else if (currentTextViewHash != null){
+                    if (driverUidMap.lowerKey(currentTextViewHash) != null) {
+                        currentTextViewHash = driverUidMap.lowerKey(currentTextViewHash);
+                        model.setCurrentDriverHash(currentTextViewHash);
+                    }
+                }
                 Toast.makeText(DriverMapping.this, "previous driver", Toast.LENGTH_SHORT).show();
             }
         });
@@ -162,6 +170,14 @@ public class DriverMapping extends FragmentActivity
            @Override
            public void onClick(View v) {
 
+               if(driverUidMap.isEmpty()) {
+                   Toast.makeText(DriverMapping.this, "no dispatch drivers", Toast.LENGTH_SHORT).show();
+               } else if (currentTextViewHash != null){
+                   if (driverUidMap.higherKey(currentTextViewHash) != null) {
+                       currentTextViewHash = driverUidMap.higherKey(currentTextViewHash);
+                       model.setCurrentDriverHash(currentTextViewHash);
+                   }
+               }
                // TODO
                Toast.makeText(DriverMapping.this, "next driver", Toast.LENGTH_SHORT).show();
            }
