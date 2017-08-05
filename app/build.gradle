@@ -95,5 +95,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+
+    // Constraint Layout
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
 }
 apply plugin: 'com.google.gms.google-services'
