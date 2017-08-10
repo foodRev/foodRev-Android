@@ -41,7 +41,8 @@ import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.Coordinator
 import foodrev.org.foodrev.presentation.ui.activities.rapidprototype.CoordinatorMode.DispatchCreation.TaskAssignment.DriverMapping.viewmodels.MapViewModel;
 
 public class DriverMapping extends FragmentActivity
-        implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, LifecycleRegistryOwner {
+        implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener,
+        OnMapReadyCallback, LifecycleRegistryOwner {
 
     LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
@@ -129,6 +130,12 @@ public class DriverMapping extends FragmentActivity
         addIcons();
         addRouteLine();
         setupButtons();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowLongClickListener(this);
     }
 
 
@@ -212,33 +219,95 @@ public class DriverMapping extends FragmentActivity
         routeLine = mMap.addPolyline(polylineOptions);
     }
 
+
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public void onInfoWindowClick(Marker marker) {
         // get latlng
         if(marker.getTag().toString() != "DRIVER") {
 
-            if(marker.getTag().toString() == "DONOR") {
-                taskItem = taskItemBuilder.setAmountToLoad(30f)
-                        .setLocationName("A DONOR")
-                        .setLocationType(TaskItem.LocationType.DONOR)
-                        .setTaskType(TaskItem.TaskType.LOAD)
-                        .setLocationLatLng(marker.getPosition())
-                        .createTaskItem();
-            } else if (marker.getTag().toString() == "COMMUNITY") {
-                taskItem = taskItemBuilder.setAmountToLoad(30f)
-                        .setLocationName("A COMMUNITY")
-                        .setLocationType(TaskItem.LocationType.COMMUNITY)
-                        .setTaskType(TaskItem.TaskType.UNLOAD)
-                        .setLocationLatLng(marker.getPosition())
-                        .createTaskItem();
+
+            int lastIndex = waypoints.size() - 1;
+
+            // check if empty
+            if (lastIndex < 0) {
+                if (marker.getTag().toString() == "DONOR") {
+                    taskItem = taskItemBuilder.setAmountToLoad(30f)
+                            .setLocationName("A DONOR")
+                            .setLocationType(TaskItem.LocationType.DONOR)
+                            .setTaskType(TaskItem.TaskType.LOAD)
+                            .setLocationLatLng(marker.getPosition())
+                            .createTaskItem();
+                } else if (marker.getTag().toString() == "COMMUNITY") {
+                    taskItem = taskItemBuilder.setAmountToLoad(30f)
+                            .setLocationName("A COMMUNITY")
+                            .setLocationType(TaskItem.LocationType.COMMUNITY)
+                            .setTaskType(TaskItem.TaskType.UNLOAD)
+                            .setLocationLatLng(marker.getPosition())
+                            .createTaskItem();
+                }
+                taskItemList.add(taskItem);
+
+                waypoint = marker.getPosition();
+                waypoints.add(waypoint);
+                routeLine.setPoints(waypoints);
+
+                return;
+            } else if (waypoints.get(lastIndex).latitude != marker.getPosition().latitude
+                 || waypoints.get(lastIndex).longitude != marker.getPosition().longitude) {
+
+                    if (marker.getTag().toString() == "DONOR") {
+                        taskItem = taskItemBuilder.setAmountToLoad(30f)
+                                .setLocationName("A DONOR")
+                                .setLocationType(TaskItem.LocationType.DONOR)
+                                .setTaskType(TaskItem.TaskType.LOAD)
+                                .setLocationLatLng(marker.getPosition())
+                                .createTaskItem();
+                    } else if (marker.getTag().toString() == "COMMUNITY") {
+                        taskItem = taskItemBuilder.setAmountToLoad(30f)
+                                .setLocationName("A COMMUNITY")
+                                .setLocationType(TaskItem.LocationType.COMMUNITY)
+                                .setTaskType(TaskItem.TaskType.UNLOAD)
+                                .setLocationLatLng(marker.getPosition())
+                                .createTaskItem();
+                    }
+
+                    taskItemList.add(taskItem);
+
+                    waypoint = marker.getPosition();
+                    waypoints.add(waypoint);
+                    routeLine.setPoints(waypoints);
+                }
             }
 
-            taskItemList.add(taskItem);
+    }
 
-            waypoint = marker.getPosition();
-            waypoints.add(waypoint);
-            routeLine.setPoints(waypoints);
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        // get latlng
+        if(marker.getTag().toString() != "DRIVER" && !taskItemList.isEmpty()) {
+
+            int lastIndex = waypoints.size() - 1;
+
+            // check if empty
+            if (lastIndex < 0)
+                return;
+
+            if (waypoints.get(lastIndex).latitude == marker.getPosition().latitude) {
+                if(waypoints.get(lastIndex).longitude == marker.getPosition().longitude) {
+
+                    // remove from task list
+                    taskItemList.remove(lastIndex);
+                    // also remove waypoint
+                    waypoints.remove(lastIndex);
+                    routeLine.setPoints(waypoints);
+                }
+            }
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
         return true;
     }
 
@@ -400,6 +469,7 @@ public class DriverMapping extends FragmentActivity
                 mappableObject.getLatitude(),
                 mappableObject.getLongitude()
         );
+
 
         return mMap.addMarker(
                 new MarkerOptions()
