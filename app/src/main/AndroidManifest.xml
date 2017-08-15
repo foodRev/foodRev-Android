@@ -186,10 +186,16 @@
         </activity>
         <activity
             android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.GpsTrackingCoordinator"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_gps_tracking_coordinator"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
+
+        <service
+            android:name=".presentation.ui.activities.rapidprototype.CoordinatorMode.CoordinatorMainLanding.gps.tracking.service.GpsService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

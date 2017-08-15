@@ -84,10 +84,17 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
 
         // setup firebase paths
         setupFirebase();
+        setupToggleButton();
     }
 
     private void setupFirebaseUser() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    private void setupToggleButton() {
+        if(locationManager != null && locationListener != null) {
+            gpsToggleButton.setChecked(true);
+        }
     }
 
     @OnCheckedChanged(R.id.gps_toggle_button)
