@@ -17,9 +17,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +35,8 @@ import foodrev.org.foodrev.R;
 public class GpsTrackingCoordinator extends AppCompatActivity {
 
 
+
+    HashMap<String,Object> gpsPostHashMap;
     // TODO place this into view model, associate the GPS data with live data for user
 
     // specifications for GPS - may want to encapsulate with the gps class
@@ -53,6 +60,14 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
 
     // UI Related
     @BindView(R.id.gps_toggle_button) ToggleButton gpsToggleButton;
+    private Date date;
+    private SimpleDateFormat hrFormat;
+    private SimpleDateFormat dayFormat;
+    private String dayPattern;
+    private String hrTimeStampPattern;
+    private String dateString;
+    private String dayString;
+    private String hrString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +78,16 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        setupFirebaseUser();
+        setupTimeFormats();
+        gpsPostHashMap = new HashMap<>();
+
         // setup firebase paths
         setupFirebase();
+    }
+
+    private void setupFirebaseUser() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @OnCheckedChanged(R.id.gps_toggle_button)
@@ -72,17 +95,23 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
         if (isChecked) {
             // setup gps tracking
             setupGpsTracking();
-            coordinatorFirebase.child("tracking").setValue("true");
             Log.d("CoordinatorGPS", "toggleGps: starting gps tracking");
         } else {
             if(locationManager != null && locationListener != null) {
                 locationManager.removeUpdates(locationListener);
                 Log.d("CoordinatorGPS", "toggleGps: removing gps tracking");
-                coordinatorFirebase.child("tracking").setValue("false");
             }
 
         }
 
+    }
+
+    private void setupTimeFormats() {
+        hrTimeStampPattern = "yyyy-MM-dd-HH-mm-ss";
+        hrFormat = new SimpleDateFormat(hrTimeStampPattern);
+
+        dayPattern = "yyyy-MM-dd";
+        dayFormat = new SimpleDateFormat(dayPattern);
     }
 
     /**
@@ -90,15 +119,43 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
      * coordinatorLatLng is top-level scope within the class
      */
     private void updateGps(LatLng currentLatLng) {
-        coordinatorFirebase.child("latitude").setValue(currentLatLng.latitude);
-        coordinatorFirebase.child("longitude").setValue(currentLatLng.longitude);
-        Log.d("CoordinatorGPS", "updateGps: " + String.valueOf(currentLatLng));
+
+        date = new Date();
+
+        // time stamp hr
+        hrString = hrFormat.format(date);
+
+        // index
+        dayString = dayFormat.format(date);
+
+        // update hashMap
+        writeNewEntry(hrString, date, currentLatLng.latitude, currentLatLng.longitude);
+
+        // push to the timestamp
+        coordinatorFirebase.child(dayString).child(hrString).setValue(gpsPostHashMap);
     }
 
     private void setupFirebase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        coordinatorFirebase = firebaseDatabase.getReference("DRIVERS/-KglyP-QRvRh5fIZJxHD/");
+        coordinatorFirebase = firebaseDatabase.getReference("TRACKING/" + firebaseUser.getDisplayName());
     }
+
+
+    private void writeNewEntry(String hrTimeStampPattern, Date date, double latitude, double longitude) {
+        //clear hashmap if populated
+        if(!gpsPostHashMap.isEmpty()) {
+            gpsPostHashMap.clear();
+        }
+
+        gpsPostHashMap.put("username", firebaseUser.getDisplayName());
+        gpsPostHashMap.put("latitude", latitude);
+        gpsPostHashMap.put("longitude", longitude);
+        gpsPostHashMap.put("timestamp",date.getTime());
+        gpsPostHashMap.put("hr_timestamp",hrTimeStampPattern);
+
+    }
+
+
     private void setupGpsTracking() {
         setupLocationManager();
 
@@ -187,9 +244,11 @@ public class GpsTrackingCoordinator extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
+        /*
         if(locationManager != null && locationListener != null) {
             locationManager.removeUpdates(locationListener);
         }
+        */
     }
 
     @Override
