@@ -196,6 +196,12 @@
             android:enabled="true"
             android:exported="true">
         </service>
+
+        <activity
+            android:name=".presentation.ui.activities.rapidprototype.DriverMode.DriverTaskList"
+            android:label="@string/title_activity_driver_task_list"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
